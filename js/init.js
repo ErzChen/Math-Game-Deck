@@ -13,3 +13,7 @@ shuffleChainPool();
 newChain();
 renderChainAwardButtons();
 renderRelayGrid();
+resetElimination();
+resetEstimation();
+resetHandsup();
+newSprint();

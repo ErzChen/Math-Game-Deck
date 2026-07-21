@@ -6,15 +6,23 @@ you've got, and go. No build step, no backend, just static files.
 
 ## Games
 
-- **Contest Ladder**: solo climb through 20 AMC-style problems across four
+- **Contest Ladder**: solo climb through contest-style problems across four
   escalating tiers (Warm-up, Building, Push, Frontier). Each tier is worth
   more points.
 - **Countdown Duel**: two teams face off on the same problem, first correct
   answer wins the round.
-- **Chain Relay**: ARML-style relay. Every team solves the same 3-link chain
+- **Chain Relay**: Contest-style relay. Every team solves the same 3-link chain
   at once, and each answer becomes `T`, plugged into the next, harder link.
 - **Speed Relay Board**: Jeopardy-style 4x4 board of categories and point
   values, fully editable.
+- **Elimination Gauntlet**: every team answers the same problem at once on
+  whiteboards; miss it and you're out. Last team standing wins a bonus.
+- **Estimation Auction**: no exact solving, just a best guess on the
+  whiteboard. Closest team scores, an exact answer earns a bonus on top.
+- **Hands-Up Steal**: one question, whole room. First hand up gets called
+  on; miss it and it's open for anyone else to steal.
+- **Speed Sprint**: one team, one 3-minute clock. Blast through as many
+  problems as you can, self-paced, before time runs out.
 
 Each game has a "How to Play" button (rules) and a "Manage Questions" /
 "Edit Board" button (content), plus a shared scoreboard bar and session
@@ -35,7 +43,7 @@ quirks in some browsers.
 ## Project structure
 
 ```
-index.html                 markup for every screen (home + 4 games)
+index.html                 markup for every screen (home + 8 games)
 styles.css                 all styling (chalkboard theme, layout, components)
 js/
   core.js                  app shell: nav, teams/scoreboard, session timer,
@@ -48,12 +56,20 @@ js/
     duel-mixed.js
     chain-classics.js
     board-contest-categories.js
+    elimination-classics.js
+    estimation-mixed.js
+    handsup-mixed.js
+    sprint-quickfire.js
 
   engines/                 game logic (rendering, state, scoring per game)
     ladder-engine.js
     duel-engine.js
     chain-engine.js
     board-engine.js
+    elimination-engine.js
+    estimation-engine.js
+    handsup-engine.js
+    sprint-engine.js
 ```
 
 Each game is a data file plus an engine. The data file just exports a pool
@@ -84,9 +100,9 @@ plus a matching data file, then:
 
 ## Data & persistence
 
-- **Autosave**: teams, custom questions/chains, the board, and session
-  length are saved to `localStorage` after most edits and reloaded on
-  startup (`tryAutoload()` in `core.js`).
+- **Autosave**: teams, every game's custom questions/chains, the board,
+  and session length are saved to `localStorage` after most edits and
+  reloaded on startup (`tryAutoload()` in `core.js`).
 - **Export/Import**: the "Manage" panel (bottom right, or press `S`) can
   export everything to a JSON file, or import one back in. Useful for
   moving a session between machines or keeping a backup.
@@ -100,6 +116,10 @@ plus a matching data file, then:
 | `2` | Countdown Duel |
 | `3` | Chain Relay |
 | `4` | Speed Relay Board |
+| `5` | Elimination Gauntlet |
+| `6` | Estimation Auction |
+| `7` | Hands-Up Steal |
+| `8` | Speed Sprint |
 | `S` | Open Manage (teams/session) |
 
 Shortcuts are ignored while typing in an input or textarea.
