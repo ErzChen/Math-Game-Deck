@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Math Club Game Deck</title>
+
+		<!-- Space Grotesk (display) + JetBrains Mono (scoreboard/timer readouts) -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- KaTeX renders $...$ math in question/answer text; auto-render scans
+		     the page for delimiters so engines don't have to call it manually -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+		/>
+		<link rel="stylesheet" href="styles.css" />
+		<script
+			defer
+			src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+		></script>
+		<script
+			defer
+			src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+		></script>
+	</head>
+	<body>
+		<!-- one <section class="screen"> per page; goTo()/goHome() in core.js
+		     toggle "active" instead of navigating, so game state survives switching -->
+		<div id="stage">
+			<section class="screen active" id="screen-home">
+				<!-- marquee-lights are decorative strips animated via CSS; stars are
+				     inline SVG so they inherit currentColor -->
+				<div class="marquee">
+					<div class="marquee-lights" aria-hidden="true"></div>
+					<div class="marquee-title">
+						<span class="mq-star"
+							><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+								<path
+									d="M12 2l2.9 6.9 7.4.6-5.6 4.9 1.7 7.3L12 17.9 5.6 21.7l1.7-7.3-5.6-4.9 7.4-.6z"
+								/></svg
+						></span>
+						MATH CLUB GAME DECK
+						<span class="mq-star"
+							><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+								<path
+									d="M12 2l2.9 6.9 7.4.6-5.6 4.9 1.7 7.3L12 17.9 5.6 21.7l1.7-7.3-5.6-4.9 7.4-.6z"
+								/></svg
+						></span>
+					</div>
+					<div class="marquee-lights" aria-hidden="true"></div>
+				</div>
+				<!-- goTo('<id>') matches the "screen-<id>" section further down -->
+				<div class="arcade-grid">
+					<div class="arcade-tile t-teal" onclick="goTo('ladder')">
+						<div class="arcade-num mono">01</div>
+						<h3>Contest Ladder</h3>
+						<p>
+							Contest-style problems across four escalating tiers, harder tiers are
+							worth more points.
+						</p>
+						<div class="arcade-tags">
+							<span class="tag">Contest math</span>
+						</div>
+					</div>
+					<div class="arcade-tile t-yellow" onclick="goTo('duel')">
+						<div class="arcade-num mono">02</div>
+						<h3>Countdown Duel</h3>
+						<p>
+							Head-to-head showdowns. Two teams, one problem, first correct answer wins
+							the round.
+						</p>
+						<div class="arcade-tags">
+							<span class="tag">Contest math</span>
+						</div>
+					</div>
+					<div class="arcade-tile t-pink" onclick="goTo('chainrelay')">
+						<div class="arcade-num mono">03</div>
+						<h3>Chain Relay</h3>
+						<p>
+							Contest-style relay chains: each answer becomes T, a variable in the
+							next, harder link.
+						</p>
+						<div class="arcade-tags">
+							<span class="tag">Contest math</span>
+						</div>
+					</div>
+					<div class="arcade-tile t-purple" onclick="goTo('relay')">
+						<div class="arcade-num mono">04</div>
+						<h3>Speed Relay Board</h3>
+						<p>
+							A Jeopardy-style board: categories × point values. Write your own
+							questions and answers.
+						</p>
+						<div class="arcade-tags">
+							<span class="tag">Deep dive</span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- every game screen shares this header pattern: eyebrow/h1/sub on the
+			     left, "How to Play" + "Manage ___" buttons on the right -->
+			<section class="screen" id="screen-ladder">
+				<div class="screen-head">
+					<div>
+						<div class="eyebrow">Game 01</div>
+						<h1>Contest Ladder</h1>
+						<div class="sub">
+							Contest-style problems across four escalating tiers, harder tiers are
+							worth more points.
+						</div>
+					</div>
+					<div style="display: flex; gap: 10px">
+						<button class="btn ghost" onclick="openGameInfoModal('ladder')">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<circle cx="12" cy="12" r="9" />
+								<line x1="12" y1="11" x2="12" y2="16" />
+								<circle
+									cx="12"
+									cy="7.5"
+									r="0.6"
+									fill="currentColor"
+									stroke="none"
+								/></svg
+							>How to Play
+						</button>
+						<button class="btn ghost" onclick="openLadderModal()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M12 20h9" />
+								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg
+							>Manage Questions
+						</button>
+					</div>
+				</div>
+				<div class="panel" style="max-width: 760px">
+					<!-- populated by ladder-engine.js -->
+					<div class="progress-line" id="ladderProgress"></div>
+					<span class="tier-badge" id="ladderTierBadge"></span>
+					<div class="question" id="ladderQuestionText"></div>
+					<div class="timer-wrap">
+						<div class="timer mono" id="ladderTimerDisplay"></div>
+						<button class="btn" id="ladderTimerToggle" onclick="toggleLadderTimer()">
+							Start
+						</button>
+						<button class="btn ghost" onclick="resetLadderTimer()">Reset</button>
+					</div>
+					<button class="btn primary" onclick="revealLadderAnswer()">
+						Reveal Answer
+					</button>
+					<!-- hidden until "Reveal Answer" is clicked -->
+					<div class="answer-box" id="ladderAnswerBox">
+						<div class="figure" id="ladderAnswerFigure"></div>
+						<div class="reasoning" id="ladderAnswerReasoning"></div>
+					</div>
+					<div class="row-actions">
+						<button class="btn ghost" onclick="nextLadderProblem()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M5 12h14" />
+								<path d="M13 6l6 6-6 6" /></svg
+							>Next Problem
+						</button>
+						<button class="btn ghost" onclick="resetLadder()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M3 12a9 9 0 1 0 3-6.7" />
+								<path d="M3 4v5h5" /></svg
+							>Restart Ladder
+						</button>
+					</div>
+					<!-- id="award-<game>" is a convention so the same render helper works
+					     for all four games -->
+					<div class="award-row">
+						<div class="label" id="ladderAwardLabel">Award the point</div>
+						<div
+							id="award-ladder"
+							style="display: flex; gap: 10px; flex-wrap: wrap"
+						></div>
+					</div>
+				</div>
+			</section>
+
+			<section class="screen" id="screen-duel">
+				<div class="screen-head">
+					<div>
+						<div class="eyebrow">Game 02</div>
+						<h1>Countdown Duel</h1>
+						<div class="sub">
+							Pick two teams to face off. Drop one contest problem between them, first
+							correct answer wins the round. Rotate matchups until the session's out.
+						</div>
+					</div>
+					<div style="display: flex; gap: 10px">
+						<button class="btn ghost" onclick="openGameInfoModal('duel')">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<circle cx="12" cy="12" r="9" />
+								<line x1="12" y1="11" x2="12" y2="16" />
+								<circle
+									cx="12"
+									cy="7.5"
+									r="0.6"
+									fill="currentColor"
+									stroke="none"
+								/></svg
+							>How to Play
+						</button>
+						<button class="btn ghost" onclick="openDuelModal()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M12 20h9" />
+								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg
+							>Manage Questions
+						</button>
+					</div>
+				</div>
+				<div class="panel" style="max-width: 760px">
+					<!-- changing either dropdown re-renders the award buttons below -->
+					<div class="duel-picker">
+						<select id="duelTeamA" onchange="renderDuelAwardButtons()"></select>
+						<span class="duel-vs">VS</span>
+						<select id="duelTeamB" onchange="renderDuelAwardButtons()"></select>
+					</div>
+					<div class="progress-line" id="duelProgress"></div>
+					<div class="question" id="duelQuestionText"></div>
+					<button class="btn primary" onclick="revealDuelAnswer()">
+						Reveal Answer
+					</button>
+					<div class="answer-box" id="duelAnswerBox">
+						<div class="figure" id="duelAnswerFigure"></div>
+						<div class="reasoning" id="duelAnswerReasoning"></div>
+					</div>
+					<div class="row-actions">
+						<button class="btn ghost" onclick="nextDuelProblem()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M16 3h5v5" />
+								<path d="M4 20 21 3" />
+								<path d="M21 16v5h-5" />
+								<path d="M15 15l6 6" />
+								<path d="M4 4l5 5" /></svg
+							>Next Problem
+						</button>
+					</div>
+					<div class="award-row">
+						<div class="label">Award the point (first correct answer)</div>
+						<div
+							id="award-duel"
+							style="display: flex; gap: 10px; flex-wrap: wrap"
+						></div>
+					</div>
+				</div>
+			</section>
+
+			<section class="screen" id="screen-chainrelay">
+				<div class="screen-head">
+					<div>
+						<div class="eyebrow">Game 03</div>
+						<h1>Chain Relay</h1>
+						<div class="sub">
+							Contest-style relay: every team solves the same link at once. The answer
+							becomes T, a variable plugged into the next, harder link.
+						</div>
+					</div>
+					<div style="display: flex; gap: 10px">
+						<button class="btn ghost" onclick="openGameInfoModal('chainrelay')">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<circle cx="12" cy="12" r="9" />
+								<line x1="12" y1="11" x2="12" y2="16" />
+								<circle
+									cx="12"
+									cy="7.5"
+									r="0.6"
+									fill="currentColor"
+									stroke="none"
+								/></svg
+							>How to Play
+						</button>
+						<button class="btn ghost" onclick="openChainModal()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M12 20h9" />
+								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg
+							>Manage Chains
+						</button>
+					</div>
+				</div>
+				<div class="panel" style="max-width: 760px">
+					<div class="progress-line" id="chainNameLine"></div>
+					<!-- one dot per link, filled in as the group advances -->
+					<div class="chain-link-dots" id="chainLinkDots"></div>
+					<!-- shows current T once a link is solved; empty on link 1 -->
+					<div id="chainTBadgeWrap"></div>
+					<div class="question" id="chainQuestionText"></div>
+					<button class="btn primary" onclick="revealChainAnswer()">
+						Reveal Answer (sets T)
+					</button>
+					<div class="answer-box" id="chainAnswerBox">
+						<div class="figure" id="chainAnswerFigure"></div>
+						<div class="reasoning" id="chainAnswerReasoning"></div>
+					</div>
+					<div class="row-actions">
+						<button class="btn ghost" onclick="nextChainLink()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M5 12h14" />
+								<path d="M13 6l6 6-6 6" /></svg
+							>Next Link
+						</button>
+						<button class="btn ghost" onclick="newChain()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M16 3h5v5" />
+								<path d="M4 20 21 3" />
+								<path d="M21 16v5h-5" />
+								<path d="M15 15l6 6" />
+								<path d="M4 4l5 5" /></svg
+							>New Chain
+						</button>
+					</div>
+					<div class="award-row">
+						<div class="label">Award the point for this link</div>
+						<div
+							id="award-chainrelay"
+							style="display: flex; gap: 10px; flex-wrap: wrap"
+						></div>
+					</div>
+				</div>
+			</section>
+
+			<section class="screen" id="screen-relay">
+				<div class="screen-head">
+					<div>
+						<div class="eyebrow">Game 04</div>
+						<h1>Speed Relay Board</h1>
+						<div class="sub">
+							Pick a category and point value. Higher values mean harder questions.
+							Points awarded scale with difficulty.
+						</div>
+					</div>
+					<div style="display: flex; gap: 10px">
+						<button class="btn ghost" onclick="openGameInfoModal('relay')">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<circle cx="12" cy="12" r="9" />
+								<line x1="12" y1="11" x2="12" y2="16" />
+								<circle
+									cx="12"
+									cy="7.5"
+									r="0.6"
+									fill="currentColor"
+									stroke="none"
+								/></svg
+							>How to Play
+						</button>
+						<button class="btn ghost" onclick="openRelayModal()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M12 20h9" />
+								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg
+							>Edit Board
+						</button>
+						<button class="btn ghost" onclick="resetRelayBoard()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M3 12a9 9 0 1 0 3-6.7" />
+								<path d="M3 4v5h5" /></svg
+							>Reset Board
+						</button>
+					</div>
+				</div>
+				<!-- populated by board-engine.js; clicking a cell hides this and shows
+				     #relayQuestion below -->
+				<div class="relay-grid" id="relayGrid"></div>
+				<!-- hidden until a cell is clicked -->
+				<div class="panel relay-question" id="relayQuestion">
+					<div class="cat-badge" id="relayCatBadge"></div>
+					<div class="question" id="relayQuestionText"></div>
+					<button
+						class="btn primary"
+						id="relayRevealBtn"
+						onclick="revealRelayAnswer()"
+					>
+						Reveal Answer
+					</button>
+					<div class="answer-box" id="relayAnswerBox">
+						<div class="figure" id="relayAnswerFigure"></div>
+						<div class="reasoning" id="relayAnswerReasoning"></div>
+					</div>
+					<div class="award-row">
+						<div class="label">Award the point(s)</div>
+						<div
+							id="award-relay"
+							style="display: flex; gap: 10px; flex-wrap: wrap"
+						></div>
+					</div>
+					<div class="row-actions">
+						<button class="btn ghost" onclick="closeRelayQuestion()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M19 12H5" />
+								<path d="M11 18l-6-6 6-6" /></svg
+							>Back to Board
+						</button>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<!-- fixed bar, outside #stage so screen-switching doesn't hide it -->
+		<div id="showbar">
+			<button class="sb-home" onclick="goHome()" title="Home (H)">
+				<svg
+					viewBox="0 0 24 24"
+					width="16"
+					height="16"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="M3 10.5 12 3l9 7.5" />
+					<path d="M5 9.5V21h14V9.5" />
+				</svg>
+			</button>
+			<div id="showbarTeams"></div>
+			<div class="sb-right">
+				<button
+					class="sb-manage"
+					onclick="openManageModal()"
+					title="Manage teams & session"
+				>
+					<svg
+						class="icon"
+						viewBox="0 0 24 24"
+						width="14"
+						height="14"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						style="vertical-align: -2px; margin-right: 4px"
+					>
+						<circle cx="12" cy="12" r="3" />
+						<path
+							d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"
+						/></svg
+					>Manage
+				</button>
+			</div>
+		</div>
+
+		<!-- one modal shell reused everywhere; open*Modal() swap in #modalTitle/#modalBody -->
+		<div class="modal-overlay" id="modalOverlay">
+			<div class="modal-box">
+				<div class="modal-head">
+					<h2 id="modalTitle"></h2>
+					<button class="btn sm ghost" onclick="closeModal()">
+						<svg
+							class="icon"
+							viewBox="0 0 24 24"
+							width="14"
+							height="14"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							style="vertical-align: -2px; margin-right: 4px"
+						>
+							<line x1="18" y1="6" x2="6" y2="18" />
+							<line x1="6" y1="6" x2="18" y2="18" /></svg
+						>Close
+					</button>
+				</div>
+				<div id="modalBody"></div>
+			</div>
+		</div>
+
+		<!-- JS spawns decorative chalk-dust particles here on score changes -->
+		<div id="chalkLayer"></div>
+
+		<script defer src="js/core.js"></script>
+		<script defer src="js/game-info.js"></script>
+
+		<!-- game data must load before the engines that consume it -->
+		<script defer src="js/games/ladder-contest.js"></script>
+		<script defer src="js/games/duel-mixed.js"></script>
+		<script defer src="js/games/chain-classics.js"></script>
+		<script defer src="js/games/board-contest-categories.js"></script>
+
+		<script defer src="js/engines/ladder-engine.js"></script>
+		<script defer src="js/engines/duel-engine.js"></script>
+		<script defer src="js/engines/chain-engine.js"></script>
+		<script defer src="js/engines/board-engine.js"></script>
+
+		<!-- must load last -->
+		<script defer src="js/init.js"></script>
+	</body>
+</html>
