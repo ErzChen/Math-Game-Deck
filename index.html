@@ -30,7 +30,7 @@
     ></script>
   </head>
   <body>
-    <!-- one <section class="screen"> per page; goTo()/goHome() in core.js
+    <!-- one <section class="screen"> per page; goTo() in core.js
 		     toggle "active" instead of navigating, so game state survives switching -->
     <div id="stage">
       <section class="screen active" id="screen-home">
@@ -219,6 +219,7 @@
           <div class="progress-line" id="ladderProgress"></div>
           <span class="tier-badge" id="ladderTierBadge"></span>
           <div class="question" id="ladderQuestionText"></div>
+          <img class="prompt-img hidden" id="ladderQuestionImg" alt="Question figure" />
           <div class="timer-wrap">
             <div class="timer mono" id="ladderTimerDisplay"></div>
             <button
@@ -238,6 +239,7 @@
           <!-- hidden until "Reveal Answer" is clicked -->
           <div class="answer-box" id="ladderAnswerBox">
             <div class="figure" id="ladderAnswerFigure"></div>
+            <img class="prompt-img hidden" id="ladderAnswerImg" alt="Answer figure" />
             <div class="reasoning" id="ladderAnswerReasoning"></div>
           </div>
           <div class="row-actions">
@@ -1049,7 +1051,7 @@
 
     <!-- fixed bar, outside #stage so screen-switching doesn't hide it -->
     <div id="showbar">
-      <button class="sb-home" onclick="goHome()" title="Home (H)">
+      <button class="sb-home" onclick="goTo('home')" title="Home (H)">
         <svg
           viewBox="0 0 24 24"
           width="16"

@@ -15,6 +15,7 @@ let sprintTimerSeconds = 180,
 	sprintTimerInterval = null;
 let sprintState = 'idle'; // idle | running | finished
 let sprintTeamId = null;
+let pendingSprintQImg = null;
 
 function populateSprintTeamSelector() {
 	const sel = document.getElementById('sprintTeamSelect');
@@ -36,12 +37,14 @@ function renderSprintProblem() {
 			'No questions yet';
 		qEl.textContent = 'No questions yet, use "Manage Questions" above to add some.';
 		if (keyEl) keyEl.textContent = '';
+		setPromptImage('sprintQuestionImg', null);
 		return;
 	}
 	const p = sprintPool[sprintIdx % sprintPool.length];
 	document.getElementById('sprintProgress').textContent =
 		`Question ${(sprintIdx % sprintPool.length) + 1} of ${sprintPool.length} · ${sprintCorrectCount} correct so far`;
 	qEl.textContent = p.q;
+	setPromptImage('sprintQuestionImg', p.qImg);
 	if (keyEl) keyEl.textContent = 'Answer key: ' + p.a;
 	typeset(qEl);
 }
@@ -189,6 +192,8 @@ function openSprintModal() {
     <div style="font-size:13px;color:var(--chalk-muted);line-height:1.6;">Keep these short — teams are racing the clock. No explanation needed, just question and answer.</div>
     <div class="field-label">Question (use $...$ for math)</div>
     <textarea id="newSprintQ" placeholder="e.g. $7 \\times 8$"></textarea>
+    <div class="field-label">Question image (optional)</div>
+    <div id="newSprintQImgWrap"></div>
     <div class="field-label">Answer</div>
     <input type="text" id="newSprintA" placeholder="e.g. 56" />
     <button class="btn primary" style="margin-top:12px;" onclick="addCustomSprint()">Add Question</button>
@@ -196,7 +201,15 @@ function openSprintModal() {
     <div id="customSprintList"></div>
   `,
 	);
+	pendingSprintQImg = null;
+	renderSprintImgFields();
 	renderCustomSprintList();
+}
+function renderSprintImgFields() {
+	renderImgUploadField('newSprintQImgWrap', 'newSprintQImgFile', pendingSprintQImg, (val) => {
+		pendingSprintQImg = val;
+		renderSprintImgFields();
+	});
 }
 function addCustomSprint() {
 	const q = document.getElementById('newSprintQ').value.trim();
@@ -205,9 +218,11 @@ function addCustomSprint() {
 		alert('Enter both a question and an answer.');
 		return;
 	}
-	customSprint.push({ q, a });
+	customSprint.push({ q, a, qImg: pendingSprintQImg || undefined });
 	document.getElementById('newSprintQ').value = '';
 	document.getElementById('newSprintA').value = '';
+	pendingSprintQImg = null;
+	renderSprintImgFields();
 	renderCustomSprintList();
 	autosave();
 }
@@ -228,6 +243,7 @@ function renderCustomSprintList() {
 		.map(
 			(p, i) => `
     <div class="custom-list-item">
+      ${p.qImg ? `<img class="thumb" src="${p.qImg}" alt="" />` : ''}
       <div class="txt"><b>${escapeHtml(p.q)}</b><br>${escapeHtml(p.a)}</div>
       <button class="btn sm ghost" onclick="deleteCustomSprint(${i})">Delete</button>
     </div>

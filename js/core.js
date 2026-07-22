@@ -9,9 +9,6 @@ function goTo(name) {
   document.getElementById("screen-" + name).classList.add("active");
   document.getElementById("stage").scrollTop = 0;
 }
-function goHome() {
-  goTo("home");
-}
 
 document.addEventListener("keydown", (e) => {
   if (
@@ -20,7 +17,7 @@ document.addEventListener("keydown", (e) => {
   )
     return;
   const k = e.key.toLowerCase();
-  if (k === "h") goHome();
+  if (k === "h") goTo("home");;
   if (k === "1") goTo("ladder");
   if (k === "2") goTo("duel");
   if (k === "3") goTo("chainrelay");
@@ -97,7 +94,7 @@ function renderManageTeamsList() {
     .map(
       (t) => `
     <div class="team" style="border-left-color:${t.color}">
-      <input class="tname" value="${escapeAttr(t.name)}" oninput="renameTeam('${t.id}', this.value)" />
+      <input class="tname" value="${escapeAttr(t.name)}" onchange="renameTeam('${t.id}', this.value)" />
       <div class="score-row">
         <div class="score-val mono" data-team-score="${t.id}" style="color:${t.color}">${t.score}</div>
         <div class="score-btns">
@@ -112,6 +109,78 @@ function renderManageTeamsList() {
     .join("");
 }
 
+// Shared by every engine's "Manage Questions" modal: takes a File from an
+// <input type="file">, downscales it so nothing absurd ends up in
+// localStorage/export, and hands back a compressed data URL via callback.
+// maxDim caps the longer side in pixels; quality is JPEG 0-1.
+function fileToCompressedDataURL(file, callback, maxDim = 900, quality = 0.82) {
+  if (!file || !file.type.startsWith("image/")) {
+    callback(null);
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      if (width > maxDim || height > maxDim) {
+        const scale = maxDim / Math.max(width, height);
+        width = Math.round(width * scale);
+        height = Math.round(height * scale);
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      // flatten transparency onto white first so PNGs with alpha don't
+      // turn black when re-encoded as JPEG
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height);
+      callback(canvas.toDataURL("image/jpeg", quality));
+    };
+    img.onerror = () => callback(null);
+    img.src = reader.result;
+  };
+  reader.onerror = () => callback(null);
+  reader.readAsDataURL(file);
+}
+
+// Renders the small "picker + thumbnail" widget used in every Manage
+// Questions modal for an optional image field.
+//   wrapId   - container element id to render into
+//   inputId  - id to give the <input type="file">
+//   dataUrl  - current value (or null) — pass the pending state var
+//   onChange - called with the new compressed data URL, or null if removed
+function renderImgUploadField(wrapId, inputId, dataUrl, onChange) {
+  const wrap = document.getElementById(wrapId);
+  if (!wrap) return;
+  if (dataUrl) {
+    wrap.innerHTML = `
+      <div class="img-upload-row">
+        <div class="img-preview-wrap">
+          <img src="${dataUrl}" alt="" />
+          <button type="button" class="img-remove" title="Remove image">×</button>
+        </div>
+        <span style="font-size:12px;color:var(--chalk-muted)">Image attached</span>
+      </div>`;
+    wrap.querySelector(".img-remove").onclick = () => onChange(null);
+  } else {
+    wrap.innerHTML = `
+      <div class="img-upload-row">
+        <input type="file" id="${inputId}" accept="image/*" />
+      </div>`;
+    wrap.querySelector("input[type=file]").onchange = (evt) => {
+      const file = evt.target.files[0];
+      if (!file) return;
+      fileToCompressedDataURL(file, (result) => {
+        if (result) onChange(result);
+        else alert("Could not read that image file.");
+      });
+    };
+  }
+}
+
 function escapeAttr(s) {
   return String(s).replace(/"/g, "&quot;");
 }
@@ -120,6 +189,21 @@ function escapeHtml(s) {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+}
+
+// Shared by every engine: point an <img id="elId"> at `url`, or hide it
+// (display:none, not just empty) when url is falsy. Used for the optional
+// qImg/aImg fields on question objects.
+function setPromptImage(elId, url) {
+  const img = document.getElementById(elId);
+  if (!img) return;
+  if (url) {
+    img.src = url;
+    img.classList.remove("hidden");
+  } else {
+    img.removeAttribute("src");
+    img.classList.add("hidden");
+  }
 }
 
 function addTeam() {
@@ -147,6 +231,7 @@ function renameTeam(id, val) {
   if (t) {
     t.name = val;
     renderAwardButtons();
+	renderShowbarTeams()
     autosave();
   }
 }

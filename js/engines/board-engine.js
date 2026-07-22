@@ -34,6 +34,7 @@ function openRelayCell(catIdx, value) {
 	document.getElementById('relayCatBadge').textContent =
 		`${relayData.categories[catIdx]} · ${value} pts`;
 	document.getElementById('relayQuestionText').textContent = cell.question;
+	setPromptImage('relayQuestionImg', cell.qImg);
 	document.getElementById('relayAnswerBox').classList.remove('show');
 	typeset(document.getElementById('relayQuestionText'));
 	renderRelayAwardButtons();
@@ -42,6 +43,7 @@ function revealRelayAnswer() {
 	const cell = relayData.cells[currentRelayKey];
 	if (!cell) return;
 	document.getElementById('relayAnswerFigure').textContent = cell.answer;
+	setPromptImage('relayAnswerImg', cell.aImg);
 	document.getElementById('relayAnswerReasoning').textContent =
 		cell.explanation || '';
 	const box = document.getElementById('relayAnswerBox');
@@ -99,10 +101,14 @@ function openRelayModal() {
           <div class="pts-label">${escapeHtml(cat)} · ${val} pts</div>
           <div class="field-label">Question</div>
           <textarea oninput="updateRelayCell('${key}','question',this.value)">${escapeHtml(cell.question)}</textarea>
+          <div class="field-label">Question image (optional)</div>
+          <div id="relayQImgWrap-${key}"></div>
           <div class="field-label">Answer</div>
           <input type="text" value="${escapeAttr(cell.answer)}" oninput="updateRelayCell('${key}','answer',this.value)" />
           <div class="field-label">Explanation</div>
           <textarea oninput="updateRelayCell('${key}','explanation',this.value)">${escapeHtml(cell.explanation)}</textarea>
+          <div class="field-label">Answer image (optional)</div>
+          <div id="relayAImgWrap-${key}"></div>
         </div>
       `;
 		});
@@ -117,9 +123,38 @@ function openRelayModal() {
     <button class="btn primary" onclick="closeModal(); renderRelayGrid(); autosave();">Done</button>
   `,
 	);
+	renderRelayImgFields();
 }
 function updateRelayCell(key, field, value) {
 	if (!relayData.cells[key])
 		relayData.cells[key] = { question: '', answer: '', explanation: '' };
 	relayData.cells[key][field] = value;
+}
+function renderRelayImgFields() {
+	relayData.categories.forEach((cat, ci) => {
+		relayValues.forEach((val) => {
+			const key = `${ci}-${val}`;
+			if (!relayData.cells[key])
+				relayData.cells[key] = { question: '', answer: '', explanation: '' };
+			const cell = relayData.cells[key];
+			renderImgUploadField(
+				'relayQImgWrap-' + key,
+				'relayQImgFile-' + key,
+				cell.qImg,
+				(val2) => {
+					cell.qImg = val2;
+					renderRelayImgFields();
+				},
+			);
+			renderImgUploadField(
+				'relayAImgWrap-' + key,
+				'relayAImgFile-' + key,
+				cell.aImg,
+				(val2) => {
+					cell.aImg = val2;
+					renderRelayImgFields();
+				},
+			);
+		});
+	});
 }

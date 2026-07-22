@@ -6,6 +6,8 @@ function getDuelPool() {
 }
 let duelPool = [],
 	duelIdx = 0;
+let pendingDuelQImg = null;
+let pendingDuelAImg = null;
 
 function populateDuelTeamSelectors() {
 	const selA = document.getElementById('duelTeamA');
@@ -42,12 +44,14 @@ function renderDuelProblem() {
 	document.getElementById('duelProgress').textContent =
 		`Problem ${(duelIdx % duelPool.length) + 1} of ${duelPool.length}`;
 	document.getElementById('duelQuestionText').textContent = p.q;
+	setPromptImage('duelQuestionImg', p.qImg);
 	typeset(document.getElementById('duelQuestionText'));
 }
 function revealDuelAnswer() {
 	if (duelPool.length === 0) return;
 	const p = duelPool[duelIdx % duelPool.length];
 	document.getElementById('duelAnswerFigure').textContent = p.a;
+	setPromptImage('duelAnswerImg', p.aImg);
 	document.getElementById('duelAnswerReasoning').textContent = p.e;
 	const box = document.getElementById('duelAnswerBox');
 	box.classList.add('show');
@@ -86,16 +90,33 @@ function openDuelModal() {
 		`
     <div class="field-label">Question (use $...$ for math)</div>
     <textarea id="newDuelQ" placeholder="e.g. What is $\\binom{6}{2}$?"></textarea>
+    <div class="field-label">Question image (optional)</div>
+    <div id="newDuelQImgWrap"></div>
     <div class="field-label">Answer</div>
     <input type="text" id="newDuelA" placeholder="e.g. 15" />
     <div class="field-label">Explanation</div>
     <textarea id="newDuelE" placeholder="Show the reasoning."></textarea>
+    <div class="field-label">Answer image (optional)</div>
+    <div id="newDuelAImgWrap"></div>
     <button class="btn primary" style="margin-top:12px;" onclick="addCustomDuel()">Add Question</button>
     <div class="field-label" style="margin-top:22px;">Your custom questions</div>
     <div id="customDuelList"></div>
   `,
 	);
+	pendingDuelQImg = null;
+	pendingDuelAImg = null;
+	renderDuelImgFields();
 	renderCustomDuelList();
+}
+function renderDuelImgFields() {
+	renderImgUploadField('newDuelQImgWrap', 'newDuelQImgFile', pendingDuelQImg, (val) => {
+		pendingDuelQImg = val;
+		renderDuelImgFields();
+	});
+	renderImgUploadField('newDuelAImgWrap', 'newDuelAImgFile', pendingDuelAImg, (val) => {
+		pendingDuelAImg = val;
+		renderDuelImgFields();
+	});
 }
 function addCustomDuel() {
 	const q = document.getElementById('newDuelQ').value.trim();
@@ -105,10 +126,19 @@ function addCustomDuel() {
 		alert('Enter at least a question and an answer.');
 		return;
 	}
-	customDuel.push({ q, a, e });
+	customDuel.push({
+		q,
+		qImg: pendingDuelQImg || undefined,
+		a,
+		e,
+		aImg: pendingDuelAImg || undefined,
+	});
 	document.getElementById('newDuelQ').value = '';
 	document.getElementById('newDuelA').value = '';
 	document.getElementById('newDuelE').value = '';
+	pendingDuelQImg = null;
+	pendingDuelAImg = null;
+	renderDuelImgFields();
 	renderCustomDuelList();
 	autosave();
 }
@@ -129,6 +159,7 @@ function renderCustomDuelList() {
 		.map(
 			(p, i) => `
     <div class="custom-list-item">
+      ${p.qImg || p.aImg ? `<img class="thumb" src="${p.qImg || p.aImg}" alt="" />` : ''}
       <div class="txt"><b>${escapeHtml(p.q)}</b><br>${escapeHtml(p.a)}</div>
       <button class="btn sm ghost" onclick="deleteCustomDuel(${i})">Delete</button>
     </div>

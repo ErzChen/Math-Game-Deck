@@ -31,6 +31,7 @@ function renderLadderProblem() {
 		badge.className = 'tier-badge';
 		document.getElementById('ladderQuestionText').textContent =
 			'No questions yet, use "Manage Questions" above to add some.';
+		setPromptImage('ladderQuestionImg', null);
 		document.getElementById('ladderAwardLabel').textContent = 'Award the point';
 		clearInterval(ladderTimerInterval);
 		ladderTimerInterval = null;
@@ -45,6 +46,7 @@ function renderLadderProblem() {
 	badge.textContent = tierNames[p.tier] || `Tier ${p.tier}`;
 	badge.className = 'tier-badge t' + p.tier;
 	document.getElementById('ladderQuestionText').textContent = p.q;
+	setPromptImage('ladderQuestionImg', p.qImg);
 	document.getElementById('ladderAwardLabel').textContent =
 		`Award the point (worth ${p.tier})`;
 	typeset(document.getElementById('ladderQuestionText'));
@@ -55,6 +57,7 @@ function revealLadderAnswer() {
 	if (ladderPool.length === 0) return;
 	const p = ladderPool[ladderIdx % ladderPool.length];
 	document.getElementById('ladderAnswerFigure').textContent = p.a;
+	setPromptImage('ladderAnswerImg', p.aImg);
 	document.getElementById('ladderAnswerReasoning').textContent = p.e;
 	const box = document.getElementById('ladderAnswerBox');
 	box.classList.add('show');
@@ -120,16 +123,37 @@ function openLadderModal() {
     <input type="text" id="newLadTier" placeholder="e.g. 2" />
     <div class="field-label">Question (use $...$ for math, e.g. $x^2-4$)</div>
     <textarea id="newLadQ" placeholder="e.g. Solve for $x$: $2x+5=17$."></textarea>
+    <div class="field-label">Question image (optional)</div>
+    <div id="newLadQImgWrap"></div>
     <div class="field-label">Answer</div>
     <input type="text" id="newLadA" placeholder="e.g. $x=6$" />
     <div class="field-label">Explanation</div>
     <textarea id="newLadE" placeholder="Show the reasoning."></textarea>
+    <div class="field-label">Answer image (optional)</div>
+    <div id="newLadAImgWrap"></div>
     <button class="btn primary" style="margin-top:12px;" onclick="addCustomLadder()">Add Question</button>
     <div class="field-label" style="margin-top:22px;">Your custom questions</div>
     <div id="customLadderList"></div>
   `,
 	);
+	pendingLadQImg = null;
+	pendingLadAImg = null;
+	renderLadderImgFields();
 	renderCustomLadderList();
+}
+// holds the compressed data URL for whichever image is currently attached
+// to the "add question" form, before the question itself is saved
+let pendingLadQImg = null;
+let pendingLadAImg = null;
+function renderLadderImgFields() {
+	renderImgUploadField('newLadQImgWrap', 'newLadQImgFile', pendingLadQImg, (val) => {
+		pendingLadQImg = val;
+		renderLadderImgFields();
+	});
+	renderImgUploadField('newLadAImgWrap', 'newLadAImgFile', pendingLadAImg, (val) => {
+		pendingLadAImg = val;
+		renderLadderImgFields();
+	});
 }
 function addCustomLadder() {
 	const tier = Math.max(
@@ -143,11 +167,21 @@ function addCustomLadder() {
 		alert('Enter at least a question and an answer.');
 		return;
 	}
-	customLadder.push({ tier, q, a, e });
+	customLadder.push({
+		tier,
+		q,
+		qImg: pendingLadQImg || undefined,
+		a,
+		e,
+		aImg: pendingLadAImg || undefined,
+	});
 	document.getElementById('newLadTier').value = '';
 	document.getElementById('newLadQ').value = '';
 	document.getElementById('newLadA').value = '';
 	document.getElementById('newLadE').value = '';
+	pendingLadQImg = null;
+	pendingLadAImg = null;
+	renderLadderImgFields();
 	renderCustomLadderList();
 	autosave();
 }
@@ -168,6 +202,7 @@ function renderCustomLadderList() {
 		.map(
 			(p, i) => `
     <div class="custom-list-item">
+      ${p.qImg || p.aImg ? `<img class="thumb" src="${p.qImg || p.aImg}" alt="" />` : ''}
       <div class="txt"><b>Tier ${p.tier}</b> — ${escapeHtml(p.q)}<br>${escapeHtml(p.a)}</div>
       <button class="btn sm ghost" onclick="deleteCustomLadder(${i})">Delete</button>
     </div>

@@ -271,9 +271,6 @@ h1 {
   line-height: 1.5;
   margin: 0;
 }
-.arcade-tags {
-  margin-top: 16px;
-}
 .arcade-tags .tag {
   display: inline-block;
   font-size: 11px;
@@ -288,6 +285,7 @@ h1 {
 .arcade-tags {
   color: var(--chalk-teal);
   border-color: rgba(15, 143, 125, 0.4);
+  margin-top: 16px;
 }
 
 /* ---------- Game Show Scoreboard Bar ---------- */
@@ -678,6 +676,22 @@ h1 {
   max-width: 720px;
   margin: 6px 0 20px;
 }
+/* optional image attached to a question or an answer; stays out of the
+   layout entirely (display:none, not just hidden) when a problem has none */
+.prompt-img {
+  display: block;
+  max-width: 100%;
+  max-height: 280px;
+  width: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  margin: 4px 0 18px;
+  object-fit: contain;
+  background: var(--surface-2);
+}
+.prompt-img.hidden {
+  display: none;
+}
 .answer-box {
   margin-top: 20px;
   padding: 20px 22px;
@@ -834,6 +848,112 @@ h1 {
 .modal-box textarea:focus {
   outline: none;
   border-color: var(--chalk-teal);
+}
+.img-upload-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.img-upload-row input[type="file"] {
+  flex: 1;
+  min-width: 180px;
+  font-size: 12.5px;
+  color: var(--chalk-muted);
+  background: var(--surface-2);
+  border: 1.5px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast);
+}
+.img-upload-row input[type="file"]:hover {
+  border-color: var(--chalk-teal);
+  background: color-mix(in srgb, var(--chalk-teal) 6%, var(--surface-2));
+}
+.img-upload-row input[type="file"]:focus-visible {
+  outline: none;
+  border-color: var(--chalk-teal);
+  border-style: solid;
+}
+/* the actual "Choose File" button portion of the control */
+.img-upload-row input[type="file"]::file-selector-button {
+  font-family: var(--font-display);
+  background: var(--surface);
+  color: var(--chalk-white);
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 10px;
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast);
+}
+.img-upload-row input[type="file"]::file-selector-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--chalk-teal);
+  color: var(--chalk-teal);
+}
+/* Safari/older Chrome fallback */
+.img-upload-row input[type="file"]::-webkit-file-upload-button {
+  font-family: var(--font-display);
+  background: var(--surface);
+  color: var(--chalk-white);
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.img-preview-wrap {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+}
+.img-preview-wrap img {
+  display: block;
+  height: 54px;
+  width: auto;
+  max-width: 96px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow);
+}
+.img-preview-wrap .img-remove {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--chalk-pink);
+  color: #1a1a1a;
+  border: 2px solid var(--surface);
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform var(--transition-fast);
+}
+.img-preview-wrap .img-remove:hover {
+  transform: scale(1.12);
+}
+.custom-list-item .thumb {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--line-strong);
+  flex-shrink: 0;
 }
 .custom-list-item {
   background: var(--surface-2);

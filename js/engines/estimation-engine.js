@@ -8,6 +8,8 @@ function getEstimationPool() {
 }
 let estimationPool = [],
 	estimationIdx = 0;
+let pendingEstQImg = null;
+let pendingEstAImg = null;
 let estimationTimerSeconds = 45,
 	estimationTimerInterval = null;
 
@@ -24,6 +26,7 @@ function renderEstimationProblem() {
 			'No questions yet';
 		document.getElementById('estimationQuestionText').textContent =
 			'No questions yet, use "Manage Questions" above to add some.';
+		setPromptImage('estimationQuestionImg', null);
 		clearInterval(estimationTimerInterval);
 		estimationTimerInterval = null;
 		renderEstimationTimer();
@@ -34,6 +37,7 @@ function renderEstimationProblem() {
 	document.getElementById('estimationProgress').textContent =
 		`Problem ${(estimationIdx % estimationPool.length) + 1} of ${estimationPool.length}`;
 	document.getElementById('estimationQuestionText').textContent = p.q;
+	setPromptImage('estimationQuestionImg', p.qImg);
 	typeset(document.getElementById('estimationQuestionText'));
 	renderEstimationAwardButtons();
 	resetEstimationTimer();
@@ -42,6 +46,7 @@ function revealEstimationAnswer() {
 	if (estimationPool.length === 0) return;
 	const p = estimationPool[estimationIdx % estimationPool.length];
 	document.getElementById('estimationAnswerFigure').textContent = p.a;
+	setPromptImage('estimationAnswerImg', p.aImg);
 	document.getElementById('estimationAnswerReasoning').textContent = p.e;
 	const box = document.getElementById('estimationAnswerBox');
 	box.classList.add('show');
@@ -110,16 +115,33 @@ function openEstimationModal() {
 		`
     <div class="field-label">Question (use $...$ for math)</div>
     <textarea id="newEstQ" placeholder="e.g. How many diagonals does a 15-gon have?"></textarea>
+    <div class="field-label">Question image (optional)</div>
+    <div id="newEstQImgWrap"></div>
     <div class="field-label">Exact numeric answer</div>
     <input type="text" id="newEstA" placeholder="e.g. 90" />
     <div class="field-label">Explanation</div>
     <textarea id="newEstE" placeholder="Show the reasoning."></textarea>
+    <div class="field-label">Answer image (optional)</div>
+    <div id="newEstAImgWrap"></div>
     <button class="btn primary" style="margin-top:12px;" onclick="addCustomEstimation()">Add Question</button>
     <div class="field-label" style="margin-top:22px;">Your custom questions</div>
     <div id="customEstimationList"></div>
   `,
 	);
+	pendingEstQImg = null;
+	pendingEstAImg = null;
+	renderEstImgFields();
 	renderCustomEstimationList();
+}
+function renderEstImgFields() {
+	renderImgUploadField('newEstQImgWrap', 'newEstQImgFile', pendingEstQImg, (val) => {
+		pendingEstQImg = val;
+		renderEstImgFields();
+	});
+	renderImgUploadField('newEstAImgWrap', 'newEstAImgFile', pendingEstAImg, (val) => {
+		pendingEstAImg = val;
+		renderEstImgFields();
+	});
 }
 function addCustomEstimation() {
 	const q = document.getElementById('newEstQ').value.trim();
@@ -129,10 +151,19 @@ function addCustomEstimation() {
 		alert('Enter at least a question and an answer.');
 		return;
 	}
-	customEstimation.push({ q, a, e });
+	customEstimation.push({
+		q,
+		qImg: pendingEstQImg || undefined,
+		a,
+		e,
+		aImg: pendingEstAImg || undefined,
+	});
 	document.getElementById('newEstQ').value = '';
 	document.getElementById('newEstA').value = '';
 	document.getElementById('newEstE').value = '';
+	pendingEstQImg = null;
+	pendingEstAImg = null;
+	renderEstImgFields();
 	renderCustomEstimationList();
 	autosave();
 }
@@ -153,6 +184,7 @@ function renderCustomEstimationList() {
 		.map(
 			(p, i) => `
     <div class="custom-list-item">
+      ${p.qImg || p.aImg ? `<img class="thumb" src="${p.qImg || p.aImg}" alt="" />` : ''}
       <div class="txt"><b>${escapeHtml(p.q)}</b><br>${escapeHtml(p.a)}</div>
       <button class="btn sm ghost" onclick="deleteCustomEstimation(${i})">Delete</button>
     </div>

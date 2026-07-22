@@ -10,6 +10,8 @@ let handsupPool = [],
 	handsupIdx = 0;
 let handsupTriedIds = {}; // teamId -> true, reset each question
 let handsupSolvedBy = null; // teamId once someone gets it right
+let pendingHandsupQImg = null;
+let pendingHandsupAImg = null;
 
 function resetHandsup() {
 	handsupIdx = 0;
@@ -26,6 +28,7 @@ function renderHandsupProblem() {
 			'No questions yet';
 		document.getElementById('handsupQuestionText').textContent =
 			'No questions yet, use "Manage Questions" above to add some.';
+		setPromptImage('handsupQuestionImg', null);
 		renderHandsupTeamButtons();
 		return;
 	}
@@ -33,6 +36,7 @@ function renderHandsupProblem() {
 	document.getElementById('handsupProgress').textContent =
 		`Problem ${(handsupIdx % handsupPool.length) + 1} of ${handsupPool.length}`;
 	document.getElementById('handsupQuestionText').textContent = p.q;
+	setPromptImage('handsupQuestionImg', p.qImg);
 	typeset(document.getElementById('handsupQuestionText'));
 	renderHandsupTeamButtons();
 }
@@ -40,6 +44,7 @@ function revealHandsupAnswer() {
 	if (handsupPool.length === 0) return;
 	const p = handsupPool[handsupIdx % handsupPool.length];
 	document.getElementById('handsupAnswerFigure').textContent = p.a;
+	setPromptImage('handsupAnswerImg', p.aImg);
 	document.getElementById('handsupAnswerReasoning').textContent = p.e;
 	const box = document.getElementById('handsupAnswerBox');
 	box.classList.add('show');
@@ -106,16 +111,33 @@ function openHandsupModal() {
 		`
     <div class="field-label">Question (use $...$ for math)</div>
     <textarea id="newHandsupQ" placeholder="e.g. What is $\\binom{6}{2}$?"></textarea>
+    <div class="field-label">Question image (optional)</div>
+    <div id="newHandsupQImgWrap"></div>
     <div class="field-label">Answer</div>
     <input type="text" id="newHandsupA" placeholder="e.g. 15" />
     <div class="field-label">Explanation</div>
     <textarea id="newHandsupE" placeholder="Show the reasoning."></textarea>
+    <div class="field-label">Answer image (optional)</div>
+    <div id="newHandsupAImgWrap"></div>
     <button class="btn primary" style="margin-top:12px;" onclick="addCustomHandsup()">Add Question</button>
     <div class="field-label" style="margin-top:22px;">Your custom questions</div>
     <div id="customHandsupList"></div>
   `,
 	);
+	pendingHandsupQImg = null;
+	pendingHandsupAImg = null;
+	renderHandsupImgFields();
 	renderCustomHandsupList();
+}
+function renderHandsupImgFields() {
+	renderImgUploadField('newHandsupQImgWrap', 'newHandsupQImgFile', pendingHandsupQImg, (val) => {
+		pendingHandsupQImg = val;
+		renderHandsupImgFields();
+	});
+	renderImgUploadField('newHandsupAImgWrap', 'newHandsupAImgFile', pendingHandsupAImg, (val) => {
+		pendingHandsupAImg = val;
+		renderHandsupImgFields();
+	});
 }
 function addCustomHandsup() {
 	const q = document.getElementById('newHandsupQ').value.trim();
@@ -125,10 +147,19 @@ function addCustomHandsup() {
 		alert('Enter at least a question and an answer.');
 		return;
 	}
-	customHandsup.push({ q, a, e });
+	customHandsup.push({
+		q,
+		qImg: pendingHandsupQImg || undefined,
+		a,
+		e,
+		aImg: pendingHandsupAImg || undefined,
+	});
 	document.getElementById('newHandsupQ').value = '';
 	document.getElementById('newHandsupA').value = '';
 	document.getElementById('newHandsupE').value = '';
+	pendingHandsupQImg = null;
+	pendingHandsupAImg = null;
+	renderHandsupImgFields();
 	renderCustomHandsupList();
 	autosave();
 }
@@ -149,6 +180,7 @@ function renderCustomHandsupList() {
 		.map(
 			(p, i) => `
     <div class="custom-list-item">
+      ${p.qImg || p.aImg ? `<img class="thumb" src="${p.qImg || p.aImg}" alt="" />` : ''}
       <div class="txt"><b>${escapeHtml(p.q)}</b><br>${escapeHtml(p.a)}</div>
       <button class="btn sm ghost" onclick="deleteCustomHandsup(${i})">Delete</button>
     </div>

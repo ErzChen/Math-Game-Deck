@@ -9,6 +9,8 @@ function getEliminationPool() {
 }
 let eliminationPool = [],
 	eliminationIdx = 0;
+let pendingElimQImg = null;
+let pendingElimAImg = null;
 let eliminationAliveIds = [];
 let eliminationRoundMarks = {}; // teamId -> 'correct' | 'wrong', this round only
 let eliminationTimerSeconds = 60,
@@ -52,6 +54,7 @@ function renderEliminationProblem() {
 		}
 		document.getElementById('eliminationQuestionText').textContent =
 			'No questions yet, use "Manage Questions" above to add some.';
+		setPromptImage('eliminationQuestionImg', null);
 		clearInterval(eliminationTimerInterval);
 		eliminationTimerInterval = null;
 		renderEliminationTimer();
@@ -66,6 +69,7 @@ function renderEliminationProblem() {
 		badge.className = 'tier-badge' + (p.tier ? ' t' + p.tier : '');
 	}
 	document.getElementById('eliminationQuestionText').textContent = p.q;
+	setPromptImage('eliminationQuestionImg', p.qImg);
 	typeset(document.getElementById('eliminationQuestionText'));
 	eliminationRoundMarks = {};
 	renderEliminationRoster();
@@ -75,6 +79,7 @@ function revealEliminationAnswer() {
 	if (eliminationPool.length === 0) return;
 	const p = eliminationPool[eliminationIdx % eliminationPool.length];
 	document.getElementById('eliminationAnswerFigure').textContent = p.a;
+	setPromptImage('eliminationAnswerImg', p.aImg);
 	document.getElementById('eliminationAnswerReasoning').textContent = p.e;
 	const box = document.getElementById('eliminationAnswerBox');
 	box.classList.add('show');
@@ -190,16 +195,33 @@ function openEliminationModal() {
     <input type="text" id="newElimTier" placeholder="e.g. 2" />
     <div class="field-label">Question (use $...$ for math)</div>
     <textarea id="newElimQ" placeholder="e.g. Solve for $x$: $2x+5=17$."></textarea>
+    <div class="field-label">Question image (optional)</div>
+    <div id="newElimQImgWrap"></div>
     <div class="field-label">Answer</div>
     <input type="text" id="newElimA" placeholder="e.g. $x=6$" />
     <div class="field-label">Explanation</div>
     <textarea id="newElimE" placeholder="Show the reasoning."></textarea>
+    <div class="field-label">Answer image (optional)</div>
+    <div id="newElimAImgWrap"></div>
     <button class="btn primary" style="margin-top:12px;" onclick="addCustomElimination()">Add Question</button>
     <div class="field-label" style="margin-top:22px;">Your custom questions</div>
     <div id="customEliminationList"></div>
   `,
 	);
+	pendingElimQImg = null;
+	pendingElimAImg = null;
+	renderElimImgFields();
 	renderCustomEliminationList();
+}
+function renderElimImgFields() {
+	renderImgUploadField('newElimQImgWrap', 'newElimQImgFile', pendingElimQImg, (val) => {
+		pendingElimQImg = val;
+		renderElimImgFields();
+	});
+	renderImgUploadField('newElimAImgWrap', 'newElimAImgFile', pendingElimAImg, (val) => {
+		pendingElimAImg = val;
+		renderElimImgFields();
+	});
 }
 function addCustomElimination() {
 	const tierRaw = document.getElementById('newElimTier').value.trim();
@@ -213,11 +235,21 @@ function addCustomElimination() {
 		alert('Enter at least a question and an answer.');
 		return;
 	}
-	customElimination.push({ tier, q, a, e });
+	customElimination.push({
+		tier,
+		q,
+		qImg: pendingElimQImg || undefined,
+		a,
+		e,
+		aImg: pendingElimAImg || undefined,
+	});
 	document.getElementById('newElimTier').value = '';
 	document.getElementById('newElimQ').value = '';
 	document.getElementById('newElimA').value = '';
 	document.getElementById('newElimE').value = '';
+	pendingElimQImg = null;
+	pendingElimAImg = null;
+	renderElimImgFields();
 	renderCustomEliminationList();
 	autosave();
 }
@@ -238,6 +270,7 @@ function renderCustomEliminationList() {
 		.map(
 			(p, i) => `
     <div class="custom-list-item">
+      ${p.qImg || p.aImg ? `<img class="thumb" src="${p.qImg || p.aImg}" alt="" />` : ''}
       <div class="txt"><b>${p.tier ? 'Tier ' + p.tier : 'No tier'}</b> — ${escapeHtml(p.q)}<br>${escapeHtml(p.a)}</div>
       <button class="btn sm ghost" onclick="deleteCustomElimination(${i})">Delete</button>
     </div>

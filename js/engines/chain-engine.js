@@ -8,6 +8,8 @@ let chainPool = [],
 	chainOrder = [],
 	chainIdx = -1,
 	linkIdx = 0;
+let pendingChainQImg = [null, null, null];
+let pendingChainAImg = [null, null, null];
 
 function shuffleChainPool() {
 	chainPool = getChainPool();
@@ -58,6 +60,7 @@ function renderChainScreen() {
 			: '';
 	const qEl = document.getElementById('chainQuestionText');
 	qEl.textContent = chain.links[linkIdx].q;
+	setPromptImage('chainQuestionImg', chain.links[linkIdx].qImg);
 	typeset(qEl);
 	typeset(document.getElementById('chainTBadgeWrap'));
 	document.getElementById('chainAnswerBox').classList.remove('show');
@@ -67,6 +70,7 @@ function revealChainAnswer() {
 	const chain = chainPool[chainOrder[chainIdx]];
 	const link = chain.links[linkIdx];
 	document.getElementById('chainAnswerFigure').textContent = `T = ${link.a}`;
+	setPromptImage('chainAnswerImg', link.aImg);
 	document.getElementById('chainAnswerReasoning').textContent = link.e;
 	const box = document.getElementById('chainAnswerBox');
 	box.classList.add('show');
@@ -115,28 +119,67 @@ function openChainModal() {
     <input type="text" id="newChainName" placeholder="e.g. Prime Path" />
     <div class="field-label">Link 1 — question / answer / explanation</div>
     <textarea id="newChainQ1" placeholder="Question"></textarea>
+    <div class="field-label">Link 1 question image (optional)</div>
+    <div id="newChainQImgWrap1"></div>
     <input type="text" id="newChainA1" placeholder="Answer (becomes T)" style="margin-top:6px;" />
     <textarea id="newChainE1" placeholder="Explanation" style="margin-top:6px;"></textarea>
+    <div class="field-label">Link 1 answer image (optional)</div>
+    <div id="newChainAImgWrap1"></div>
     <div class="field-label">Link 2 — question / answer / explanation</div>
     <textarea id="newChainQ2" placeholder="Question (reference T)"></textarea>
+    <div class="field-label">Link 2 question image (optional)</div>
+    <div id="newChainQImgWrap2"></div>
     <input type="text" id="newChainA2" placeholder="Answer (becomes new T)" style="margin-top:6px;" />
     <textarea id="newChainE2" placeholder="Explanation" style="margin-top:6px;"></textarea>
+    <div class="field-label">Link 2 answer image (optional)</div>
+    <div id="newChainAImgWrap2"></div>
     <div class="field-label">Link 3 — question / answer / explanation</div>
     <textarea id="newChainQ3" placeholder="Question (reference T)"></textarea>
+    <div class="field-label">Link 3 question image (optional)</div>
+    <div id="newChainQImgWrap3"></div>
     <input type="text" id="newChainA3" placeholder="Final answer" style="margin-top:6px;" />
     <textarea id="newChainE3" placeholder="Explanation" style="margin-top:6px;"></textarea>
+    <div class="field-label">Link 3 answer image (optional)</div>
+    <div id="newChainAImgWrap3"></div>
     <button class="btn primary" style="margin-top:12px;" onclick="addCustomChain()">Add Chain</button>
     <div class="field-label" style="margin-top:22px;">Your custom chains</div>
     <div id="customChainList">${list || '<div style="color:var(--chalk-muted);font-size:13px;">No custom chains yet.</div>'}</div>
   `,
 	);
+	pendingChainQImg = [null, null, null];
+	pendingChainAImg = [null, null, null];
+	renderChainImgFields();
+}
+function renderChainImgFields() {
+	[1, 2, 3].forEach((n) => {
+		renderImgUploadField(
+			'newChainQImgWrap' + n,
+			'newChainQImgFile' + n,
+			pendingChainQImg[n - 1],
+			(val) => {
+				pendingChainQImg[n - 1] = val;
+				renderChainImgFields();
+			},
+		);
+		renderImgUploadField(
+			'newChainAImgWrap' + n,
+			'newChainAImgFile' + n,
+			pendingChainAImg[n - 1],
+			(val) => {
+				pendingChainAImg[n - 1] = val;
+				renderChainImgFields();
+			},
+		);
+	});
 }
 function addCustomChain() {
 	const name = document.getElementById('newChainName').value.trim();
 	const links = [1, 2, 3].map((n) => ({
 		q: document.getElementById('newChainQ' + n).value.trim(),
+		qImg: pendingChainQImg[n - 1] || undefined,
 		a: document.getElementById('newChainA' + n).value.trim(),
 		e: document.getElementById('newChainE' + n).value.trim(),
+		aImg: pendingChainAImg[n - 1] || undefined,
 	}));
 	if (!name || links.some((l) => !l.q || !l.a)) {
 		alert(
@@ -145,6 +188,8 @@ function addCustomChain() {
 		return;
 	}
 	customChains.push({ name, links });
+	pendingChainQImg = [null, null, null];
+	pendingChainAImg = [null, null, null];
 	closeModal();
 	autosave();
 }
