@@ -1248,6 +1248,75 @@ h1 {
 	max-width: 160px;
 }
 
+/* ---------- Point Heist ---------- */
+.vault-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	margin: 10px 0 22px;
+}
+.vault-graphic {
+	filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
+}
+.vault-amount {
+	font-size: var(--font-size-session);
+	font-weight: 800;
+	color: var(--chalk-yellow);
+	text-shadow: 0 0 16px color-mix(in srgb, var(--chalk-yellow) 45%, transparent);
+	line-height: 1;
+}
+.vault-label {
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.14em;
+	color: var(--chalk-muted);
+}
+.vault-settings {
+	display: flex;
+	gap: 14px;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	background: var(--surface-2);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	padding: 14px 18px;
+	margin-bottom: 18px;
+}
+.vault-settings label {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12.5px;
+	color: var(--chalk-muted);
+}
+.vault-settings input[type='number'] {
+	width: 64px;
+	background: var(--surface);
+	border: 1px solid var(--line-strong);
+	color: var(--chalk-white);
+	border-radius: var(--radius-small);
+	padding: 6px 8px;
+	font-family: var(--font-mono);
+	font-size: 13px;
+	text-align: center;
+}
+.vault-settings input[type='checkbox'] {
+	accent-color: var(--chalk-yellow);
+	width: 15px;
+	height: 15px;
+}
+.pointheist-raid-select {
+	background: var(--surface);
+	border: 1px solid var(--line-strong);
+	color: var(--chalk-white);
+	border-radius: var(--radius-small);
+	padding: 6px 8px;
+	font-size: 13px;
+	max-width: 150px;
+}
+
 /* ---------- KaTeX Theming ---------- */
 .katex {
 	color: inherit;

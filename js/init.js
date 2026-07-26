@@ -15,3 +15,4 @@ initSwap();
 initWager();
 initCurse();
 initScapegoat();
+initPointHeist();

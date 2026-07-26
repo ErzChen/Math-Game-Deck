@@ -561,6 +561,7 @@ function renderAwardButtons() {
 	if (document.getElementById('wagerRoster')) renderWagerRoster();
 	if (document.getElementById('curseTeamPanel')) renderCurseTeamPanel();
 	if (document.getElementById('scapegoatRoster')) renderScapegoatRoster();
+	if (document.getElementById('pointHeistRoster')) renderPointHeistRoster();
 }
 
 function formatSeconds(total) {
@@ -590,6 +591,13 @@ function gatherState() {
 		customCurse: customCurse,
 		customCurses: customCurses,
 		customScapegoat: customScapegoat,
+		customPointHeist: customPointHeist,
+		vaultTotal: vaultTotal,
+		vaultStart: vaultStart,
+		pullAmount: pullAmount,
+		raidAmount: raidAmount,
+		allowPull: allowPull,
+		allowRaid: allowRaid,
 	};
 }
 
@@ -660,6 +668,14 @@ function restoreState(data) {
 	if (Array.isArray(data.customCurse)) customCurse = data.customCurse;
 	if (Array.isArray(data.customScapegoat))
 		customScapegoat = data.customScapegoat;
+	if (Array.isArray(data.customPointHeist))
+		customPointHeist = data.customPointHeist;
+	if (typeof data.vaultTotal === 'number') vaultTotal = data.vaultTotal;
+	if (typeof data.vaultStart === 'number') vaultStart = data.vaultStart;
+	if (typeof data.pullAmount === 'number') pullAmount = data.pullAmount;
+	if (typeof data.raidAmount === 'number') raidAmount = data.raidAmount;
+	if (typeof data.allowPull === 'boolean') allowPull = data.allowPull;
+	if (typeof data.allowRaid === 'boolean') allowRaid = data.allowRaid;
 
 	if (data.sessionMinutes) {
 		sessionTotalMinutes = data.sessionMinutes;
@@ -687,6 +703,7 @@ function restoreState(data) {
 	initWager();
 	initCurse();
 	initScapegoat();
+	initPointHeist();
 	const customLadderList = document.getElementById('customLadderList');
 	if (customLadderList) renderCustomLadderList();
 	const customDuelList = document.getElementById('customDuelList');
