@@ -1,37 +1,49 @@
-// Duel engine — two teams, one problem, first correct answer wins.
-// Expects a global `builtinDuel` array of { q, a, e } objects.
 let customDuel = [];
-function getDuelPool() {
-	return builtinDuel.concat(customDuel);
+let duelPool = [];
+let duelIndex = 0;
+
+const duelImageFields = createQAImageState({
+	qWrap: 'newDuelQImgWrap',
+	qFile: 'newDuelQImgFile',
+	aWrap: 'newDuelAImgWrap',
+	aFile: 'newDuelAImgFile',
+});
+
+function initDuel() {
+	populateDuelTeamSelectors();
+	renderDuelProblem();
+	renderDuelAwardButtons();
 }
-let duelPool = [],
-	duelIdx = 0;
-let pendingDuelQImg = null;
-let pendingDuelAImg = null;
 
 function populateDuelTeamSelectors() {
-	const selA = document.getElementById('duelTeamA');
-	const selB = document.getElementById('duelTeamB');
-	if (!selA || !selB) return;
-	const prevA = selA.value,
-		prevB = selB.value;
+	const selectA = document.getElementById('duelTeamA');
+	const selectB = document.getElementById('duelTeamB');
+	if (!selectA || !selectB) return;
+	const prevA = selectA.value;
+	const prevB = selectB.value;
 	const opts = teams
-		.map((t) => `<option value="${t.id}">${escapeHtml(t.name)}</option>`)
+		.map((team) => `<option value="${team.id}">${escapeHtml(team.name)}</option>`)
 		.join('');
-	selA.innerHTML = opts;
-	selB.innerHTML = opts;
-	if (teams.find((t) => t.id === prevA)) selA.value = prevA;
+	selectA.innerHTML = opts;
+	selectB.innerHTML = opts;
+	if (teams.find((team) => team.id === prevA)) selectA.value = prevA;
 	if (teams.length > 1) {
-		const secondId = teams.find((t) => t.id !== selA.value);
-		if (teams.find((t) => t.id === prevB) && prevB !== selA.value) {
-			selB.value = prevB;
+		const secondId = teams.find((team) => team.id !== selectA.value);
+		if (teams.find((team) => team.id === prevB) && prevB !== selectA.value) {
+			selectB.value = prevB;
 		} else if (secondId) {
-			selB.value = secondId.id;
+			selectB.value = secondId.id;
 		}
 	}
 }
+
+function nextDuelProblem() {
+	duelIndex++;
+	renderDuelProblem();
+}
+
 function renderDuelProblem() {
-	duelPool = getDuelPool();
+	duelPool = customDuel;
 	const box = document.getElementById('duelAnswerBox');
 	box.classList.remove('show');
 	if (duelPool.length === 0) {
@@ -40,130 +52,90 @@ function renderDuelProblem() {
 			'No questions yet, use "Manage Questions" above to add some.';
 		return;
 	}
-	const p = duelPool[duelIdx % duelPool.length];
+	const problem = duelPool[duelIndex % duelPool.length];
 	document.getElementById('duelProgress').textContent =
-		`Problem ${(duelIdx % duelPool.length) + 1} of ${duelPool.length}`;
-	document.getElementById('duelQuestionText').textContent = p.q;
-	setPromptImage('duelQuestionImg', p.qImg);
+		`Problem ${(duelIndex % duelPool.length) + 1} of ${duelPool.length}`;
+	document.getElementById('duelQuestionText').textContent = problem.q;
+	setPromptImage('duelQuestionImg', problem.qImg);
 	typeset(document.getElementById('duelQuestionText'));
 }
+
 function revealDuelAnswer() {
 	if (duelPool.length === 0) return;
-	const p = duelPool[duelIdx % duelPool.length];
-	document.getElementById('duelAnswerFigure').textContent = p.a;
-	setPromptImage('duelAnswerImg', p.aImg);
-	document.getElementById('duelAnswerReasoning').textContent = p.e;
+	const problem = duelPool[duelIndex % duelPool.length];
+	document.getElementById('duelAnswerFigure').textContent = problem.a;
+	setPromptImage('duelAnswerImg', problem.aImg);
+	document.getElementById('duelAnswerReasoning').textContent = problem.e;
 	const box = document.getElementById('duelAnswerBox');
 	box.classList.add('show');
 	typeset(box);
 }
-function nextDuelProblem() {
-	duelIdx++;
-	renderDuelProblem();
-}
+
 function renderDuelAwardButtons() {
-	const el = document.getElementById('award-duel');
-	if (!el) return;
-	const selA = document.getElementById('duelTeamA');
-	const selB = document.getElementById('duelTeamB');
-	if (!selA || !selB || !selA.value || !selB.value) {
-		el.innerHTML = '';
+	const element = document.getElementById('awardDuel');
+	if (!element) return;
+	const selectA = document.getElementById('duelTeamA');
+	const selectB = document.getElementById('duelTeamB');
+	if (!selectA || !selectB || !selectA.value || !selectB.value) {
+		element.innerHTML = '';
 		return;
 	}
-	const tA = teams.find((t) => t.id === selA.value);
-	const tB = teams.find((t) => t.id === selB.value);
-	if (!tA || !tB) {
-		el.innerHTML = '';
+	const teamA = teams.find((team) => team.id === selectA.value);
+	const teamB = teams.find((team) => team.id === selectB.value);
+	if (!teamA || !teamB) {
+		element.innerHTML = '';
 		return;
 	}
-	el.innerHTML = [tA, tB]
-		.map(
-			(t) => `
-    <button class="btn award-btn" style="border-color:${t.color}" onclick="addScore('${t.id}',1,event)">+1 <span>${escapeHtml(t.name)}</span></button>
-  `,
-		)
-		.join('');
+	renderTeamAwardButtons('awardDuel', [teamA, teamB], () => [{ label: '+1', points: 1 }]);
 }
+
 function openDuelModal() {
-	openModal(
-		'Manage Countdown Duel Questions',
-		`
-    <div class="field-label">Question (use $...$ for math)</div>
-    <textarea id="newDuelQ" placeholder="e.g. What is $\\binom{6}{2}$?"></textarea>
-    <div class="field-label">Question image (optional)</div>
-    <div id="newDuelQImgWrap"></div>
-    <div class="field-label">Answer</div>
-    <input type="text" id="newDuelA" placeholder="e.g. 15" />
-    <div class="field-label">Explanation</div>
-    <textarea id="newDuelE" placeholder="Show the reasoning."></textarea>
-    <div class="field-label">Answer image (optional)</div>
-    <div id="newDuelAImgWrap"></div>
-    <button class="btn primary" style="margin-top:12px;" onclick="addCustomDuel()">Add Question</button>
-    <div class="field-label" style="margin-top:22px;">Your custom questions</div>
-    <div id="customDuelList"></div>
-  `,
-	);
-	pendingDuelQImg = null;
-	pendingDuelAImg = null;
-	renderDuelImgFields();
+	openQuestionManagerModal('Manage Countdown Duel Questions', {
+		fieldPrefix: 'newDuel',
+		listId: 'customDuelList',
+		addFnName: 'addCustomDuel',
+	});
+	duelImageFields.reset();
 	renderCustomDuelList();
 }
-function renderDuelImgFields() {
-	renderImgUploadField('newDuelQImgWrap', 'newDuelQImgFile', pendingDuelQImg, (val) => {
-		pendingDuelQImg = val;
-		renderDuelImgFields();
-	});
-	renderImgUploadField('newDuelAImgWrap', 'newDuelAImgFile', pendingDuelAImg, (val) => {
-		pendingDuelAImg = val;
-		renderDuelImgFields();
-	});
-}
+
 function addCustomDuel() {
-	const q = document.getElementById('newDuelQ').value.trim();
-	const a = document.getElementById('newDuelA').value.trim();
-	const e = document.getElementById('newDuelE').value.trim();
-	if (!q || !a) {
+	const question = document.getElementById('newDuelQ').value.trim();
+	const answer = document.getElementById('newDuelA').value.trim();
+	const explanation = document.getElementById('newDuelE').value.trim();
+	if (!question || !answer) {
 		alert('Enter at least a question and an answer.');
 		return;
 	}
 	customDuel.push({
-		q,
-		qImg: pendingDuelQImg || undefined,
-		a,
-		e,
-		aImg: pendingDuelAImg || undefined,
+		q: question,
+		qImg: duelImageFields.state.q || undefined,
+		a: answer,
+		e: explanation,
+		aImg: duelImageFields.state.a || undefined,
 	});
 	document.getElementById('newDuelQ').value = '';
 	document.getElementById('newDuelA').value = '';
 	document.getElementById('newDuelE').value = '';
-	pendingDuelQImg = null;
-	pendingDuelAImg = null;
-	renderDuelImgFields();
+	duelImageFields.reset();
 	renderCustomDuelList();
 	autosave();
 }
+
 function deleteCustomDuel(i) {
-	customDuel.splice(i, 1);
-	renderCustomDuelList();
-	autosave();
+	deleteCustomItem(customDuel, i, renderCustomDuelList);
 }
+
 function renderCustomDuelList() {
-	const el = document.getElementById('customDuelList');
-	if (!el) return;
-	if (customDuel.length === 0) {
-		el.innerHTML =
-			'<div style="color:var(--chalk-muted);font-size:13px;">No custom questions yet.</div>';
-		return;
-	}
-	el.innerHTML = customDuel
-		.map(
-			(p, i) => `
-    <div class="custom-list-item">
-      ${p.qImg || p.aImg ? `<img class="thumb" src="${p.qImg || p.aImg}" alt="" />` : ''}
-      <div class="txt"><b>${escapeHtml(p.q)}</b><br>${escapeHtml(p.a)}</div>
-      <button class="btn sm ghost" onclick="deleteCustomDuel(${i})">Delete</button>
-    </div>
-  `,
-		)
-		.join('');
+	renderCustomList('customDuelList', customDuel, (problem, i) => `
+		<div class="custom-list-item">
+			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
+			<div class="txt">
+				<b>${escapeHtml(problem.q)}</b>
+				<br>
+				${escapeHtml(problem.a)}
+			</div>
+			<button class="btn small ghost" onclick="deleteCustomDuel(${i})">Delete</button>
+		</div>
+	`);
 }

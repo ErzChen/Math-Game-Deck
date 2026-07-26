@@ -1,194 +1,135 @@
-// Estimation Auction engine — one numeric-answer question, teams guess on
-// whiteboards within a short window, host judges closest guess (+2) and
-// an exact-answer bonus (+2 more) rather than the app tracking bids itself.
-// Expects a global `builtinEstimation` array of { q, a, e } objects.
 let customEstimation = [];
-function getEstimationPool() {
-	return builtinEstimation.concat(customEstimation);
+let estimationPool = [];
+let estimationIndex = 0;
+
+const estimationTimer = createCountdownTimer({
+	seconds: 45,
+	displayId: 'estimationTimerDisplay',
+	toggleBtnId: 'estimationTimerToggle',
+});
+
+const estimationImageFields = createQAImageState({
+	qWrap: 'newEstQImgWrap',
+	qFile: 'newEstQImgFile',
+	aWrap: 'newEstAImgWrap',
+	aFile: 'newEstAImgFile',
+});
+
+function initEstimation() {
+	resetEstimation();
 }
-let estimationPool = [],
-	estimationIdx = 0;
-let pendingEstQImg = null;
-let pendingEstAImg = null;
-let estimationTimerSeconds = 45,
-	estimationTimerInterval = null;
 
 function resetEstimation() {
-	estimationIdx = 0;
+	estimationIndex = 0;
 	renderEstimationProblem();
 }
+
+function nextEstimationProblem() {
+	estimationIndex++;
+	renderEstimationProblem();
+}
+
+function toggleEstimationTimer() {
+	estimationTimer.toggle();
+}
+
+function renderEstimationTimer() {
+	estimationTimer.render();
+}
+
+function resetEstimationTimer() {
+	estimationTimer.reset();
+}
+
 function renderEstimationProblem() {
-	estimationPool = getEstimationPool();
+	estimationPool = customEstimation;
 	const box = document.getElementById('estimationAnswerBox');
 	if (box) box.classList.remove('show');
+
 	if (estimationPool.length === 0) {
-		document.getElementById('estimationProgress').textContent =
-			'No questions yet';
+		document.getElementById('estimationProgress').textContent = 'No questions yet';
 		document.getElementById('estimationQuestionText').textContent =
 			'No questions yet, use "Manage Questions" above to add some.';
 		setPromptImage('estimationQuestionImg', null);
-		clearInterval(estimationTimerInterval);
-		estimationTimerInterval = null;
-		renderEstimationTimer();
+		estimationTimer.stop();
 		renderEstimationAwardButtons();
 		return;
 	}
-	const p = estimationPool[estimationIdx % estimationPool.length];
+
+	const problem = estimationPool[estimationIndex % estimationPool.length];
 	document.getElementById('estimationProgress').textContent =
-		`Problem ${(estimationIdx % estimationPool.length) + 1} of ${estimationPool.length}`;
-	document.getElementById('estimationQuestionText').textContent = p.q;
-	setPromptImage('estimationQuestionImg', p.qImg);
+		`Problem ${(estimationIndex % estimationPool.length) + 1} of ${estimationPool.length}`;
+	document.getElementById('estimationQuestionText').textContent = problem.q;
+	setPromptImage('estimationQuestionImg', problem.qImg);
 	typeset(document.getElementById('estimationQuestionText'));
 	renderEstimationAwardButtons();
-	resetEstimationTimer();
+	estimationTimer.reset();
 }
+
 function revealEstimationAnswer() {
 	if (estimationPool.length === 0) return;
-	const p = estimationPool[estimationIdx % estimationPool.length];
-	document.getElementById('estimationAnswerFigure').textContent = p.a;
-	setPromptImage('estimationAnswerImg', p.aImg);
-	document.getElementById('estimationAnswerReasoning').textContent = p.e;
+	const problem = estimationPool[estimationIndex % estimationPool.length];
+	document.getElementById('estimationAnswerFigure').textContent = problem.a;
+	setPromptImage('estimationAnswerImg', problem.aImg);
+	document.getElementById('estimationAnswerReasoning').textContent = problem.e;
 	const box = document.getElementById('estimationAnswerBox');
 	box.classList.add('show');
 	typeset(box);
 }
-function nextEstimationProblem() {
-	estimationIdx++;
-	renderEstimationProblem();
-}
+
 function renderEstimationAwardButtons() {
-	const el = document.getElementById('award-estimation');
-	if (!el) return;
-	el.innerHTML = teams
-		.map(
-			(t) => `
-    <div class="estimation-team-group" style="border-left-color:${t.color}">
-      <span class="estimation-team-name">${escapeHtml(t.name)}</span>
-      <div class="estimation-team-btns">
-        <button class="btn sm award-btn" style="border-color:${t.color}" onclick="addScore('${t.id}',2,event)">+2 Closest</button>
-        <button class="btn sm award-btn" style="border-color:${t.color}" onclick="addScore('${t.id}',2,event)">+2 Exact bonus</button>
-      </div>
-    </div>
-  `,
-		)
-		.join('');
+	renderTeamAwardButtons('awardEstimation', teams, () => [
+		{ label: '+2 Closest', points: 2 },
+		{ label: '+2 Exact bonus', points: 2 },
+	]);
 }
-function toggleEstimationTimer() {
-	const btn = document.getElementById('estimationTimerToggle');
-	if (estimationTimerInterval) {
-		clearInterval(estimationTimerInterval);
-		estimationTimerInterval = null;
-		btn.textContent = 'Start';
-	} else {
-		btn.textContent = 'Pause';
-		estimationTimerInterval = setInterval(() => {
-			if (estimationTimerSeconds > 0) {
-				estimationTimerSeconds--;
-				renderEstimationTimer();
-			} else {
-				clearInterval(estimationTimerInterval);
-				estimationTimerInterval = null;
-				btn.textContent = 'Start';
-			}
-		}, 1000);
-	}
-}
-function renderEstimationTimer() {
-	const el = document.getElementById('estimationTimerDisplay');
-	if (!el) return;
-	const m = String(Math.floor(estimationTimerSeconds / 60)).padStart(2, '0');
-	const s = String(estimationTimerSeconds % 60).padStart(2, '0');
-	el.textContent = `${m}:${s}`;
-	el.classList.toggle('low', estimationTimerSeconds <= 10);
-}
-function resetEstimationTimer() {
-	clearInterval(estimationTimerInterval);
-	estimationTimerInterval = null;
-	estimationTimerSeconds = 45;
-	renderEstimationTimer();
-	const btn = document.getElementById('estimationTimerToggle');
-	if (btn) btn.textContent = 'Start';
-}
+
 function openEstimationModal() {
-	openModal(
-		'Manage Estimation Auction Questions',
-		`
-    <div class="field-label">Question (use $...$ for math)</div>
-    <textarea id="newEstQ" placeholder="e.g. How many diagonals does a 15-gon have?"></textarea>
-    <div class="field-label">Question image (optional)</div>
-    <div id="newEstQImgWrap"></div>
-    <div class="field-label">Exact numeric answer</div>
-    <input type="text" id="newEstA" placeholder="e.g. 90" />
-    <div class="field-label">Explanation</div>
-    <textarea id="newEstE" placeholder="Show the reasoning."></textarea>
-    <div class="field-label">Answer image (optional)</div>
-    <div id="newEstAImgWrap"></div>
-    <button class="btn primary" style="margin-top:12px;" onclick="addCustomEstimation()">Add Question</button>
-    <div class="field-label" style="margin-top:22px;">Your custom questions</div>
-    <div id="customEstimationList"></div>
-  `,
-	);
-	pendingEstQImg = null;
-	pendingEstAImg = null;
-	renderEstImgFields();
+	openQuestionManagerModal('Manage Estimation Auction Questions', {
+		fieldPrefix: 'newEst',
+		listId: 'customEstimationList',
+		addFnName: 'addCustomEstimation',
+		questionPlaceholder: 'e.g. How many diagonals does a 15-gon have?',
+		answerLabel: 'Exact numeric answer',
+		answerPlaceholder: 'e.g. 90',
+	});
+	estimationImageFields.reset();
 	renderCustomEstimationList();
 }
-function renderEstImgFields() {
-	renderImgUploadField('newEstQImgWrap', 'newEstQImgFile', pendingEstQImg, (val) => {
-		pendingEstQImg = val;
-		renderEstImgFields();
-	});
-	renderImgUploadField('newEstAImgWrap', 'newEstAImgFile', pendingEstAImg, (val) => {
-		pendingEstAImg = val;
-		renderEstImgFields();
-	});
-}
+
 function addCustomEstimation() {
-	const q = document.getElementById('newEstQ').value.trim();
-	const a = document.getElementById('newEstA').value.trim();
-	const e = document.getElementById('newEstE').value.trim();
-	if (!q || !a) {
+	const question = document.getElementById('newEstQ').value.trim();
+	const answer = document.getElementById('newEstA').value.trim();
+	const explanation = document.getElementById('newEstE').value.trim();
+	if (!question || !answer) {
 		alert('Enter at least a question and an answer.');
 		return;
 	}
 	customEstimation.push({
-		q,
-		qImg: pendingEstQImg || undefined,
-		a,
-		e,
-		aImg: pendingEstAImg || undefined,
+		q: question,
+		qImg: estimationImageFields.state.q || undefined,
+		a: answer,
+		e: explanation,
+		aImg: estimationImageFields.state.a || undefined,
 	});
 	document.getElementById('newEstQ').value = '';
 	document.getElementById('newEstA').value = '';
 	document.getElementById('newEstE').value = '';
-	pendingEstQImg = null;
-	pendingEstAImg = null;
-	renderEstImgFields();
+	estimationImageFields.reset();
 	renderCustomEstimationList();
 	autosave();
 }
+
 function deleteCustomEstimation(i) {
-	customEstimation.splice(i, 1);
-	renderCustomEstimationList();
-	autosave();
+	deleteCustomItem(customEstimation, i, renderCustomEstimationList);
 }
+
 function renderCustomEstimationList() {
-	const el = document.getElementById('customEstimationList');
-	if (!el) return;
-	if (customEstimation.length === 0) {
-		el.innerHTML =
-			'<div style="color:var(--chalk-muted);font-size:13px;">No custom questions yet.</div>';
-		return;
-	}
-	el.innerHTML = customEstimation
-		.map(
-			(p, i) => `
-    <div class="custom-list-item">
-      ${p.qImg || p.aImg ? `<img class="thumb" src="${p.qImg || p.aImg}" alt="" />` : ''}
-      <div class="txt"><b>${escapeHtml(p.q)}</b><br>${escapeHtml(p.a)}</div>
-      <button class="btn sm ghost" onclick="deleteCustomEstimation(${i})">Delete</button>
-    </div>
-  `,
-		)
-		.join('');
+	renderCustomList('customEstimationList', customEstimation, (problem, i) => `
+		<div class="custom-list-item">
+			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
+			<div class="txt"><b>${escapeHtml(problem.q)}</b><br>${escapeHtml(problem.a)}</div>
+			<button class="btn small ghost" onclick="deleteCustomEstimation(${i})">Delete</button>
+		</div>
+	`);
 }

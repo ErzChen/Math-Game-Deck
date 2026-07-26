@@ -21,8 +21,20 @@ you've got, and go. No build step, no backend, just static files.
   whiteboard. Closest team scores, an exact answer earns a bonus on top.
 - **Hands-Up Steal**: one question, whole room. First hand up gets called
   on; miss it and it's open for anyone else to steal.
-- **Speed Sprint**: one team, one 3-minute clock. Blast through as many
+- **Speed Sprint**: one team, one 7-minute clock. Blast through as many
   problems as you can, self-paced, before time runs out.
+- **Pyramid Race**: every team gets the same easy-to-hard pyramid and races
+  through it at their own pace, all at once. First to clear it wins a bonus;
+  everyone else still scores for how far up they got.
+- **Streak Vault**: one team in the spotlight faces progressively harder
+  problems, banking points after each correct answer or pushing their luck
+  for a bigger prize, one miss while pushing wipes the unbanked total.
+- **Swap Market**: every team holds a few swap tokens they can spend to
+  trade a hard problem for an easier, lower-value backup before the timer
+  starts.
+- **All-In Wager**: teams secretly wager points on their own confidence
+  against a running bank total, a correct wager adds to the bank, a wrong
+  one subtracts.
 
 Each game has a "How to Play" button (rules) and a "Manage Questions" /
 "Edit Board" button (content), plus a shared scoreboard bar and session
@@ -43,23 +55,13 @@ quirks in some browsers.
 ## Project structure
 
 ```
-index.html                 markup for every screen (home + 8 games)
+index.html                 markup for every screen (home + 12 games)
 styles.css                 all styling (chalkboard theme, layout, components)
 js/
   core.js                  app shell: nav, teams/scoreboard, session timer,
                             modal, save/export/import
   game-info.js              "how to play" text + the rules modal
   init.js                  boots the app, must load last
-
-  games/                   game data (built-in question pools)
-    ladder-contest.js
-    duel-mixed.js
-    chain-classics.js
-    board-contest-categories.js
-    elimination-classics.js
-    estimation-mixed.js
-    handsup-mixed.js
-    sprint-quickfire.js
 
   engines/                 game logic (rendering, state, scoring per game)
     ladder-engine.js
@@ -68,8 +70,12 @@ js/
     board-engine.js
     elimination-engine.js
     estimation-engine.js
-    handsup-engine.js
+    hands-up-engine.js
     sprint-engine.js
+    pyramid-engine.js
+    streak-engine.js
+    swapmarket-engine.js
+    wager-engine.js
 ```
 
 Each game is a data file plus an engine. The data file just exports a pool
@@ -78,51 +84,11 @@ up the actual screen. Data files need to load before their engine, and
 `init.js` needs to load last since it calls functions the other files
 define.
 
-## Adding a new game
+## Data 
 
-If your game fits an existing engine's shape (another ladder with a
-different question set, say):
-
-1. Copy one of the `games/*.js` files, rename the export, fill in your
-   questions.
-2. Point a new home-screen tile and `<section class="screen">` in
-   `index.html` at the existing engine's functions.
-
-For a genuinely new game mechanic, add a new engine under `js/engines/`
-plus a matching data file, then:
-
-1. Add a tile to the home screen's `arcade-grid` in `index.html`.
-2. Add a `<section class="screen" id="screen-yourgame">` with your markup.
-3. Add an entry to `gameInfo` in `game-info.js` (title, mechanic, format,
-   how to play, scoring, customization) and a "How to Play" button calling
-   `openGameInfoModal('yourgame')`.
-4. Load your data file before your engine, and your engine before `init.js`.
-
-## Data & persistence
-
-- **Autosave**: teams, every game's custom questions/chains, the board,
-  and session length are saved to `localStorage` after most edits and
-  reloaded on startup (`tryAutoload()` in `core.js`).
 - **Export/Import**: the "Manage" panel (bottom right, or press `S`) can
   export everything to a JSON file, or import one back in. Useful for
   moving a session between machines or keeping a backup.
-
-## Keyboard shortcuts
-
-| Key | Action |
-|-----|--------|
-| `H` | Go home |
-| `1` | Contest Ladder |
-| `2` | Countdown Duel |
-| `3` | Chain Relay |
-| `4` | Speed Relay Board |
-| `5` | Elimination Gauntlet |
-| `6` | Estimation Auction |
-| `7` | Hands-Up Steal |
-| `8` | Speed Sprint |
-| `S` | Open Manage (teams/session) |
-
-Shortcuts are ignored while typing in an input or textarea.
 
 ## Notes
 

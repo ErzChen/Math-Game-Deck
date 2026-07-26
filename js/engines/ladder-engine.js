@@ -1,13 +1,7 @@
-// Ladder engine — climb through N problems across escalating tiers.
-// Expects a global `builtinLadder` array of { tier, q, a, e } objects.
 let customLadder = [];
-function getLadderPool() {
-	return builtinLadder.concat(customLadder);
-}
-let ladderPool = [],
-	ladderIdx = 0;
-let ladderTimerSeconds = 90,
-	ladderTimerInterval = null;
+let ladderPool = [];
+let ladderIndex = 0;
+
 const tierNames = {
 	1: 'Tier 1 · Warm-up · 1 pt',
 	2: 'Tier 2 · Building · 2 pt',
@@ -15,16 +9,68 @@ const tierNames = {
 	4: 'Tier 4 · Frontier · 4 pt',
 };
 
+const ladderTimer = createCountdownTimer({
+	seconds: 90,
+	displayId: 'ladderTimerDisplay',
+	toggleBtnId: 'ladderTimerToggle',
+});
+const defaultLadderSeconds = 90;
+
+const ladderImageFields = createQAImageState({
+	qWrap: 'newLadQImgWrap',
+	qFile: 'newLadQImgFile',
+	aWrap: 'newLadAImgWrap',
+	aFile: 'newLadAImgFile',
+});
+
+function initLadder() {
+	resetLadder();
+}
+
 function resetLadder() {
-	ladderPool = getLadderPool();
-	ladderIdx = 0;
+	ladderPool = customLadder;
+	ladderIndex = 0;
 	renderLadderProblem();
 }
+
+function nextLadderProblem() {
+	ladderIndex++;
+	renderLadderProblem();
+}
+
+function toggleLadderTimer() {
+	ladderTimer.toggle();
+}
+
+function setLadderTimerDuration(seconds) {
+	ladderTimer.setDuration(seconds);
+}
+
+function updateLadderTimerDuration() {
+	const input = document.getElementById('ladderTimerDuration');
+	if (!input) return;
+	setLadderTimerDuration(input.value);
+	input.value = ladderTimer.getDuration();
+}
+
+function renderLadderTimer() {
+	ladderTimer.render();
+	const input = document.getElementById('ladderTimerDuration');
+	if (input && document.activeElement !== input) {
+		input.value = ladderTimer.getDuration();
+	}
+}
+
+function resetLadderTimer() {
+	ladderTimer.reset();
+}
+
 function renderLadderProblem() {
-	ladderPool = getLadderPool();
+	ladderPool = customLadder;
 	const badge = document.getElementById('ladderTierBadge');
 	const box = document.getElementById('ladderAnswerBox');
 	box.classList.remove('show');
+
 	if (ladderPool.length === 0) {
 		document.getElementById('ladderProgress').textContent = 'No questions yet';
 		badge.textContent = '';
@@ -33,180 +79,99 @@ function renderLadderProblem() {
 			'No questions yet, use "Manage Questions" above to add some.';
 		setPromptImage('ladderQuestionImg', null);
 		document.getElementById('ladderAwardLabel').textContent = 'Award the point';
-		clearInterval(ladderTimerInterval);
-		ladderTimerInterval = null;
-		renderLadderTimer();
-		const el = document.getElementById('award-ladder');
-		if (el) el.innerHTML = '';
+		ladderTimer.stop();
+		renderLadderAwardButtons();
 		return;
 	}
-	const p = ladderPool[ladderIdx % ladderPool.length];
+
+	const problem = ladderPool[ladderIndex % ladderPool.length];
 	document.getElementById('ladderProgress').textContent =
-		`Problem ${(ladderIdx % ladderPool.length) + 1} of ${ladderPool.length}`;
-	badge.textContent = tierNames[p.tier] || `Tier ${p.tier}`;
-	badge.className = 'tier-badge t' + p.tier;
-	document.getElementById('ladderQuestionText').textContent = p.q;
-	setPromptImage('ladderQuestionImg', p.qImg);
+		`Problem ${(ladderIndex % ladderPool.length) + 1} of ${ladderPool.length}`;
+	badge.textContent = tierNames[problem.tier] || `Tier ${problem.tier}`;
+	badge.className = 'tier-badge t' + problem.tier;
+	document.getElementById('ladderQuestionText').textContent = problem.q;
+	setPromptImage('ladderQuestionImg', problem.qImg);
 	document.getElementById('ladderAwardLabel').textContent =
-		`Award the point (worth ${p.tier})`;
+		`Award the point (worth ${problem.tier})`;
 	typeset(document.getElementById('ladderQuestionText'));
 	renderLadderAwardButtons();
-	resetLadderTimer();
+	ladderTimer.setDuration(problem.time || defaultLadderSeconds);
 }
+
 function revealLadderAnswer() {
 	if (ladderPool.length === 0) return;
-	const p = ladderPool[ladderIdx % ladderPool.length];
-	document.getElementById('ladderAnswerFigure').textContent = p.a;
-	setPromptImage('ladderAnswerImg', p.aImg);
-	document.getElementById('ladderAnswerReasoning').textContent = p.e;
+	const problem = ladderPool[ladderIndex % ladderPool.length];
+	document.getElementById('ladderAnswerFigure').textContent = problem.a;
+	setPromptImage('ladderAnswerImg', problem.aImg);
+	document.getElementById('ladderAnswerReasoning').textContent = problem.e;
 	const box = document.getElementById('ladderAnswerBox');
 	box.classList.add('show');
 	typeset(box);
 }
-function nextLadderProblem() {
-	ladderIdx++;
-	renderLadderProblem();
-}
+
 function renderLadderAwardButtons() {
-	const el = document.getElementById('award-ladder');
-	if (!el) return;
-	const p = ladderPool[ladderIdx % ladderPool.length];
-	const pts = p ? p.tier : 1;
-	el.innerHTML = teams
-		.map(
-			(t) => `
-    <button class="btn award-btn" style="border-color:${t.color}" onclick="addScore('${t.id}',${pts},event)">+${pts} <span>${escapeHtml(t.name)}</span></button>
-  `,
-		)
-		.join('');
+	const problem = ladderPool[ladderIndex % ladderPool.length];
+	const pts = problem ? problem.tier : 1;
+	renderTeamAwardButtons('awardLadder', teams, () => [{ label: `+${pts}`, points: pts }]);
 }
-function toggleLadderTimer() {
-	const btn = document.getElementById('ladderTimerToggle');
-	if (ladderTimerInterval) {
-		clearInterval(ladderTimerInterval);
-		ladderTimerInterval = null;
-		btn.textContent = 'Start';
-	} else {
-		btn.textContent = 'Pause';
-		ladderTimerInterval = setInterval(() => {
-			if (ladderTimerSeconds > 0) {
-				ladderTimerSeconds--;
-				renderLadderTimer();
-			} else {
-				clearInterval(ladderTimerInterval);
-				ladderTimerInterval = null;
-				btn.textContent = 'Start';
-			}
-		}, 1000);
-	}
-}
-function renderLadderTimer() {
-	const m = String(Math.floor(ladderTimerSeconds / 60)).padStart(2, '0');
-	const s = String(ladderTimerSeconds % 60).padStart(2, '0');
-	const el = document.getElementById('ladderTimerDisplay');
-	el.textContent = `${m}:${s}`;
-	el.classList.toggle('low', ladderTimerSeconds <= 10);
-}
-function resetLadderTimer() {
-	clearInterval(ladderTimerInterval);
-	ladderTimerInterval = null;
-	ladderTimerSeconds = 90;
-	renderLadderTimer();
-	const btn = document.getElementById('ladderTimerToggle');
-	if (btn) btn.textContent = 'Start';
-}
+
 function openLadderModal() {
-	openModal(
-		'Manage Contest Ladder Questions',
-		`
-    <div class="field-label">Tier (1 = easiest, 4 = hardest)</div>
-    <input type="text" id="newLadTier" placeholder="e.g. 2" />
-    <div class="field-label">Question (use $...$ for math, e.g. $x^2-4$)</div>
-    <textarea id="newLadQ" placeholder="e.g. Solve for $x$: $2x+5=17$."></textarea>
-    <div class="field-label">Question image (optional)</div>
-    <div id="newLadQImgWrap"></div>
-    <div class="field-label">Answer</div>
-    <input type="text" id="newLadA" placeholder="e.g. $x=6$" />
-    <div class="field-label">Explanation</div>
-    <textarea id="newLadE" placeholder="Show the reasoning."></textarea>
-    <div class="field-label">Answer image (optional)</div>
-    <div id="newLadAImgWrap"></div>
-    <button class="btn primary" style="margin-top:12px;" onclick="addCustomLadder()">Add Question</button>
-    <div class="field-label" style="margin-top:22px;">Your custom questions</div>
-    <div id="customLadderList"></div>
-  `,
-	);
-	pendingLadQImg = null;
-	pendingLadAImg = null;
-	renderLadderImgFields();
+	openQuestionManagerModal('Manage Contest Ladder Questions', {
+		fieldPrefix: 'newLad',
+		listId: 'customLadderList',
+		addFnName: 'addCustomLadder',
+		hasTier: true,
+		hasTime: true,
+		timeLabel: 'Time limit in seconds (optional, defaults to standard timer)',
+	});
+	ladderImageFields.reset();
 	renderCustomLadderList();
 }
-// holds the compressed data URL for whichever image is currently attached
-// to the "add question" form, before the question itself is saved
-let pendingLadQImg = null;
-let pendingLadAImg = null;
-function renderLadderImgFields() {
-	renderImgUploadField('newLadQImgWrap', 'newLadQImgFile', pendingLadQImg, (val) => {
-		pendingLadQImg = val;
-		renderLadderImgFields();
-	});
-	renderImgUploadField('newLadAImgWrap', 'newLadAImgFile', pendingLadAImg, (val) => {
-		pendingLadAImg = val;
-		renderLadderImgFields();
-	});
-}
+
 function addCustomLadder() {
 	const tier = Math.max(
 		1,
 		Math.min(4, parseInt(document.getElementById('newLadTier').value, 10) || 1),
 	);
-	const q = document.getElementById('newLadQ').value.trim();
-	const a = document.getElementById('newLadA').value.trim();
-	const e = document.getElementById('newLadE').value.trim();
-	if (!q || !a) {
+	const timeInput = document.getElementById('newLadTime').value.trim();
+	const parsedTime = parseInt(timeInput, 10);
+	const time = timeInput && !isNaN(parsedTime) ? Math.max(1, parsedTime) : undefined;
+	const question = document.getElementById('newLadQ').value.trim();
+	const answer = document.getElementById('newLadA').value.trim();
+	const explanation = document.getElementById('newLadE').value.trim();
+	if (!question || !answer) {
 		alert('Enter at least a question and an answer.');
 		return;
 	}
 	customLadder.push({
-		tier,
-		q,
-		qImg: pendingLadQImg || undefined,
-		a,
-		e,
-		aImg: pendingLadAImg || undefined,
+		tier: tier,
+		time: time,
+		q: question,
+		qImg: ladderImageFields.state.q || undefined,
+		a: answer,
+		e: explanation,
+		aImg: ladderImageFields.state.a || undefined,
 	});
 	document.getElementById('newLadTier').value = '';
+	document.getElementById('newLadTime').value = '';
 	document.getElementById('newLadQ').value = '';
 	document.getElementById('newLadA').value = '';
 	document.getElementById('newLadE').value = '';
-	pendingLadQImg = null;
-	pendingLadAImg = null;
-	renderLadderImgFields();
+	ladderImageFields.reset();
 	renderCustomLadderList();
 	autosave();
 }
+
 function deleteCustomLadder(i) {
-	customLadder.splice(i, 1);
-	renderCustomLadderList();
-	autosave();
+	deleteCustomItem(customLadder, i, renderCustomLadderList);
 }
+
 function renderCustomLadderList() {
-	const el = document.getElementById('customLadderList');
-	if (!el) return;
-	if (customLadder.length === 0) {
-		el.innerHTML =
-			'<div style="color:var(--chalk-muted);font-size:13px;">No custom questions yet.</div>';
-		return;
-	}
-	el.innerHTML = customLadder
-		.map(
-			(p, i) => `
-    <div class="custom-list-item">
-      ${p.qImg || p.aImg ? `<img class="thumb" src="${p.qImg || p.aImg}" alt="" />` : ''}
-      <div class="txt"><b>Tier ${p.tier}</b> — ${escapeHtml(p.q)}<br>${escapeHtml(p.a)}</div>
-      <button class="btn sm ghost" onclick="deleteCustomLadder(${i})">Delete</button>
-    </div>
-  `,
-		)
-		.join('');
+	renderCustomList('customLadderList', customLadder, (problem, i) => `
+		<div class="custom-list-item">
+			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
+			<div class="txt"><b>Tier ${problem.tier}</b>${problem.time ? ` · ${problem.time}s` : ''} — ${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}</div>
+			<button class="btn small ghost" onclick="deleteCustomLadder(${i})">Delete</button>
+		</div>
+	`);
 }
