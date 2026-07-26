@@ -60,7 +60,8 @@ function renderPointHeistProblem() {
 	if (box) box.classList.remove('show');
 
 	if (pointHeistPool.length === 0) {
-		document.getElementById('pointHeistProgress').textContent = 'No questions yet';
+		document.getElementById('pointHeistProgress').textContent =
+			'No questions yet';
 		document.getElementById('pointHeistQuestionText').textContent =
 			'No questions yet, use "Manage Questions" above to add some.';
 		setPromptImage('pointHeistQuestionImg', null);
@@ -87,7 +88,8 @@ function revealPointHeistAnswer() {
 	const problem = pointHeistPool[pointHeistIndex % pointHeistPool.length];
 	document.getElementById('pointHeistAnswerFigure').textContent = problem.a;
 	setPromptImage('pointHeistAnswerImg', problem.aImg);
-	document.getElementById('pointHeistAnswerReasoning').textContent = problem.e || '';
+	document.getElementById('pointHeistAnswerReasoning').textContent =
+		problem.e || '';
 	const box = document.getElementById('pointHeistAnswerBox');
 	box.classList.add('show');
 	typeset(box);
@@ -132,7 +134,8 @@ function markPointHeistResult(teamId, result) {
 }
 
 function pointHeistTakeVault(teamId, event) {
-	if (pointHeistResults[teamId] !== 'correct' || pointHeistActioned[teamId]) return;
+	if (pointHeistResults[teamId] !== 'correct' || pointHeistActioned[teamId])
+		return;
 	if (!allowPull) return;
 	if (vaultTotal < pullAmount) {
 		alert('Not enough left in the vault for that.');
@@ -147,7 +150,8 @@ function pointHeistTakeVault(teamId, event) {
 }
 
 function pointHeistRaid(teamId, targetId, event) {
-	if (pointHeistResults[teamId] !== 'correct' || pointHeistActioned[teamId]) return;
+	if (pointHeistResults[teamId] !== 'correct' || pointHeistActioned[teamId])
+		return;
 	if (!allowRaid || !targetId || targetId === teamId) return;
 	addScore(teamId, raidAmount, event);
 	addScore(targetId, -raidAmount);

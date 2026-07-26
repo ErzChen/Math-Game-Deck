@@ -40,6 +40,8 @@ you've got, and go. No build step, no backend, just static files.
 - **Scapegoat**: every team secretly nominates another team as their
   scapegoat each round; if the scapegoat gets the problem wrong, the
   nominating team steals half their current points.
+- **Point Heist**: A shared vault sits center stage, correct answers 
+  let you draw from it or raid whoever's winning outright.
 
 Each game has a "How to Play" button (rules) and a "Manage Questions" /
 "Edit Board" button (content), plus a shared scoreboard bar and session
@@ -60,7 +62,7 @@ quirks in some browsers.
 ## Project structure
 
 ```
-index.html                 markup for every screen (home + 12 games)
+index.html                 markup for every screen (home + 15 games)
 styles.css                 all styling (chalkboard theme, layout, components)
 js/
   core.js                  app shell: nav, teams/scoreboard, session timer,
@@ -83,6 +85,7 @@ js/
     wager-engine.js
     curse-engine.js
     scapegoat-engine.js
+    point-heist-engine.js
 ```
 
 Each game is a data file plus an engine. The data file just exports a pool
@@ -91,7 +94,7 @@ up the actual screen. Data files need to load before their engine, and
 `init.js` needs to load last since it calls functions the other files
 define.
 
-## Data 
+## Data
 
 - **Export/Import**: the "Manage" panel (bottom right, or press `S`) can
   export everything to a JSON file, or import one back in. Useful for
