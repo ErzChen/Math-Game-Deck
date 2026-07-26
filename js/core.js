@@ -16,6 +16,14 @@ function closeModal() {
 	document.getElementById('modalOverlay').classList.remove('open');
 }
 
+function iconCheck() {
+	return `<svg class="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><path d="M20 6 9 17l-5-5"/></svg>`;
+}
+
+function iconCross() {
+	return `<svg class="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+}
+
 function escapeAttr(string) {
 	return String(string).replace(/"/g, '&quot;');
 }
@@ -529,107 +537,28 @@ function spawnDust(x, y, color) {
 }
 
 function renderAwardButtons() {
-	if (document.getElementById('awardRelay')) {
-		renderRelayAwardButtons();
-	}
+	if (document.getElementById('awardRelay')) renderRelayAwardButtons();
 	if (document.getElementById('duelTeamA')) {
 		populateDuelTeamSelectors();
 		renderDuelAwardButtons();
 	}
-	if (document.getElementById('awardChainRelay')) {
-		renderChainAwardButtons();
-	}
-	if (document.getElementById('eliminationRoster')) {
-		renderEliminationRoster();
-	}
-	if (document.getElementById('awardEstimation')) {
-		renderEstimationAwardButtons();
-	}
-	if (document.getElementById('handsUpTeamButtons')) {
-		renderHandsUpTeamButtons();
-	}
-	if (document.getElementById('sprintTeamSelect')) {
-		populateSprintTeamSelector();
-	}
-	if (document.getElementById('pyramidBoard')) {
-		renderPyramidBoard();
-	}
-	if (document.getElementById('streakTeamSelect')) {
-		populateStreakTeamSelector();
-	}
-	if (document.getElementById('swapRoster')) {
-		renderSwapRoster();
-	}
-	if (document.getElementById('wagerRoster')) {
-		renderWagerRoster();
-	}
+	if (document.getElementById('awardChainRelay')) renderChainAwardButtons();
+	if (document.getElementById('eliminationRoster')) renderEliminationRoster();
+	if (document.getElementById('awardEstimation')) renderEstimationAwardButtons();
+	if (document.getElementById('handsUpTeamButtons')) renderHandsUpTeamButtons();
+	if (document.getElementById('sprintTeamSelect')) populateSprintTeamSelector();
+	if (document.getElementById('pyramidBoard')) renderPyramidBoard();
+	if (document.getElementById('streakTeamSelect')) populateStreakTeamSelector();
+	if (document.getElementById('swapRoster')) renderSwapRoster();
+	if (document.getElementById('wagerRoster')) renderWagerRoster();
+	if (document.getElementById('curseTeamButtons')) renderCurseTeamPanel();
 }
 
-let sessionSeconds = 35 * 60;
-let sessionInterval = null;
-let sessionTotalMinutes = 35;
 
 function formatSeconds(total) {
 	const minutes = String(Math.floor(total / 60)).padStart(2, '0');
 	const seconds = String(total % 60).padStart(2, '0');
 	return `${minutes}:${seconds}`;
-}
-
-function renderSession() {
-	const text = formatSeconds(sessionSeconds);
-	const low = sessionSeconds <= 120;
-	const mini = document.getElementById('sessionMini');
-	if (mini) {
-		mini.textContent = text;
-		mini.classList.toggle('low', low);
-	}
-	const full = document.getElementById('sessionDisplay');
-	if (full) {
-		full.textContent = text;
-		full.classList.toggle('low', low);
-	}
-}
-
-function toggleSession() {
-	const btn = document.getElementById('sessionToggleBtn');
-	if (sessionInterval) {
-		clearInterval(sessionInterval);
-		sessionInterval = null;
-		if (btn) btn.textContent = 'Start';
-	} else {
-		if (btn) btn.textContent = 'Pause';
-		sessionInterval = setInterval(() => {
-			if (sessionSeconds > 0) {
-				sessionSeconds--;
-				renderSession();
-			} else {
-				clearInterval(sessionInterval);
-				sessionInterval = null;
-				if (btn) btn.textContent = 'Start';
-			}
-		}, 1000);
-	}
-}
-
-function resetSession() {
-	clearInterval(sessionInterval);
-	sessionInterval = null;
-	const btn = document.getElementById('sessionToggleBtn');
-	if (btn) btn.textContent = 'Start';
-	sessionSeconds = sessionTotalMinutes * 60;
-	renderSession();
-}
-
-function setSessionMinutes(val) {
-	const minutes = Math.max(1, Math.min(120, parseInt(val, 10) || 35));
-	sessionTotalMinutes = minutes;
-	const input = document.getElementById('sessionMinInput');
-	if (input) input.value = minutes;
-	if (!sessionInterval) {
-		sessionSeconds = minutes * 60;
-		renderSession();
-	}
-	autosave();
 }
 
 function gatherState() {
@@ -650,6 +579,8 @@ function gatherState() {
 		swapTokens: swapTokens,
 		customWager: customWager,
 		sessionMinutes: sessionTotalMinutes,
+		customCurse: customCurse, 
+		customCurses: customCurses,
 	};
 }
 
@@ -696,51 +627,23 @@ function migrateHandsUpItem(item) {
 }
 
 function restoreState(data) {
-	if (Array.isArray(data.teams) && data.teams.length) {
-		teams = data.teams;
-	}
-	if (typeof data.teamCounter === 'number') {
-		teamCounter = data.teamCounter;
-	}
-	if (Array.isArray(data.customLadder)) {
-		customLadder = data.customLadder;
-	}
-	if (Array.isArray(data.customDuel)) {
-		customDuel = data.customDuel;
-	}
-	if (Array.isArray(data.customChains)) {
-		customChains = data.customChains;
-	}
-	if (data.relayData && data.relayData.categories && data.relayData.cells) {
-		relayData = data.relayData;
-	}
-	if (Array.isArray(data.customElimination)) {
-		customElimination = data.customElimination;
-	}
-	if (Array.isArray(data.customEstimation)) {
-		customEstimation = data.customEstimation;
-	}
-	if (Array.isArray(data.customHandsUp)) {
-		customHandsUp = data.customHandsUp.map(migrateHandsUpItem);
-	}
-	if (Array.isArray(data.customSprint)) {
-		customSprint = data.customSprint;
-	}
-	if (Array.isArray(data.customPyramid)) {
-		customPyramid = data.customPyramid;
-	}
-	if (Array.isArray(data.customStreak)) {
-		customStreak = data.customStreak;
-	}
-	if (Array.isArray(data.customSwapPairs)) {
-		customSwapPairs = data.customSwapPairs;
-	}
-	if (data.swapTokens && typeof data.swapTokens === 'object') {
-		swapTokens = data.swapTokens;
-	}
-	if (Array.isArray(data.customWager)) {
-		customWager = data.customWager;
-	}
+	if (Array.isArray(data.teams) && data.teams.length) teams = data.teams;
+	if (typeof data.teamCounter === 'number') teamCounter = data.teamCounter;
+	if (Array.isArray(data.customLadder)) customLadder = data.customLadder;
+	if (Array.isArray(data.customDuel)) customDuel = data.customDuel;
+	if (Array.isArray(data.customChains)) customChains = data.customChains;
+	if (data.relayData && data.relayData.categories && data.relayData.cells) relayData = data.relayData;
+	if (Array.isArray(data.customElimination)) customElimination = data.customElimination;
+	if (Array.isArray(data.customEstimation)) customEstimation = data.customEstimation;
+	if (Array.isArray(data.customHandsUp)) customHandsUp = data.customHandsUp.map(migrateHandsUpItem);
+	if (Array.isArray(data.customSprint)) customSprint = data.customSprint;
+	if (Array.isArray(data.customPyramid)) customPyramid = data.customPyramid;
+	if (Array.isArray(data.customStreak)) customStreak = data.customStreak;
+	if (Array.isArray(data.customSwapPairs)) customSwapPairs = data.customSwapPairs;
+	if (data.swapTokens && typeof data.swapTokens === 'object') swapTokens = data.swapTokens;
+	if (Array.isArray(data.customWager)) customWager = data.customWager;
+	if (Array.isArray(data.customCurse)) customCurse = data.customCurse;
+
 	if (data.sessionMinutes) {
 		sessionTotalMinutes = data.sessionMinutes;
 		const input = document.getElementById('sessionMinInput');
@@ -765,6 +668,7 @@ function restoreState(data) {
 	initStreak();
 	initSwap();
 	initWager();
+	initCurse();
 	const customLadderList = document.getElementById('customLadderList');
 	if (customLadderList) renderCustomLadderList();
 	const customDuelList = document.getElementById('customDuelList');

@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Math Club Game Deck</title>
-		
+
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -127,8 +127,8 @@
 						<div class="arcade-num mono">10</div>
 						<h3>Streak Vault</h3>
 						<p>
-							One team in the spotlight, points double each round, bank it or push
-							your luck for more.
+							One team in the spotlight, points double each round, bank it or push your
+							luck for more.
 						</p>
 					</div>
 					<div class="arcade-tile tile-pink" onclick="goTo('SwapMarket')">
@@ -145,6 +145,14 @@
 						<p>
 							Teams secretly wager 1–5 points on their confidence, right answers pay
 							out, wrong ones cost you.
+						</p>
+					</div>
+					<div class="arcade-tile tile-teal" onclick="goTo('Curse')">
+						<div class="arcade-num mono">13</div>
+						<h3>Curse Card</h3>
+						<p>
+							Answer first, then secretly saddle another team with a curse for their
+							next round. Survive it and score a bonus.
 						</p>
 					</div>
 				</div>
@@ -964,7 +972,7 @@
 					</div>
 					<div class="row-actions" id="sprintActiveControls" style="display: none">
 						<button class="btn primary" onclick="markSprintCorrect()">
-							✓ Correct
+							<svg class="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><path d="M20 6 9 17l-5-5"/></svg>Correct
 						</button>
 						<button class="btn ghost" onclick="markSprintSkip()">Skip</button>
 					</div>
@@ -1024,8 +1032,12 @@
 				</div>
 				<div class="panel flex middle column">
 					<div class="progress-line" id="pyramidProgress"></div>
-					<div class="timer-wrap" style="margin-bottom: 28px;">
-						<button class="btn primary" id="pyramidStartBtn" onclick="startPyramidRound()">
+					<div class="timer-wrap" style="margin-bottom: 28px">
+						<button
+							class="btn primary"
+							id="pyramidStartBtn"
+							onclick="startPyramidRound()"
+						>
 							Start Round
 						</button>
 						<button
@@ -1056,8 +1068,8 @@
 						<div class="eyebrow">Game 10</div>
 						<h1>Streak Vault</h1>
 						<div class="subtitle">
-							One team in the spotlight, points double each round, bank it or push
-							your luck for more.
+							One team in the spotlight, points double each round, bank it or push your
+							luck for more.
 						</div>
 					</div>
 					<div style="display: flex; gap: 10px">
@@ -1103,7 +1115,11 @@
 				<div class="panel flex middle column">
 					<div class="duel-picker" id="streakTeamPicker">
 						<select id="streakTeamSelect"></select>
-						<button class="btn primary" id="streakStartBtn" onclick="startStreakTurn()">
+						<button
+							class="btn primary"
+							id="streakStartBtn"
+							onclick="startStreakTurn()"
+						>
 							Start Turn
 						</button>
 					</div>
@@ -1113,35 +1129,51 @@
 						<span class="tier-badge" id="streakLevelBadge"></span>
 						<div class="vault-total mono" id="streakVaultTotal"></div>
 						<div class="question" id="streakQuestionText"></div>
-						<img class="prompt-img hidden" id="streakQuestionImg" alt="Question figure" />
-						<div class="btn-wrap" style="justify-content: center;">
+						<img
+							class="prompt-img hidden"
+							id="streakQuestionImg"
+							alt="Question figure"
+						/>
+						<div class="btn-wrap" style="justify-content: center">
 							<button class="btn primary" onclick="revealStreakAnswer()">
 								Reveal Answer
 							</button>
 						</div>
 						<div class="answer-box" id="streakAnswerBox">
 							<div class="figure" id="streakAnswerFigure"></div>
-							<img class="prompt-img hidden" id="streakAnswerImg" alt="Answer figure" />
+							<img
+								class="prompt-img hidden"
+								id="streakAnswerImg"
+								alt="Answer figure"
+							/>
 							<div class="reasoning" id="streakAnswerReasoning"></div>
 						</div>
 						<div class="row-actions" id="streakJudgeControls" style="display: none">
 							<button class="btn primary" onclick="markStreakCorrect()">
-								✓ Correct
+								<svg class="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><path d="M20 6 9 17l-5-5"/></svg>Correct
 							</button>
-							<button class="btn ghost" onclick="markStreakWrong()">✗ Wrong</button>
+							<button class="btn ghost" onclick="markStreakWrong()">
+								<svg class="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Wrong
+							</button>
 						</div>
 					</div>
 
-					<div id="streakDecisionWrap" style="display: none;">
+					<div id="streakDecisionWrap" style="display: none">
 						<div class="vault-total mono" id="streakDecisionVault"></div>
 						<div class="progress-line" id="streakDecisionNote"></div>
 						<div class="row-actions">
-							<button class="btn primary" onclick="bankStreak()">🔒 Bank It</button>
-							<button class="btn ghost" onclick="pushStreak()">🎲 Push Your Luck</button>
+							<button class="btn primary" onclick="bankStreak()">Bank It</button>
+							<button class="btn ghost" onclick="pushStreak()">
+								Push Your Luck
+							</button>
 						</div>
 					</div>
 
-					<div class="award-row" id="streakSummary" style="display: none; flex-direction: column;"></div>
+					<div
+						class="award-row"
+						id="streakSummary"
+						style="display: none; flex-direction: column"
+					></div>
 				</div>
 			</section>
 
@@ -1201,20 +1233,36 @@
 						<div class="swap-col">
 							<span class="tag">Hard · 3 pts</span>
 							<div class="question" id="swapHardQuestionText"></div>
-							<img class="prompt-img hidden" id="swapHardQuestionImg" alt="Question figure" />
+							<img
+								class="prompt-img hidden"
+								id="swapHardQuestionImg"
+								alt="Question figure"
+							/>
 							<div class="answer-box" id="swapHardAnswerBox">
 								<div class="figure" id="swapHardAnswerFigure"></div>
-								<img class="prompt-img hidden" id="swapHardAnswerImg" alt="Answer figure" />
+								<img
+									class="prompt-img hidden"
+									id="swapHardAnswerImg"
+									alt="Answer figure"
+								/>
 								<div class="reasoning" id="swapHardAnswerReasoning"></div>
 							</div>
 						</div>
 						<div class="swap-col">
 							<span class="tag time">Backup · 1 pt</span>
 							<div class="question" id="swapBackQuestionText"></div>
-							<img class="prompt-img hidden" id="swapBackQuestionImg" alt="Question figure" />
+							<img
+								class="prompt-img hidden"
+								id="swapBackQuestionImg"
+								alt="Question figure"
+							/>
 							<div class="answer-box" id="swapBackAnswerBox">
 								<div class="figure" id="swapBackAnswerFigure"></div>
-								<img class="prompt-img hidden" id="swapBackAnswerImg" alt="Answer figure" />
+								<img
+									class="prompt-img hidden"
+									id="swapBackAnswerImg"
+									alt="Answer figure"
+								/>
 								<div class="reasoning" id="swapBackAnswerReasoning"></div>
 							</div>
 						</div>
@@ -1229,10 +1277,16 @@
 						>
 							Start
 						</button>
-						<button class="btn primary" id="swapLockBtn" onclick="lockSwapsAndStart()">
+						<button
+							class="btn primary"
+							id="swapLockBtn"
+							onclick="lockSwapsAndStart()"
+						>
 							Lock Swaps &amp; Start Timer
 						</button>
-						<button class="btn primary" onclick="revealSwapAnswer()">Reveal Answers</button>
+						<button class="btn primary" onclick="revealSwapAnswer()">
+							Reveal Answers
+						</button>
 						<button
 							class="btn ghost"
 							id="swapTimerResetBtn"
@@ -1261,7 +1315,9 @@
 							</svg>
 							Next Problem
 						</button>
-						<button class="btn ghost" onclick="resetSwapTokens()">Restock Tokens</button>
+						<button class="btn ghost" onclick="resetSwapTokens()">
+							Restock Tokens
+						</button>
 					</div>
 					<div class="award-row">
 						<div class="label">Teams &amp; swap tokens</div>
@@ -1324,9 +1380,15 @@
 					<div class="progress-line" id="wagerProgress"></div>
 					<span class="tier-badge" id="wagerDifficultyBadge"></span>
 					<div class="question" id="wagerQuestionText"></div>
-					<img class="prompt-img hidden" id="wagerQuestionImg" alt="Question figure" />
+					<img
+						class="prompt-img hidden"
+						id="wagerQuestionImg"
+						alt="Question figure"
+					/>
 					<div class="btn-wrap">
-						<button class="btn primary" onclick="revealWagerAnswer()">Reveal Answer</button>
+						<button class="btn primary" onclick="revealWagerAnswer()">
+							Reveal Answer
+						</button>
 						<button class="btn ghost" onclick="nextWagerProblem()">
 							<svg
 								class="icon"
@@ -1354,6 +1416,122 @@
 					<div class="award-row">
 						<div class="label">Each team's secret wager (1–5)</div>
 						<div class="elimination-roster" id="wagerRoster"></div>
+					</div>
+				</div>
+			</section>
+
+			<section class="screen" id="screenCurse">
+				<div class="screen-head">
+					<div>
+						<div class="eyebrow">Game 13</div>
+						<h1>Curse Card</h1>
+						<div class="subtitle">
+							Answer first, then secretly saddle another team with a curse for their
+							next round. Survive it and score a bonus.
+						</div>
+					</div>
+					<div style="display: flex; gap: 10px">
+						<button class="btn ghost" onclick="openGameInfoModal('curse')">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<circle cx="12" cy="12" r="9" />
+								<line x1="12" y1="11" x2="12" y2="16" />
+								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
+							</svg>
+							How to Play
+						</button>
+						<button class="btn ghost" onclick="openCurseModal()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M12 20h9" />
+								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+							</svg>
+							Manage Questions
+						</button>
+						<button class="btn ghost" onclick="openCursesModal()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M12 20h9" />
+								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+							</svg>
+							Manage Curses
+						</button>
+					</div>
+				</div>
+				<div class="panel flex middle column">
+					<div class="progress-line" id="curseProgress"></div>
+					<div id="curseBadgeWrap"></div>
+					<div class="timer mono" id="curseTimerDisplay"></div>
+					<div class="question" id="curseQuestionText"></div>
+					<img class="prompt-img hidden" id="curseQuestionImg" alt="Question figure" />
+					<div class="btn-wrap">
+						<button class="btn" id="curseTimerToggle" onclick="toggleCurseTimer()">
+							Start
+						</button>
+						<button class="btn primary" onclick="revealCurseAnswer()">
+							Reveal Answer
+						</button>
+						<button class="btn ghost" onclick="resetCurseTimer()">Reset</button>
+					</div>
+					<div class="answer-box" id="curseAnswerBox">
+						<div class="figure" id="curseAnswerFigure"></div>
+						<img class="prompt-img hidden" id="curseAnswerImg" alt="Answer figure" />
+						<div class="reasoning" id="curseAnswerReasoning"></div>
+					</div>
+					<div class="row-actions">
+						<button class="btn ghost" onclick="nextCurseProblem()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M5 12h14" />
+								<path d="M13 6l6 6-6 6" />
+							</svg>
+							Next Problem
+						</button>
+						<button class="btn ghost" onclick="resetCurse()">Restart Curse Card</button>
+					</div>
+					<div class="award-row">
+						<div class="label">First correct answer (host calls it)</div>
+						<div id="curseTeamButtons" class="hands-up-list"></div>
 					</div>
 				</div>
 			</section>
@@ -1447,6 +1625,7 @@
 		<script defer src="js/engines/streak-engine.js"></script>
 		<script defer src="js/engines/swap-engine.js"></script>
 		<script defer src="js/engines/wager-engine.js"></script>
+		<script defer src="js/engines/curse-engine.js"></script>
 
 		<script defer src="js/init.js"></script>
 	</body>

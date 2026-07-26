@@ -163,7 +163,7 @@ function renderSwapRoster() {
 						class="btn small ${choice === 'backup' ? 'ghost' : ''} award-btn" 
 						style="border-color: ${team.color};"
 					>
-						${choice === 'backup' ? '🔒 Backup locked in' : '🔒 Hard problem locked in'}
+						${choice === 'backup' ? 'Backup locked in' : 'Hard problem locked in'}
 					</button>
 				` : `
 					<button 
@@ -171,7 +171,7 @@ function renderSwapRoster() {
 						style="border-color: ${team.color};"
 						onclick="toggleSwapChoice('${team.id}')"
 					>
-						${choice === 'backup' ? '↩ Use Hard Problem' : `Swap for Backup (${tokens} left)`}
+						${choice === 'backup' ? 'Use Hard Problem' : `Swap for Backup (${tokens} left)`}
 					</button>
 				`;
 

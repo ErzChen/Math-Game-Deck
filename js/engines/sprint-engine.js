@@ -209,7 +209,7 @@ function renderSprintSummaryHtml() {
 			</button>`
 		: '';
 	return `
-		<div class="sprint-summary-line">
+		<div class="summary-line">
 			Time's up! <b style="color: ${team.color};">${escapeHtml(team.name)}</b> answered <b>${sprintCorrectCount}</b> correctly.
 		</div>
 		<div class="row-actions">

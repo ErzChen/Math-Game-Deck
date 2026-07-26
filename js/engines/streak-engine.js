@@ -23,8 +23,8 @@ function initStreak() {
 	newStreakTurn();
 }
 
-function pointsForStreakLevel(idx) {
-	return Math.pow(2, idx);
+function pointsForStreakLevel(i) {
+	return Math.pow(2, i);
 }
 
 function newStreakTurn() {
@@ -173,7 +173,7 @@ function renderStreakScreen() {
 		return;
 	}
 
-	const team = teams.find((t) => t.id === streakTeamId);
+	const team = teams.find((team) => team.id === streakTeamId);
 	const teamLabel = team ? `<b style="color: ${team.color};">${escapeHtml(team.name)}</b>` : '';
 
 	if (streakState === 'question') {
@@ -210,13 +210,13 @@ function renderStreakScreen() {
 }
 
 function renderStreakSummaryHtml() {
-	const team = teams.find((t) => t.id === streakTeamId);
+	const team = teams.find((team) => team.id === streakTeamId);
 	if (!team) return `<button class="btn ghost" onclick="newStreakTurn()">Next Team</button>`;
 
 	if (streakOutcome === 'bust') {
 		return `
-			<div class="sprint-summary-line">
-				💥 Busted! <b style="color: ${team.color};">${escapeHtml(team.name)}</b> loses the unbanked vault.
+			<div class="summary-line">
+				Busted! <b style="color: ${team.color};">${escapeHtml(team.name)}</b> loses the unbanked vault.
 			</div>
 			<div class="row-actions" style="justify-content: center;">
 				<button class="btn ghost" onclick="newStreakTurn()">Next Team</button>
@@ -229,7 +229,7 @@ function renderStreakSummaryHtml() {
 			? `Cleared the whole vault set! `
 			: `Banked it. `;
 	return `
-		<div class="sprint-summary-line">
+		<div class="summary-line">
 			${clearedLine}<b style="color: ${team.color};">${escapeHtml(team.name)}</b> locks in <b>${streakVault}</b> pt${streakVault === 1 ? '' : 's'}.
 		</div>
 		<div class="row-actions" style="justify-content: center;">

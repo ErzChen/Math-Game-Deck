@@ -14,23 +14,25 @@
 	--font-display: 'Space Grotesk', system-ui, sans-serif;
 	--font-mono: 'JetBrains Mono', monospace;
 
-	--font-size-timer: 46px; 
+	--font-size-timer: 46px;
 	--font-size-score: 34px;
 	--font-size-session: 40px;
-	--font-size-tile-letter: 38px; 
+	--font-size-tile-letter: 38px;
 
-	--radius: 14px; 
+	--radius: 14px;
 	--radius-small: 8px;
-	--radius-pill: 999px; 
+	--radius-pill: 999px;
 
-	--shadow: 0 10px 30px rgba(0, 0, 0, 0.35); 
+	--shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 
 	--transition-fast: 0.12s ease;
-	--transition-medium: 0.15s ease; 
+	--transition-medium: 0.15s ease;
 	--transition-panel: 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
-  
-	--grid-size: 42px; 
+
+	--grid-size: 42px;
 }
+
+/* ---------- Base Reset ---------- */
 * {
 	box-sizing: border-box;
 }
@@ -57,6 +59,8 @@ body {
 button {
 	font-family: inherit;
 }
+
+/* ---------- Buttons ---------- */
 .btn {
 	font-family: var(--font-display);
 	background: var(--surface-2);
@@ -97,7 +101,23 @@ button {
 	border-radius: var(--radius-small);
 }
 
-/* ---------- Layout ---------- */
+/* ---------- Layout Utilities ---------- */
+.flex {
+	display: flex;
+}
+.middle {
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+.space-around {
+	justify-content: space-evenly;
+}
+.column {
+	flex-direction: column;
+}
+
+/* ---------- Screen Layout ---------- */
 #stage {
 	position: absolute;
 	top: 0;
@@ -142,7 +162,7 @@ h1 {
 	line-height: 1.5;
 }
 
-/* ---------- Home: marquee ---------- */
+/* ---------- Marquee ---------- */
 .marquee {
 	display: flex;
 	align-items: center;
@@ -191,7 +211,7 @@ h1 {
 	font-size: 0.7em;
 }
 
-/* ---------- Home: arcade tile grid ---------- */
+/* ---------- Arcade Tile Grid ---------- */
 .arcade-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -269,24 +289,8 @@ h1 {
 	line-height: 1.5;
 	margin: 0;
 }
-.arcade-tags .tag {
-	display: inline-block;
-	font-size: 11px;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	color: var(--chalk-yellow);
-	border: 1px solid rgba(217, 140, 0, 0.4);
-	padding: 3px 9px;
-	border-radius: var(--radius-pill);
-	margin-right: 6px;
-}
-.arcade-tags {
-	color: var(--chalk-teal);
-	border-color: rgba(15, 143, 125, 0.4);
-	margin-top: 16px;
-}
 
-/* ---------- Game Show Scoreboard Bar ---------- */
+/* ---------- Scoreboard Bar ---------- */
 #showbar {
 	position: fixed;
 	bottom: 0;
@@ -364,19 +368,6 @@ h1 {
 	align-items: center;
 	gap: 14px;
 }
-.showbar-timer {
-	font-size: 26px;
-	font-weight: 800;
-	color: var(--chalk-teal);
-	background: rgba(255, 255, 255, 0.06);
-	border: 1px solid rgba(255, 255, 255, 0.14);
-	border-radius: 10px;
-	padding: 8px 16px;
-	cursor: pointer;
-}
-.showbar-timer.low {
-	color: var(--chalk-pink);
-}
 .showbar-manage {
 	font-family: var(--font-display);
 	background: var(--chalk-yellow);
@@ -393,6 +384,8 @@ h1 {
 .showbar-manage:hover {
 	transform: translateY(-1px);
 }
+
+/* ---------- Manage Session Modal: Teams & Save/Load ---------- */
 .showbar-title {
 	font-size: 12px;
 	text-transform: uppercase;
@@ -456,33 +449,8 @@ h1 {
 	width: 100%;
 	margin-top: 4px;
 }
-.session-controls {
-	display: flex;
-	gap: 8px;
-	align-items: center;
-	margin-bottom: 4px;
-	flex-wrap: wrap;
-}
-.session-display {
-	font-family: var(--font-mono);
-	font-size: var(--font-size-session);
-	font-weight: 800;
-	color: var(--chalk-teal);
-	margin-bottom: 12px;
-}
-.session-display.low {
-	color: var(--chalk-pink);
-}
-#sessionMinInput {
-	width: 56px;
-	background: var(--surface-2);
-	border: 1px solid var(--line-strong);
-	color: var(--chalk-white);
-	border-radius: var(--radius-small);
-	padding: 6px 8px;
-	font-size: 13px;
-}
 
+/* ---------- Chalk Dust Score FX ---------- */
 #chalkLayer {
 	position: fixed;
 	inset: 0;
@@ -507,338 +475,7 @@ h1 {
 	}
 }
 
-/* ---------- Shared game chrome ---------- */
-.panel {
-	background: var(--surface);
-	border: 1px solid var(--line);
-	border-radius: var(--radius);
-	padding: 28px;
-}
-
-/* vertical list of team/entry rows — used by Elimination Gauntlet,
-   Estimation Auction, and Hands-Up Steal */
-.elimination-roster,
-.estimation-award-list,
-.hands-up-list {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-}
-/* left-accented row card inside those lists */
-.team-group,
-.hands-up-team-row {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 12px;
-	flex-wrap: nowrap;
-	background: var(--surface-2);
-	border: 1px solid var(--line);
-	border-left-width: 4px;
-	border-radius: 10px;
-	padding: 10px 14px;
-}
-.elimination-chip-name,
-.team-name,
-.hands-up-team-name {
-	font-weight: 700;
-	font-size: 14px;
-}
-.elimination-chip-btns,
-.team-btns,
-.hands-up-team-btns {
-	display: flex;
-	gap: 8px;
-	flex-wrap: nowrap;
-}
-
-.award-row {
-	display: flex;
-	gap: 10px;
-	flex-wrap: wrap;
-  justify-content: center;
-	margin-top: 22px;
-	padding-top: 18px;
-	border-top: 1px dashed var(--line);
-}
-.award-row .label {
-	width: 100%;
-	font-size: 11px;
-  text-align: center;
-	text-transform: uppercase;
-	letter-spacing: 0.1em;
-	color: var(--chalk-muted);
-	margin-bottom: 2px;
-}
-.award-btn {
-	border-width: 1px;
-	border-style: solid;
-	white-space: nowrap;
-}
-.award-btn span {
-	opacity: 0.9;
-}
-/* ---------- Premade CSS ---------- */
-.flex {
-  display: flex;
-}
-.middle {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.space-around {
-  justify-content: space-evenly;
-}
-.column {
-  flex-direction: column;
-}
-/* ---------- 24 Game ---------- */
-.tiles {
-	display: flex;
-	gap: 16px;
-	flex-wrap: wrap;
-	margin: 22px 0;
-}
-.tile {
-	width: 96px;
-	height: 96px;
-	border: 2px dashed var(--line-strong);
-	border-radius: var(--radius);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-family: var(--font-mono);
-	font-size: var(--font-size-tile-letter);
-	font-weight: 800;
-	color: var(--chalk-yellow);
-	background: var(--surface-2);
-}
-.tile:nth-child(odd) {
-	transform: rotate(-1.4deg);
-}
-.tile:nth-child(even) {
-	transform: rotate(1.2deg);
-}
-.btn-wrap {
-	display: flex;
-	align-items: center;
-	gap: 16px;
-	margin: 18px 0;
-}
-.row-actions {
-	display: flex;
-	gap: 10px;
-	flex-wrap: wrap;
-	margin-top: 18px;
-}
-.timer {
-	font-family: var(--font-mono);
-	font-size: var(--font-size-timer);
-	font-weight: 800;
-	color: var(--chalk-teal);
-	min-width: 140px;
-}
-.timer.low {
-	color: var(--chalk-pink);
-}
-.solution-box {
-	margin-top: 18px;
-	padding: 16px 20px;
-	background: var(--surface-2);
-	border-left: 3px solid var(--chalk-teal);
-	border-radius: var(--radius-small);
-	font-size: 17px;
-	font-family: var(--font-mono);
-	max-width: 560px;
-	display: none;
-}
-.solution-box.show {
-	display: block;
-	animation: pop 0.3s ease;
-}
-
-/* ---------- Pattern Reveal ---------- */
-.seq-row {
-	display: flex;
-	gap: 14px;
-	flex-wrap: wrap;
-	margin: 24px 0;
-	min-height: 96px;
-	align-items: center;
-}
-.seq-chip {
-	background: var(--surface-2);
-	border: 1px solid var(--line-strong);
-	border-radius: 12px;
-	padding: 14px 18px;
-	font-family: var(--font-mono);
-	font-size: 24px;
-	font-weight: 700;
-	color: var(--chalk-white);
-	animation: pop 0.28s ease;
-}
-.seq-chip.ghost {
-	opacity: 0.25;
-	border-style: dashed;
-	color: var(--chalk-muted);
-}
-@keyframes pop {
-	from {
-		transform: scale(0.4);
-		opacity: 0;
-	}
-	to {
-		transform: scale(1);
-		opacity: 1;
-	}
-}
-.rule-box {
-	margin-top: 10px;
-	padding: 16px 20px;
-	background: var(--surface-2);
-	border-left: 3px solid var(--chalk-yellow);
-	border-radius: var(--radius-small);
-	font-size: 15px;
-	max-width: 560px;
-	display: none;
-}
-.rule-box.show {
-	display: block;
-}
-.progress-dots {
-	display: flex;
-	gap: 6px;
-	margin-top: 18px;
-}
-.progress-dots span {
-	width: 7px;
-	height: 7px;
-	border-radius: 50%;
-	background: var(--line-strong);
-}
-.progress-dots span.on {
-	background: var(--chalk-teal);
-}
-
-/* ---------- Estimation ---------- */
-.question {
-	font-size: clamp(20px, 2.6vw, 28px);
-	font-weight: 600;
-	line-height: 1.4;
-	max-width: 720px;
-	margin: 6px 0 20px;
-}
-/* optional image attached to a question or an answer; stays out of the
-   layout entirely (display:none, not just hidden) when a problem has none */
-.prompt-img {
-	display: block;
-	max-width: 100%;
-	max-height: 280px;
-	width: auto;
-	border-radius: var(--radius);
-	border: 1px solid var(--line);
-	margin: 4px 0 18px;
-	object-fit: contain;
-	background: var(--surface-2);
-}
-.prompt-img.hidden {
-	display: none;
-}
-.answer-box {
-	margin-top: 20px;
-	padding: 20px 22px;
-	background: var(--surface-2);
-	border-radius: var(--radius);
-	border: 1px solid var(--line);
-	max-width: 700px;
-	display: none;
-}
-.answer-box.show {
-	display: block;
-	animation: pop 0.3s ease;
-}
-.answer-box .figure {
-	font-family: var(--font-mono);
-	font-size: 30px;
-	font-weight: 800;
-	color: var(--chalk-yellow);
-	margin-bottom: 8px;
-}
-.answer-box .reasoning {
-	color: var(--chalk-muted);
-	font-size: 14px;
-	line-height: 1.6;
-}
-
-/* ---------- Relay Board ---------- */
-.relay-grid {
-	display: grid;
-	gap: 10px;
-	margin-top: 10px;
-}
-.relay-header {
-	background: var(--surface-2);
-	border-radius: 10px;
-	padding: 12px 8px;
-	text-align: center;
-	font-weight: 700;
-	font-size: 13px;
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
-	color: var(--chalk-teal);
-	border: 1px solid var(--line);
-}
-.relay-cell {
-	background: var(--surface-2);
-	border: 1px solid var(--line-strong);
-	border-radius: 10px;
-	padding: 20px 8px;
-	text-align: center;
-	font-family: var(--font-mono);
-	font-size: 22px;
-	font-weight: 800;
-	color: var(--chalk-yellow);
-	cursor: pointer;
-	transition:
-		transform var(--transition-fast),
-		border-color var(--transition-fast);
-}
-.relay-cell:hover {
-	transform: translateY(-2px);
-	border-color: var(--chalk-teal);
-}
-.relay-cell.used {
-	opacity: 0.25;
-	cursor: default;
-	color: var(--chalk-muted);
-}
-.relay-cell.used:hover {
-	transform: none;
-	border-color: var(--line-strong);
-}
-.relay-question {
-	display: none;
-}
-.relay-question .cat-badge {
-	display: inline-block;
-	font-size: 11px;
-	text-transform: uppercase;
-	letter-spacing: 0.1em;
-	color: var(--chalk-teal);
-	border: 1px solid rgba(15, 143, 125, 0.4);
-	padding: 3px 10px;
-	border-radius: var(--radius-pill);
-	margin-bottom: 14px;
-}
-.relay-question .pts {
-	color: var(--chalk-yellow);
-	font-family: var(--font-mono);
-	font-weight: 800;
-}
-
-/* ---------- Modal ---------- */
+/* ---------- Modal Layout + Question Manager Form ---------- */
 .modal-overlay {
 	position: fixed;
 	inset: 0;
@@ -930,7 +567,6 @@ h1 {
 	border-color: var(--chalk-teal);
 	border-style: solid;
 }
-/* the actual "Choose File" button portion of the control */
 .img-upload-row input[type='file']::file-selector-button {
 	font-family: var(--font-display);
 	background: var(--surface);
@@ -951,7 +587,6 @@ h1 {
 	border-color: var(--chalk-teal);
 	color: var(--chalk-teal);
 }
-/* Safari/older Chrome fallback */
 .img-upload-row input[type='file']::-webkit-file-upload-button {
 	font-family: var(--font-display);
 	background: var(--surface);
@@ -999,6 +634,7 @@ h1 {
 .img-preview-wrap .img-remove:hover {
 	transform: scale(1.12);
 }
+
 .custom-list-item .thumb {
 	width: 40px;
 	height: 40px;
@@ -1026,59 +662,97 @@ h1 {
 .custom-list-item .txt b {
 	color: var(--chalk-yellow);
 }
-.relay-edit-cat {
+
+/* ---------- Shared Game CSS ---------- */
+.timer {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-timer);
+	font-weight: 800;
+	color: var(--chalk-teal);
+	min-width: 140px;
+}
+.timer.low {
+	color: var(--chalk-pink);
+}
+.timer-wrap {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	flex-wrap: wrap;
+	margin: 6px 0 18px;
+}
+.btn-wrap {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin: 18px 0;
+}
+.row-actions {
 	display: flex;
 	gap: 10px;
-	align-items: center;
-	margin-bottom: 10px;
+	flex-wrap: wrap;
+	margin-top: 18px;
 }
-.relay-edit-cat input {
-	flex: 1;
+.question {
+	font-size: clamp(20px, 2.6vw, 28px);
+	font-weight: 600;
+	line-height: 1.4;
+	max-width: 720px;
+	margin: 6px 0 20px;
 }
-.relay-edit-row {
+.prompt-img {
+	display: block;
+	max-width: 100%;
+	max-height: 280px;
+	width: auto;
+	border-radius: var(--radius);
 	border: 1px solid var(--line);
-	border-radius: 10px;
-	padding: 12px;
-	margin-bottom: 10px;
+	margin: 4px 0 18px;
+	object-fit: contain;
+	background: var(--surface-2);
 }
-.relay-edit-row .pts-label {
+.prompt-img.hidden {
+	display: none;
+}
+.answer-box {
+	margin-top: 20px;
+	padding: 20px 22px;
+	background: var(--surface-2);
+	border-radius: var(--radius);
+	border: 1px solid var(--line);
+	max-width: 700px;
+	display: none;
+}
+.answer-box.show {
+	display: block;
+	animation: pop 0.3s ease;
+}
+.answer-box .figure {
 	font-family: var(--font-mono);
+	font-size: 30px;
+	font-weight: 800;
 	color: var(--chalk-yellow);
-	font-weight: 700;
-	font-size: 13px;
 	margin-bottom: 8px;
 }
-
-::-webkit-scrollbar {
-	width: 10px;
+.answer-box .reasoning {
+	color: var(--chalk-muted);
+	font-size: 14px;
+	line-height: 1.6;
 }
-::-webkit-scrollbar-thumb {
-	background: var(--surface-2);
-	border-radius: 10px;
+@keyframes pop {
+	from {
+		transform: scale(0.4);
+		opacity: 0;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
 }
-
-/* ---------- KaTeX theming ---------- */
-.katex {
-	color: inherit;
-	font-size: 1.08em;
-}
-.katex-display {
-	margin: 0.5em 0;
-}
-.answer-box .figure .katex {
-	color: var(--chalk-yellow);
-	font-size: 1.25em;
-}
-.cat-badge + .question .katex,
-.question .katex {
-	color: var(--chalk-white);
-}
-
-/* ---------- Contest game shared chrome ---------- */
 .tier-badge {
 	display: inline-block;
 	font-size: 11px;
-  text-align: center;
+	text-align: center;
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
 	padding: 3px 10px;
@@ -1105,7 +779,7 @@ h1 {
 .progress-line {
 	font-family: var(--font-mono);
 	font-size: 13px;
-  align-items: center;
+	align-items: center;
 	color: var(--chalk-muted);
 	margin-bottom: 4px;
 }
@@ -1125,42 +799,269 @@ h1 {
 	font-family: inherit;
 	font-size: 14px;
 }
-/* ---------- Pyramid Race ---------- */
-.timer-wrap {
+.team-group,
+.hands-up-team-row {
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
-	gap: 14px;
-	flex-wrap: wrap;
-	margin: 6px 0 18px;
+	gap: 12px;
+	flex-wrap: nowrap;
+	background: var(--surface-2);
+	border: 1px solid var(--line);
+	border-left-width: 4px;
+	border-radius: 10px;
+	padding: 10px 14px;
 }
+.elimination-chip-name,
+.team-name,
+.hands-up-team-name {
+	font-weight: 700;
+	font-size: 14px;
+}
+.elimination-chip-btns,
+.team-btns,
+.hands-up-team-btns {
+	display: flex;
+	gap: 8px;
+	flex-wrap: nowrap;
+}
+.team-group.marked {
+	opacity: 0.6;
+}
+.panel {
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	padding: 28px;
+}
+.elimination-roster,
+.estimation-award-list,
+.hands-up-list,
+.curse-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.award-row {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-top: 22px;
+	padding-top: 18px;
+	border-top: 1px dashed var(--line);
+}
+.award-row .label {
+	width: 100%;
+	font-size: 11px;
+	text-align: center;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--chalk-muted);
+	margin-bottom: 2px;
+}
+.award-btn {
+	border-width: 1px;
+	border-style: solid;
+	white-space: nowrap;
+}
+.award-btn span {
+	opacity: 0.9;
+}
+.summary-line {
+	font-size: 17px;
+	margin-bottom: 4px;
+}
+.t-badge {
+	font-family: var(--font-mono);
+	background: var(--surface-2);
+	color: var(--chalk-yellow);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--radius-small);
+	padding: 6px 12px;
+	display: inline-block;
+	margin-bottom: 14px;
+	font-weight: 700;
+	font-size: 14px;
+}
+.elimination-chip-tag {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	letter-spacing: 0.08em;
+	color: var(--chalk-pink);
+	border: 1px solid rgba(209, 67, 106, 0.4);
+	padding: 2px 8px;
+	border-radius: var(--radius-pill);
+}
+
+/* ---------- Countdown Duel ---------- */
+.duel-vs {
+	font-family: var(--font-mono);
+	color: var(--chalk-muted);
+	font-weight: 700;
+}
+
+/* ---------- Chain Relay ---------- */
+.chain-link-dots {
+	display: flex;
+	gap: 8px;
+	margin: 4px 0 18px;
+}
+.chain-link-dots span {
+	width: 30px;
+	height: 6px;
+	border-radius: 4px;
+	background: var(--line-strong);
+}
+.chain-link-dots span.done {
+	background: var(--chalk-teal);
+}
+.chain-link-dots span.current {
+	background: var(--chalk-yellow);
+}
+
+/* ---------- Speed Relay Board ---------- */
+.relay-grid {
+	display: grid;
+	gap: 10px;
+	margin-top: 10px;
+}
+.relay-header {
+	background: var(--surface-2);
+	border-radius: 10px;
+	padding: 12px 8px;
+	text-align: center;
+	font-weight: 700;
+	font-size: 13px;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--chalk-teal);
+	border: 1px solid var(--line);
+}
+.relay-cell {
+	background: var(--surface-2);
+	border: 1px solid var(--line-strong);
+	border-radius: 10px;
+	padding: 20px 8px;
+	text-align: center;
+	font-family: var(--font-mono);
+	font-size: 22px;
+	font-weight: 800;
+	color: var(--chalk-yellow);
+	cursor: pointer;
+	transition:
+		transform var(--transition-fast),
+		border-color var(--transition-fast);
+}
+.relay-cell:hover {
+	transform: translateY(-2px);
+	border-color: var(--chalk-teal);
+}
+.relay-cell.used {
+	opacity: 0.25;
+	cursor: default;
+	color: var(--chalk-muted);
+}
+.relay-cell.used:hover {
+	transform: none;
+	border-color: var(--line-strong);
+}
+.relay-question {
+	display: none;
+}
+.relay-question .cat-badge {
+	display: inline-block;
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--chalk-teal);
+	border: 1px solid rgba(15, 143, 125, 0.4);
+	padding: 3px 10px;
+	border-radius: var(--radius-pill);
+	margin-bottom: 14px;
+}
+.relay-question .pts {
+	color: var(--chalk-yellow);
+	font-family: var(--font-mono);
+	font-weight: 800;
+}
+.relay-edit-cat {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	margin-bottom: 10px;
+}
+.relay-edit-cat input {
+	flex: 1;
+}
+.relay-edit-row {
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	padding: 12px;
+	margin-bottom: 10px;
+}
+.relay-edit-row .pts-label {
+	font-family: var(--font-mono);
+	color: var(--chalk-yellow);
+	font-weight: 700;
+	font-size: 13px;
+	margin-bottom: 8px;
+}
+
+/* ---------- Elimination Gauntlet ---------- */
+.elimination-chip {
+	transition: opacity var(--transition-fast);
+}
+.elimination-chip.out {
+	opacity: 0.4;
+}
+.elim-champion {
+	width: 100%;
+	text-align: center;
+	padding: 26px 16px;
+	background: var(--surface-2);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--radius);
+}
+.elim-champion-label {
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	color: var(--chalk-muted);
+	margin-bottom: 8px;
+}
+.elim-champion-name {
+	font-size: 26px;
+	font-weight: 800;
+	margin-bottom: 16px;
+}
+.elim-champion .btn {
+	margin: 0 6px;
+}
+.elim-wrong-active {
+	border-color: var(--chalk-pink) !important;
+	color: var(--chalk-pink);
+}
+
+/* ---------- Hands-Up Steal ---------- */
+.hands-up-team-row.tried {
+	opacity: 0.45;
+}
+.hands-up-tried-tag {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	letter-spacing: 0.06em;
+	color: var(--chalk-muted);
+}
+.hands-up-solved {
+	font-size: 15px;
+	font-weight: 600;
+	padding: 10px 2px;
+}
+
+/* ---------- Pyramid Race ---------- */
 .pyramid-roster {
 	width: 100%;
-}
-.pyramid-shapes-row,
-.pyramid-questions-row,
-.pyramid-buttons-row {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 12px;
-	width: 100%;
-}
-.pyramid-shapes-row {
-	margin-top: 20px;
-}
-.pyramid-questions-row {
-	margin-top: 18px;
-	align-items: flex-start;
-}
-.pyramid-buttons-row {
-	margin-top: 14px;
-}
-.pyramid-team-col {
-	flex: 1 1 220px;
-	max-width: fit-content;
-	padding-left: 14px;
-}
-.pyramid-team-col.finished {
-	opacity: 0.85;
 }
 .pyramid-card-head {
 	display: flex;
@@ -1168,30 +1069,6 @@ h1 {
 	align-items: center;
 	gap: 12px;
 	flex-wrap: wrap;
-	margin-bottom: 6px;
-}
-.pyramid-dots {
-	display: flex;
-	gap: 5px;
-	flex-wrap: wrap;
-}
-.pyramid-dot {
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-	border: 1.5px solid var(--line-strong);
-	background: transparent;
-}
-.pyramid-dot.filled {
-	background: var(--chalk-yellow);
-	border-color: var(--chalk-yellow);
-}
-.pyramid-level-label {
-	font-family: var(--font-mono);
-	font-size: 11.5px;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	color: var(--chalk-teal);
 	margin-bottom: 6px;
 }
 .pyramid-finished-line {
@@ -1203,6 +1080,14 @@ h1 {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
+}
+.pyramid-team-col {
+	flex: 1 1 220px;
+	max-width: fit-content;
+	padding-left: 14px;
+}
+.pyramid-team-col.finished {
+	opacity: 0.85;
 }
 .pyramid-team-col .question {
 	font-size: 16px;
@@ -1352,106 +1237,28 @@ h1 {
 	text-align: center;
 }
 
-.duel-vs {
-	font-family: var(--font-mono);
-	color: var(--chalk-muted);
-	font-weight: 700;
+/* ---------- KaTeX Theming ---------- */
+.katex {
+	color: inherit;
+	font-size: 1.08em;
 }
-.chain-link-dots {
-	display: flex;
-	gap: 8px;
-	margin: 4px 0 18px;
+.katex-display {
+	margin: 0.5em 0;
 }
-.chain-link-dots span {
-	width: 30px;
-	height: 6px;
-	border-radius: 4px;
-	background: var(--line-strong);
-}
-.chain-link-dots span.done {
-	background: var(--chalk-teal);
-}
-.chain-link-dots span.current {
-	background: var(--chalk-yellow);
-}
-.t-badge {
-	font-family: var(--font-mono);
-	background: var(--surface-2);
+.answer-box .figure .katex {
 	color: var(--chalk-yellow);
-	border: 1px solid var(--line-strong);
-	border-radius: var(--radius-small);
-	padding: 6px 12px;
-	display: inline-block;
-	margin-bottom: 14px;
-	font-weight: 700;
-	font-size: 14px;
+	font-size: 1.25em;
+}
+.cat-badge + .question .katex,
+.question .katex {
+	color: var(--chalk-white);
 }
 
-/* ---------- Elimination Gauntlet ---------- */
-.elimination-chip {
-	transition: opacity var(--transition-fast);
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+	width: 10px;
 }
-.elimination-chip.marked {
-	opacity: 0.6;
-}
-.elimination-chip.out {
-	opacity: 0.4;
-}
-.elimination-chip-tag {
-	font-family: var(--font-mono);
-	font-size: 11px;
-	letter-spacing: 0.08em;
-	color: var(--chalk-pink);
-	border: 1px solid rgba(209, 67, 106, 0.4);
-	padding: 2px 8px;
-	border-radius: var(--radius-pill);
-}
-.elimination-wrong-active {
-	border-color: var(--chalk-pink) !important;
-	color: var(--chalk-pink);
-}
-.elimination-champion {
-	width: 100%;
-	text-align: center;
-	padding: 26px 16px;
+::-webkit-scrollbar-thumb {
 	background: var(--surface-2);
-	border: 1px solid var(--line-strong);
-	border-radius: var(--radius);
-}
-.elimination-champion-label {
-	font-size: 12px;
-	text-transform: uppercase;
-	letter-spacing: 0.12em;
-	color: var(--chalk-muted);
-	margin-bottom: 8px;
-}
-.elimination-champion-name {
-	font-size: 26px;
-	font-weight: 800;
-	margin-bottom: 16px;
-}
-.elimination-champion .btn {
-	margin: 0 6px;
-}
-
-/* ---------- Estimation Auction ---------- */
-.hands-up-team-row.tried {
-	opacity: 0.45;
-}
-.hands-up-tried-tag {
-	font-family: var(--font-mono);
-	font-size: 11px;
-	letter-spacing: 0.06em;
-	color: var(--chalk-muted);
-}
-.hands-up-solved {
-	font-size: 15px;
-	font-weight: 600;
-	padding: 10px 2px;
-}
-
-/* ---------- Speed Sprint ---------- */
-.sprint-summary-line {
-	font-size: 17px;
-	margin-bottom: 4px;
+	border-radius: 10px;
 }

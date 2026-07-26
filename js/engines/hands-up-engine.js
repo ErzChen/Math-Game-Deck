@@ -68,7 +68,7 @@ function renderHandsUpTeamButtons() {
 	if (handsUpSolvedBy) {
 		const winner = teams.find((team) => team.id === handsUpSolvedBy);
 		element.innerHTML = winner
-			? `<div class="hands-up-solved" style="color: ${winner.color};">✓ ${escapeHtml(winner.name)} got it! Hit "Next Problem" to continue.</div>`
+			? `<div class="hands-up-solved" style="color: ${winner.color};">${iconCheck()}${escapeHtml(winner.name)} got it! Hit "Next Problem" to continue.</div>`
 			: '';
 		return;
 	}
@@ -101,14 +101,14 @@ function renderHandsUpTeamRow(team) {
 					style="border-color: ${team.color};"
 					onclick="markHandsUpResult('${team.id}', false)"
 				>
-					✗ Wrong
+					${iconCross()}Wrong
 				</button>
 				<button
 					class="btn small award-btn"
 					style="border-color: ${team.color};"
 					onclick="markHandsUpResult('${team.id}', true)"
 				>
-					✓ Correct +${pts}
+					${iconCheck()}Correct +${pts}
 				</button>
 			</div>
 		</div>

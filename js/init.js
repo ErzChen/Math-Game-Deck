@@ -1,7 +1,6 @@
 tryAutoload();
 renderTeamsList();
 renderAwardButtons();
-renderSession();
 initLadder();
 initDuel();
 initChainRelay();
@@ -14,3 +13,4 @@ initPyramid();
 initStreak();
 initSwap();
 initWager();
+initCurse();

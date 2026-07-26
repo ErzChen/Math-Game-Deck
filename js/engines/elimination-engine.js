@@ -106,7 +106,7 @@ function renderEliminationChampionHtml() {
 	}
 	return `
 		<div class="elim-champion">
-			<div class="elim-champion-label">🏆 Gauntlet winner</div>
+			<div class="elim-champion-label">Gauntlet winner</div>
 			<div class="elim-champion-name" style="color: ${champ.color};">${escapeHtml(champ.name)}</div>
 			<button class="btn primary" onclick="addScore('${champ.id}', 5, event); autosave();">
 				+5 Champion Bonus
@@ -135,14 +135,14 @@ function renderEliminationTeamRow(team) {
 					style="border-color: ${team.color};"
 					onclick="markElimination('${team.id}', 'wrong')"
 				>
-					✗ Out
+					${iconCross()}Out
 				</button>
 				<button
 					class="btn small award-btn"
 					style="border-color: ${team.color};"
 					onclick="markElimination('${team.id}', 'correct')"
 				>
-					✓ Survived +1
+					${iconCheck()}Survived +1
 				</button>
 			</div>
 		</div>

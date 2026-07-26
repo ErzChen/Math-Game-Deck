@@ -129,7 +129,7 @@ function openChainModal() {
 			<textarea id="newChainQ1" placeholder="Question"></textarea>
 			<div class="field-label">Link 1 question image (optional)</div>
 			<div id="newChainQImgWrap1"></div>
-			<input type="text" id="newChainA1" placeholder="Answer (becomes T)" style="margin-top:6px;" />
+			<input type="text" id="newChainA1" placeholder="Answer (becomes T)" style="margin-top: 6px;" />
 			<textarea id="newChainE1" placeholder="Explanation" style="margin-top: 6px;"></textarea>
 			<div class="field-label">Link 1 answer image (optional)</div>
 			<div id="newChainAImgWrap1"></div>

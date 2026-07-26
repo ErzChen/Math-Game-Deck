@@ -106,14 +106,14 @@ function renderWagerRoster() {
 							style="border-color: ${team.color};"
 							onclick="applyWagerResult('${team.id}', true, event)"
 						>
-							✓ Correct
+							${iconCheck()}Correct
 						</button>
 						<button
 							class="btn small award-btn"
 							style="border-color: ${team.color};"
 							onclick="applyWagerResult('${team.id}', false, event)"
 						>
-							✗ Wrong
+							${iconCross()}Wrong
 						</button>
 					</div>
 				</div>

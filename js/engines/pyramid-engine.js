@@ -222,7 +222,7 @@ function renderPyramidBoard() {
 					<div class="pyramid-team-col finished">
 						${shapeBlock}
 						<div class="pyramid-finished-line">
-							🏆 Reached the peak!${isWinner ? ' — first team to finish' : ''}
+							Reached the peak!${isWinner ? ' — first team to finish' : ''}
 						</div>
 					</div>
 				`;
@@ -262,7 +262,7 @@ function renderPyramidBoard() {
 								style="border-color: ${team.color};"
 								onclick="advancePyramidTeam('${team.id}')"
 							>
-								✓ Solved, next level
+								${iconCheck()}Solved, next level
 							</button>
 						</div>
 					</div>
@@ -309,7 +309,7 @@ function renderPyramidSummaryHtml() {
 		})
 		.join('');
 	return `
-		<div class="sprint-summary-line">Time's up! Here's how far each team climbed.</div>
+		<div class="summary-line">Time's up! Here's how far each team climbed.</div>
 		${rows}
 		<div class="row-actions">
 			<button class="btn ghost" onclick="newPyramidRound()">New Pyramid Round</button>
@@ -393,11 +393,11 @@ function renderCustomPyramidList() {
 		'customPyramidList',
 		sorted,
 		(problem) => `
-		<div class="custom-list-item">
-			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
-			<div class="txt"><b>Tier ${problem.tier}</b> — ${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}</div>
-			<button class="btn small ghost" onclick="deleteCustomPyramid(${problem._i})">Delete</button>
-		</div>
-	`,
+			<div class="custom-list-item">
+				${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
+				<div class="txt"><b>Tier ${problem.tier}</b> — ${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}</div>
+				<button class="btn small ghost" onclick="deleteCustomPyramid(${problem._i})">Delete</button>
+			</div>
+		`,
 	);
 }
