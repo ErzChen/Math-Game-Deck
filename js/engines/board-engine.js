@@ -94,7 +94,9 @@ function renderRelayAwardButtons() {
 	if (!currentRelayKey) return;
 	const value = parseInt(currentRelayKey.split('-')[1], 10);
 	const pts = value / 100;
-	renderTeamAwardButtons('awardRelay', teams, () => [{ label: `+${pts}`, points: pts }]);
+	renderTeamAwardButtons('awardRelay', teams, () => [
+		{ label: `+${pts}`, points: pts },
+	]);
 }
 
 function closeRelayQuestion() {
@@ -187,14 +189,24 @@ function renderRelayImgFields() {
 			const key = `${i}-${val}`;
 			if (!relayData.cells[key]) relayData.cells[key] = { q: '', a: '', e: '' };
 			const cell = relayData.cells[key];
-			renderImgUploadField('relayQImgWrap-' + key, 'relayQImgFile-' + key, cell.qImg, (val2) => {
-				cell.qImg = val2;
-				renderRelayImgFields();
-			});
-			renderImgUploadField('relayAImgWrap-' + key, 'relayAImgFile-' + key, cell.aImg, (val2) => {
-				cell.aImg = val2;
-				renderRelayImgFields();
-			});
+			renderImgUploadField(
+				'relayQImgWrap-' + key,
+				'relayQImgFile-' + key,
+				cell.qImg,
+				(val2) => {
+					cell.qImg = val2;
+					renderRelayImgFields();
+				},
+			);
+			renderImgUploadField(
+				'relayAImgWrap-' + key,
+				'relayAImgFile-' + key,
+				cell.aImg,
+				(val2) => {
+					cell.aImg = val2;
+					renderRelayImgFields();
+				},
+			);
 		});
 	});
 }

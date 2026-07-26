@@ -47,7 +47,8 @@ function renderEstimationProblem() {
 	if (box) box.classList.remove('show');
 
 	if (estimationPool.length === 0) {
-		document.getElementById('estimationProgress').textContent = 'No questions yet';
+		document.getElementById('estimationProgress').textContent =
+			'No questions yet';
 		document.getElementById('estimationQuestionText').textContent =
 			'No questions yet, use "Manage Questions" above to add some.';
 		setPromptImage('estimationQuestionImg', null);
@@ -125,11 +126,15 @@ function deleteCustomEstimation(i) {
 }
 
 function renderCustomEstimationList() {
-	renderCustomList('customEstimationList', customEstimation, (problem, i) => `
+	renderCustomList(
+		'customEstimationList',
+		customEstimation,
+		(problem, i) => `
 		<div class="custom-list-item">
 			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
 			<div class="txt"><b>${escapeHtml(problem.q)}</b><br>${escapeHtml(problem.a)}</div>
 			<button class="btn small ghost" onclick="deleteCustomEstimation(${i})">Delete</button>
 		</div>
-	`);
+	`,
+	);
 }

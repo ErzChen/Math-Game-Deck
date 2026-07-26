@@ -34,7 +34,10 @@ function ensureWagerTimerUI() {
 	const questionEl = document.getElementById('wagerQuestionText');
 	const wrap = questionEl ? questionEl.parentElement : null;
 	if (!wrap || document.getElementById('wagerTimerDisplay')) return;
-	wrap.insertAdjacentHTML('afterbegin', `<div class="timer mono" id="wagerTimerDisplay"></div>`);
+	wrap.insertAdjacentHTML(
+		'afterbegin',
+		`<div class="timer mono" id="wagerTimerDisplay"></div>`,
+	);
 }
 
 function renderWagerProblem() {
@@ -137,7 +140,7 @@ function openWagerModal() {
 		listId: 'customWagerList',
 		addFnName: 'addCustomWager',
 		helpText:
-			'The difficulty tag suggests how much a team might want to wager (1–5), but doesn\'t force it — teams write their own wager on their whiteboard.',
+			"The difficulty tag suggests how much a team might want to wager (1–5), but doesn't force it, teams write their own wager on their whiteboard.",
 		hasTier: true,
 		tierLabel: 'Suggested difficulty (1 = easiest, 5 = hardest)',
 		tierPlaceholder: 'e.g. 3',
@@ -155,7 +158,8 @@ function addCustomWager() {
 	);
 	const timeInput = document.getElementById('newWagerTime').value.trim();
 	const parsedTime = parseInt(timeInput, 10);
-	const time = timeInput && !isNaN(parsedTime) ? Math.max(1, parsedTime) : undefined;
+	const time =
+		timeInput && !isNaN(parsedTime) ? Math.max(1, parsedTime) : undefined;
 	const question = document.getElementById('newWagerQ').value.trim();
 	const answer = document.getElementById('newWagerA').value.trim();
 	const explanation = document.getElementById('newWagerE').value.trim();
@@ -187,11 +191,15 @@ function deleteCustomWager(i) {
 }
 
 function renderCustomWagerList() {
-	renderCustomList('customWagerList', customWager, (problem, i) => `
+	renderCustomList(
+		'customWagerList',
+		customWager,
+		(problem, i) => `
 		<div class="custom-list-item">
 			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
 			<div class="txt"><b>Difficulty ${problem.tier}</b>${problem.time ? ` · ${problem.time}s` : ''} — ${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}</div>
 			<button class="btn small ghost" onclick="deleteCustomWager(${i})">Delete</button>
 		</div>
-	`);
+	`,
+	);
 }

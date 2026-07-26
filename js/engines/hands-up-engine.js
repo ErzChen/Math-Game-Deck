@@ -75,7 +75,7 @@ function renderHandsUpTeamButtons() {
 
 	const allTried = teams.every((team) => handsUpTriedIds[team.id]);
 	if (allTried && teams.length > 0) {
-		element.innerHTML = `<div class="hands-up-solved">No one got it — reveal the answer and move on.</div>`;
+		element.innerHTML = `<div class="hands-up-solved">No one got it, reveal the answer and move on.</div>`;
 		return;
 	}
 
@@ -167,11 +167,15 @@ function deleteCustomHandsUp(i) {
 }
 
 function renderCustomHandsUpList() {
-	renderCustomList('customHandsUpList', customHandsUp, (problem, i) => `
+	renderCustomList(
+		'customHandsUpList',
+		customHandsUp,
+		(problem, i) => `
 		<div class="custom-list-item">
 			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
 			<div class="txt"><b>${escapeHtml(problem.q)}</b><br>${escapeHtml(problem.a)}</div>
 			<button class="btn small ghost" onclick="deleteCustomHandsUp(${i})">Delete</button>
 		</div>
-	`);
+	`,
+	);
 }

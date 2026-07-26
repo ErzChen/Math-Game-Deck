@@ -25,7 +25,9 @@ function resetElimination() {
 
 function pruneEliminationAlive() {
 	const validIds = teams.map((team) => team.id);
-	eliminationAliveIds = eliminationAliveIds.filter((id) => validIds.includes(id));
+	eliminationAliveIds = eliminationAliveIds.filter((id) =>
+		validIds.includes(id),
+	);
 	if (eliminationIndex === 0) {
 		validIds.forEach((id) => {
 			if (!eliminationAliveIds.includes(id)) eliminationAliveIds.push(id);
@@ -50,7 +52,8 @@ function renderEliminationProblem() {
 	const badge = document.getElementById('eliminationTierBadge');
 
 	if (eliminationPool.length === 0) {
-		document.getElementById('eliminationProgress').textContent = 'No questions yet';
+		document.getElementById('eliminationProgress').textContent =
+			'No questions yet';
 		if (badge) {
 			badge.textContent = '';
 			badge.className = 'tier-badge';
@@ -66,7 +69,9 @@ function renderEliminationProblem() {
 	document.getElementById('eliminationProgress').textContent =
 		`Round ${eliminationIndex + 1} · ${eliminationAliveIds.length} team${eliminationAliveIds.length === 1 ? '' : 's'} still in it`;
 	if (badge) {
-		badge.textContent = problem.tier ? tierNames[problem.tier] || `Tier ${problem.tier}` : '';
+		badge.textContent = problem.tier
+			? tierNames[problem.tier] || `Tier ${problem.tier}`
+			: '';
 		badge.className = 'tier-badge' + (problem.tier ? ' t' + problem.tier : '');
 	}
 	document.getElementById('eliminationQuestionText').textContent = problem.q;
@@ -96,7 +101,9 @@ function renderEliminationRoster() {
 		return;
 	}
 
-	element.innerHTML = teams.map((team) => renderEliminationTeamRow(team)).join('');
+	element.innerHTML = teams
+		.map((team) => renderEliminationTeamRow(team))
+		.join('');
 }
 
 function renderEliminationChampionHtml() {
@@ -158,7 +165,9 @@ function markElimination(teamId, result) {
 			(id) => id !== teamId && eliminationRoundMarks[id] !== 'wrong',
 		);
 		if (otherStillIn.length === 0) {
-			alert("Can't eliminate every remaining team, at least one has to survive this round.");
+			alert(
+				"Can't eliminate every remaining team, at least one has to survive this round.",
+			);
 			return;
 		}
 		eliminationRoundMarks[teamId] = 'wrong';
@@ -177,7 +186,7 @@ function openEliminationModal() {
 		listId: 'customEliminationList',
 		addFnName: 'addCustomElimination',
 		hasTier: true,
-		tierLabel: 'Tier (1-4, optional — just a difficulty badge)',
+		tierLabel: 'Tier (1-4, optional, just a difficulty badge)',
 	});
 	eliminationImageFields.reset();
 	renderCustomEliminationList();
@@ -185,7 +194,9 @@ function openEliminationModal() {
 
 function addCustomElimination() {
 	const tierRaw = document.getElementById('newElimTier').value.trim();
-	const tier = tierRaw ? Math.max(1, Math.min(4, parseInt(tierRaw, 10) || 0)) : null;
+	const tier = tierRaw
+		? Math.max(1, Math.min(4, parseInt(tierRaw, 10) || 0))
+		: null;
 	const question = document.getElementById('newElimQ').value.trim();
 	const answer = document.getElementById('newElimA').value.trim();
 	const explanation = document.getElementById('newElimE').value.trim();
@@ -215,7 +226,10 @@ function deleteCustomElimination(i) {
 }
 
 function renderCustomEliminationList() {
-	renderCustomList('customEliminationList', customElimination, (problem, i) => `
+	renderCustomList(
+		'customEliminationList',
+		customElimination,
+		(problem, i) => `
 		<div class="custom-list-item">
 			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
 			<div class="txt">
@@ -225,5 +239,6 @@ function renderCustomEliminationList() {
 			</div>
 			<button class="btn small ghost" onclick="deleteCustomElimination(${i})">Delete</button>
 		</div>
-	`);
+	`,
+	);
 }

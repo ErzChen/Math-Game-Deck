@@ -103,7 +103,9 @@ function revealChainAnswer() {
 }
 
 function renderChainAwardButtons() {
-	renderTeamAwardButtons('awardChainRelay', teams, () => [{ label: '+1', points: 1 }]);
+	renderTeamAwardButtons('awardChainRelay', teams, () => [
+		{ label: '+1', points: 1 },
+	]);
 }
 
 function openChainModal() {
@@ -169,7 +171,9 @@ function addCustomChain() {
 		aImg: chainImageFields[n - 1].state.a || undefined,
 	}));
 	if (!name || links.some((link) => !link.q || !link.a)) {
-		alert('Enter a chain name and at least a question + answer for all three links.');
+		alert(
+			'Enter a chain name and at least a question + answer for all three links.',
+		);
 		return;
 	}
 	customChains.push({ name, links });

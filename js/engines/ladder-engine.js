@@ -112,7 +112,9 @@ function revealLadderAnswer() {
 function renderLadderAwardButtons() {
 	const problem = ladderPool[ladderIndex % ladderPool.length];
 	const pts = problem ? problem.tier : 1;
-	renderTeamAwardButtons('awardLadder', teams, () => [{ label: `+${pts}`, points: pts }]);
+	renderTeamAwardButtons('awardLadder', teams, () => [
+		{ label: `+${pts}`, points: pts },
+	]);
 }
 
 function openLadderModal() {
@@ -135,7 +137,8 @@ function addCustomLadder() {
 	);
 	const timeInput = document.getElementById('newLadTime').value.trim();
 	const parsedTime = parseInt(timeInput, 10);
-	const time = timeInput && !isNaN(parsedTime) ? Math.max(1, parsedTime) : undefined;
+	const time =
+		timeInput && !isNaN(parsedTime) ? Math.max(1, parsedTime) : undefined;
 	const question = document.getElementById('newLadQ').value.trim();
 	const answer = document.getElementById('newLadA').value.trim();
 	const explanation = document.getElementById('newLadE').value.trim();
@@ -167,11 +170,15 @@ function deleteCustomLadder(i) {
 }
 
 function renderCustomLadderList() {
-	renderCustomList('customLadderList', customLadder, (problem, i) => `
+	renderCustomList(
+		'customLadderList',
+		customLadder,
+		(problem, i) => `
 		<div class="custom-list-item">
 			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
 			<div class="txt"><b>Tier ${problem.tier}</b>${problem.time ? ` · ${problem.time}s` : ''} — ${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}</div>
 			<button class="btn small ghost" onclick="deleteCustomLadder(${i})">Delete</button>
 		</div>
-	`);
+	`,
+	);
 }

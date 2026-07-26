@@ -14,3 +14,4 @@ initStreak();
 initSwap();
 initWager();
 initCurse();
+initScapegoat();

@@ -868,7 +868,7 @@ h1 {
 .award-btn span {
 	opacity: 0.9;
 }
-.summary-line {
+.sprint-summary-line {
 	font-size: 17px;
 	margin-bottom: 4px;
 }
@@ -1235,6 +1235,17 @@ h1 {
 	font-family: inherit;
 	font-size: 14px;
 	text-align: center;
+}
+
+/* ---------- Scapegoat ---------- */
+.scapegoat-select {
+	background: var(--surface);
+	border: 1px solid var(--line-strong);
+	color: var(--chalk-white);
+	border-radius: var(--radius-small);
+	padding: 6px 8px;
+	font-size: 13px;
+	max-width: 160px;
 }
 
 /* ---------- KaTeX Theming ---------- */

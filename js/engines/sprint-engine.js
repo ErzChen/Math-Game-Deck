@@ -202,7 +202,8 @@ function renderSprintScreen() {
 
 function renderSprintSummaryHtml() {
 	const team = teams.find((team) => team.id === sprintTeamId);
-	if (!team) return `<button class="btn ghost" onclick="newSprint()">New Sprint</button>`;
+	if (!team)
+		return `<button class="btn ghost" onclick="newSprint()">New Sprint</button>`;
 	const bonusBtn = sprintClearedPool
 		? `<button class="btn ghost" onclick="addScore('${team.id}', 1, event); autosave(); this.disabled=true;">
 				+1 Bonus (cleared the pool)
@@ -231,7 +232,7 @@ function openSprintModal() {
 		listId: 'customSprintList',
 		addFnName: 'addCustomSprint',
 		helpText:
-			'Keep these short — teams are racing the clock. No explanation needed, just question and answer.',
+			'Keep these short, teams are racing the clock. No explanation needed, just question and answer.',
 		hasExplanation: false,
 		hasAnswerImage: false,
 	});
@@ -263,11 +264,15 @@ function deleteCustomSprint(i) {
 }
 
 function renderCustomSprintList() {
-	renderCustomList('customSprintList', customSprint, (problem, i) => `
+	renderCustomList(
+		'customSprintList',
+		customSprint,
+		(problem, i) => `
 		<div class="custom-list-item">
 			${problem.qImg ? `<img class="thumb" src="${problem.qImg}" alt="" />` : ''}
 			<div class="txt"><b>${escapeHtml(problem.q)}</b><br>${escapeHtml(problem.a)}</div>
 			<button class="btn small ghost" onclick="deleteCustomSprint(${i})">Delete</button>
 		</div>
-	`);
+	`,
+	);
 }

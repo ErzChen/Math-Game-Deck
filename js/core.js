@@ -154,7 +154,12 @@ function setPromptImage(elementId, url) {
 	}
 }
 
-function createCountdownTimer({ seconds, displayId, toggleBtnId, lowThreshold = 10 }) {
+function createCountdownTimer({
+	seconds,
+	displayId,
+	toggleBtnId,
+	lowThreshold = 10,
+}) {
 	let defaultSeconds = seconds;
 	const timer = {
 		seconds: defaultSeconds,
@@ -260,23 +265,26 @@ function deleteCustomItem(array, i, rerender) {
 	autosave();
 }
 
-function openQuestionManagerModal(title, {
-	fieldPrefix,
-	listId,
-	addFnName,
-	helpText = '',
-	hasTier = false,
-	tierLabel = 'Tier (1 = easiest, 4 = hardest)',
-	tierPlaceholder = 'e.g. 2',
-	hasTime = false,
-	timeLabel = 'Time limit in seconds (optional)',
-	timePlaceholder = 'e.g. 90',
-	questionPlaceholder = 'e.g. What is $\\binom{6}{2}$?',
-	answerLabel = 'Answer',
-	answerPlaceholder = 'e.g. 15',
-	hasExplanation = true,
-	hasAnswerImage = true,
-}) {
+function openQuestionManagerModal(
+	title,
+	{
+		fieldPrefix,
+		listId,
+		addFnName,
+		helpText = '',
+		hasTier = false,
+		tierLabel = 'Tier (1 = easiest, 4 = hardest)',
+		tierPlaceholder = 'e.g. 2',
+		hasTime = false,
+		timeLabel = 'Time limit in seconds (optional)',
+		timePlaceholder = 'e.g. 90',
+		questionPlaceholder = 'e.g. What is $\\binom{6}{2}$?',
+		answerLabel = 'Answer',
+		answerPlaceholder = 'e.g. 15',
+		hasExplanation = true,
+		hasAnswerImage = true,
+	},
+) {
 	openModal(
 		title,
 		`
@@ -551,9 +559,9 @@ function renderAwardButtons() {
 	if (document.getElementById('streakTeamSelect')) populateStreakTeamSelector();
 	if (document.getElementById('swapRoster')) renderSwapRoster();
 	if (document.getElementById('wagerRoster')) renderWagerRoster();
-	if (document.getElementById('curseTeamButtons')) renderCurseTeamPanel();
+	if (document.getElementById('curseTeamPanel')) renderCurseTeamPanel();
+	if (document.getElementById('scapegoatRoster')) renderScapegoatRoster();
 }
-
 
 function formatSeconds(total) {
 	const minutes = String(Math.floor(total / 60)).padStart(2, '0');
@@ -579,8 +587,9 @@ function gatherState() {
 		swapTokens: swapTokens,
 		customWager: customWager,
 		sessionMinutes: sessionTotalMinutes,
-		customCurse: customCurse, 
+		customCurse: customCurse,
 		customCurses: customCurses,
+		customScapegoat: customScapegoat,
 	};
 }
 
@@ -632,17 +641,25 @@ function restoreState(data) {
 	if (Array.isArray(data.customLadder)) customLadder = data.customLadder;
 	if (Array.isArray(data.customDuel)) customDuel = data.customDuel;
 	if (Array.isArray(data.customChains)) customChains = data.customChains;
-	if (data.relayData && data.relayData.categories && data.relayData.cells) relayData = data.relayData;
-	if (Array.isArray(data.customElimination)) customElimination = data.customElimination;
-	if (Array.isArray(data.customEstimation)) customEstimation = data.customEstimation;
-	if (Array.isArray(data.customHandsUp)) customHandsUp = data.customHandsUp.map(migrateHandsUpItem);
+	if (data.relayData && data.relayData.categories && data.relayData.cells)
+		relayData = data.relayData;
+	if (Array.isArray(data.customElimination))
+		customElimination = data.customElimination;
+	if (Array.isArray(data.customEstimation))
+		customEstimation = data.customEstimation;
+	if (Array.isArray(data.customHandsUp))
+		customHandsUp = data.customHandsUp.map(migrateHandsUpItem);
 	if (Array.isArray(data.customSprint)) customSprint = data.customSprint;
 	if (Array.isArray(data.customPyramid)) customPyramid = data.customPyramid;
 	if (Array.isArray(data.customStreak)) customStreak = data.customStreak;
-	if (Array.isArray(data.customSwapPairs)) customSwapPairs = data.customSwapPairs;
-	if (data.swapTokens && typeof data.swapTokens === 'object') swapTokens = data.swapTokens;
+	if (Array.isArray(data.customSwapPairs))
+		customSwapPairs = data.customSwapPairs;
+	if (data.swapTokens && typeof data.swapTokens === 'object')
+		swapTokens = data.swapTokens;
 	if (Array.isArray(data.customWager)) customWager = data.customWager;
 	if (Array.isArray(data.customCurse)) customCurse = data.customCurse;
+	if (Array.isArray(data.customScapegoat))
+		customScapegoat = data.customScapegoat;
 
 	if (data.sessionMinutes) {
 		sessionTotalMinutes = data.sessionMinutes;
@@ -669,6 +686,7 @@ function restoreState(data) {
 	initSwap();
 	initWager();
 	initCurse();
+	initScapegoat();
 	const customLadderList = document.getElementById('customLadderList');
 	if (customLadderList) renderCustomLadderList();
 	const customDuelList = document.getElementById('customDuelList');

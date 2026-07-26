@@ -42,7 +42,8 @@ function resetSwapMarket() {
 function ensureSwapTeams(resetChoices) {
 	teams.forEach((team) => {
 		if (swapTokens[team.id] === undefined) swapTokens[team.id] = swapStartTokens;
-		if (resetChoices || swapChoice[team.id] === undefined) swapChoice[team.id] = 'hard';
+		if (resetChoices || swapChoice[team.id] === undefined)
+			swapChoice[team.id] = 'hard';
 	});
 }
 
@@ -102,14 +103,16 @@ function revealSwapAnswer() {
 
 	document.getElementById('swapHardAnswerFigure').textContent = pair.hardA;
 	setPromptImage('swapHardAnswerImg', pair.hardAImg);
-	document.getElementById('swapHardAnswerReasoning').textContent = pair.hardE || '';
+	document.getElementById('swapHardAnswerReasoning').textContent =
+		pair.hardE || '';
 	const hardBox = document.getElementById('swapHardAnswerBox');
 	hardBox.classList.add('show');
 	typeset(hardBox);
 
 	document.getElementById('swapBackAnswerFigure').textContent = pair.backA;
 	setPromptImage('swapBackAnswerImg', pair.backAImg);
-	document.getElementById('swapBackAnswerReasoning').textContent = pair.backE || '';
+	document.getElementById('swapBackAnswerReasoning').textContent =
+		pair.backE || '';
 	const backBox = document.getElementById('swapBackAnswerBox');
 	backBox.classList.add('show');
 	typeset(backBox);
@@ -154,7 +157,8 @@ function renderSwapRoster() {
 	wrap.innerHTML = teams
 		.map((team) => {
 			const choice = swapChoice[team.id] || 'hard';
-			const tokens = swapTokens[team.id] !== undefined ? swapTokens[team.id] : swapStartTokens;
+			const tokens =
+				swapTokens[team.id] !== undefined ? swapTokens[team.id] : swapStartTokens;
 			const pts = choice === 'backup' ? 1 : 3;
 
 			const actionHtml = swapLocked
@@ -165,7 +169,8 @@ function renderSwapRoster() {
 					>
 						${choice === 'backup' ? 'Backup locked in' : 'Hard problem locked in'}
 					</button>
-				` : `
+				`
+				: `
 					<button 
 						class="btn small ${choice === 'backup' ? 'ghost' : ''} award-btn" 
 						style="border-color: ${team.color};"
@@ -254,7 +259,8 @@ function openSwapModal() {
 function addCustomSwapPair() {
 	const timeInput = document.getElementById('newSwapTime').value.trim();
 	const parsedTime = parseInt(timeInput, 10);
-	const time = timeInput && !isNaN(parsedTime) ? Math.max(1, parsedTime) : undefined;
+	const time =
+		timeInput && !isNaN(parsedTime) ? Math.max(1, parsedTime) : undefined;
 	const hardQ = document.getElementById('newSwapHardQ').value.trim();
 	const hardA = document.getElementById('newSwapHardA').value.trim();
 	const hardE = document.getElementById('newSwapHardE').value.trim();
@@ -263,7 +269,9 @@ function addCustomSwapPair() {
 	const backE = document.getElementById('newSwapBackE').value.trim();
 
 	if (!hardQ || !hardA || !backQ || !backA) {
-		alert('Enter a question and answer for both the hard problem and the backup.');
+		alert(
+			'Enter a question and answer for both the hard problem and the backup.',
+		);
 		return;
 	}
 
@@ -281,11 +289,17 @@ function addCustomSwapPair() {
 		backAImg: swapBackupImageFields.state.a || undefined,
 	});
 
-	['newSwapTime', 'newSwapHardQ', 'newSwapHardA', 'newSwapHardE', 'newSwapBackQ', 'newSwapBackA', 'newSwapBackE'].forEach(
-		(id) => {
-			document.getElementById(id).value = '';
-		},
-	);
+	[
+		'newSwapTime',
+		'newSwapHardQ',
+		'newSwapHardA',
+		'newSwapHardE',
+		'newSwapBackQ',
+		'newSwapBackA',
+		'newSwapBackE',
+	].forEach((id) => {
+		document.getElementById(id).value = '';
+	});
 	swapHardImageFields.reset();
 	swapBackupImageFields.reset();
 	renderCustomSwapList();
@@ -297,7 +311,10 @@ function deleteCustomSwapPair(i) {
 }
 
 function renderCustomSwapList() {
-	renderCustomList('customSwapList', customSwapPairs, (pair, i) => `
+	renderCustomList(
+		'customSwapList',
+		customSwapPairs,
+		(pair, i) => `
 		<div class="custom-list-item">
 			${pair.hardQImg || pair.backQImg ? `<img class="thumb" src="${pair.hardQImg || pair.backQImg}" alt="" />` : ''}
 			<div class="txt">
@@ -307,5 +324,6 @@ function renderCustomSwapList() {
 			</div>
 			<button class="btn small ghost" onclick="deleteCustomSwapPair(${i})">Delete</button>
 		</div>
-	`);
+	`,
+	);
 }

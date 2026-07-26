@@ -35,9 +35,11 @@ you've got, and go. No build step, no backend, just static files.
 - **All-In Wager**: teams secretly wager points on their own confidence
   against a running bank total, a correct wager adds to the bank, a wrong
   one subtracts.
-- **Curse Card**: whole-group, first-to-answer. Answering first lets a team
-  draw a random curse and secretly saddle another team with it for their
-  next round; surviving a round while cursed earns a bonus.
+- **Curse Card**: after answering correctly, a team draws a random curse
+  and secretly saddles another team with it for their next round.
+- **Scapegoat**: every team secretly nominates another team as their
+  scapegoat each round; if the scapegoat gets the problem wrong, the
+  nominating team steals half their current points.
 
 Each game has a "How to Play" button (rules) and a "Manage Questions" /
 "Edit Board" button (content), plus a shared scoreboard bar and session
@@ -58,7 +60,7 @@ quirks in some browsers.
 ## Project structure
 
 ```
-index.html                 markup for every screen (home + 13 games)
+index.html                 markup for every screen (home + 12 games)
 styles.css                 all styling (chalkboard theme, layout, components)
 js/
   core.js                  app shell: nav, teams/scoreboard, session timer,
@@ -77,9 +79,10 @@ js/
     sprint-engine.js
     pyramid-engine.js
     streak-engine.js
-    swap-engine.js
+    swapmarket-engine.js
     wager-engine.js
     curse-engine.js
+    scapegoat-engine.js
 ```
 
 Each game is a data file plus an engine. The data file just exports a pool

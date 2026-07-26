@@ -290,7 +290,8 @@ function renderPyramidSummaryHtml() {
 					>
 						+3 Bonus (first to finish)
 					</button>
-				` : '';
+				`
+				: '';
 			return `
 				<div class="team-group" style="border-left-color: ${team.color};">
 					<span class="team-name">${escapeHtml(team.name)}</span>

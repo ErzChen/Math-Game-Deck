@@ -4,7 +4,7 @@ let streakState = 'idle';
 let streakTeamId = null;
 let streakIndex = 0;
 let streakVault = 0;
-let streakOutcome = null; 
+let streakOutcome = null;
 
 const streakTimer = createCountdownTimer({
 	seconds: 90,
@@ -121,7 +121,10 @@ function pushStreak() {
 function ensureStreakTimerUI() {
 	const wrap = document.getElementById('streakQuestionWrap');
 	if (!wrap || document.getElementById('streakTimerDisplay')) return;
-	wrap.insertAdjacentHTML('afterbegin', `<div class="timer mono" id="streakTimerDisplay"></div>`);
+	wrap.insertAdjacentHTML(
+		'afterbegin',
+		`<div class="timer mono" id="streakTimerDisplay"></div>`,
+	);
 }
 
 function renderStreakQuestion() {
@@ -174,7 +177,9 @@ function renderStreakScreen() {
 	}
 
 	const team = teams.find((team) => team.id === streakTeamId);
-	const teamLabel = team ? `<b style="color: ${team.color};">${escapeHtml(team.name)}</b>` : '';
+	const teamLabel = team
+		? `<b style="color: ${team.color};">${escapeHtml(team.name)}</b>`
+		: '';
 
 	if (streakState === 'question') {
 		if (progress) progress.innerHTML = `${teamLabel}'s turn in the spotlight`;
@@ -193,9 +198,10 @@ function renderStreakScreen() {
 		const vaultEl = document.getElementById('streakDecisionVault');
 		const noteEl = document.getElementById('streakDecisionNote');
 		const nextPts = pointsForStreakLevel(streakIndex + 1);
-		if (vaultEl) vaultEl.textContent = `Vault: ${streakVault} pt${streakVault === 1 ? '' : 's'}`;
+		if (vaultEl)
+			vaultEl.textContent = `Vault: ${streakVault} pt${streakVault === 1 ? '' : 's'}`;
 		if (noteEl) {
-			noteEl.textContent = `Push for level ${streakIndex + 2} of ${streakPool.length}, worth ${nextPts} more — but a miss wipes the vault.`;
+			noteEl.textContent = `Push for level ${streakIndex + 2} of ${streakPool.length}, worth ${nextPts} more, but a miss wipes the vault.`;
 		}
 		return;
 	}
@@ -211,7 +217,8 @@ function renderStreakScreen() {
 
 function renderStreakSummaryHtml() {
 	const team = teams.find((team) => team.id === streakTeamId);
-	if (!team) return `<button class="btn ghost" onclick="newStreakTurn()">Next Team</button>`;
+	if (!team)
+		return `<button class="btn ghost" onclick="newStreakTurn()">Next Team</button>`;
 
 	if (streakOutcome === 'bust') {
 		return `
@@ -225,9 +232,7 @@ function renderStreakSummaryHtml() {
 	}
 
 	const clearedLine =
-		streakOutcome === 'cleared'
-			? `Cleared the whole vault set! `
-			: `Banked it. `;
+		streakOutcome === 'cleared' ? `Cleared the whole vault set! ` : `Banked it. `;
 	return `
 		<div class="summary-line">
 			${clearedLine}<b style="color: ${team.color};">${escapeHtml(team.name)}</b> locks in <b>${streakVault}</b> pt${streakVault === 1 ? '' : 's'}.
@@ -250,7 +255,7 @@ function openStreakModal() {
 		listId: 'customStreakList',
 		addFnName: 'addCustomStreak',
 		helpText:
-			'Add problems in the order the streak should climb — the first one you add is level 1 (worth 1 pt), and each level after doubles in value. Longer sequences raise the ceiling, but also the risk of pushing too far.',
+			'Add problems in the order the streak should climb. The first one you add is level 1 (worth 1 pt), and each level after doubles in value. Longer sequences raise the ceiling, but also the risk of pushing too far.',
 		hasTier: false,
 		hasTime: true,
 		timeLabel: 'Time limit in seconds (optional, defaults to standard timer)',
@@ -262,7 +267,8 @@ function openStreakModal() {
 function addCustomStreak() {
 	const timeInput = document.getElementById('newStreakTime').value.trim();
 	const parsedTime = parseInt(timeInput, 10);
-	const time = timeInput && !isNaN(parsedTime) ? Math.max(1, parsedTime) : undefined;
+	const time =
+		timeInput && !isNaN(parsedTime) ? Math.max(1, parsedTime) : undefined;
 	const question = document.getElementById('newStreakQ').value.trim();
 	const answer = document.getElementById('newStreakA').value.trim();
 	const explanation = document.getElementById('newStreakE').value.trim();
@@ -292,7 +298,10 @@ function deleteCustomStreak(i) {
 }
 
 function renderCustomStreakList() {
-	renderCustomList('customStreakList', customStreak, (problem, i) => `
+	renderCustomList(
+		'customStreakList',
+		customStreak,
+		(problem, i) => `
 		<div class="custom-list-item">
 			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
 			<div class="txt">
@@ -300,5 +309,6 @@ function renderCustomStreakList() {
 			</div>
 			<button class="btn small ghost" onclick="deleteCustomStreak(${i})">Delete</button>
 		</div>
-	`);
+	`,
+	);
 }

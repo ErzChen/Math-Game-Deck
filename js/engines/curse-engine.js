@@ -251,7 +251,8 @@ function openCurseModal() {
 function addCustomCurse() {
 	const timeInput = document.getElementById('newCurseTime').value.trim();
 	const parsedTime = parseInt(timeInput, 10);
-	const time = timeInput && !isNaN(parsedTime) ? Math.max(1, parsedTime) : undefined;
+	const time =
+		timeInput && !isNaN(parsedTime) ? Math.max(1, parsedTime) : undefined;
 	const question = document.getElementById('newCurseQ').value.trim();
 	const answer = document.getElementById('newCurseA').value.trim();
 	const explanation = document.getElementById('newCurseE').value.trim();
@@ -281,13 +282,17 @@ function deleteCustomCurse(i) {
 }
 
 function renderCustomCurseList() {
-	renderCustomList('customCurseList', customCurse, (problem, i) => `
+	renderCustomList(
+		'customCurseList',
+		customCurse,
+		(problem, i) => `
 		<div class="custom-list-item">
 			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
 			<div class="txt">${problem.time ? `<b>${problem.time}s</b> — ` : ''}${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}</div>
 			<button class="btn small ghost" onclick="deleteCustomCurse(${i})">Delete</button>
 		</div>
-	`);
+	`,
+	);
 }
 
 function openCursesModal() {
@@ -326,10 +331,14 @@ function deleteCurseEffect(i) {
 }
 
 function renderCursesList() {
-	renderCustomList('customCursesList', customCurses, (curse, i) => `
+	renderCustomList(
+		'customCursesList',
+		customCurses,
+		(curse, i) => `
 		<div class="custom-list-item">
 			<div class="txt">${escapeHtml(curse)}</div>
 			<button class="btn small ghost" onclick="deleteCurseEffect(${i})">Delete</button>
 		</div>
-	`);
+	`,
+	);
 }

@@ -86,7 +86,9 @@ function renderDuelAwardButtons() {
 		element.innerHTML = '';
 		return;
 	}
-	renderTeamAwardButtons('awardDuel', [teamA, teamB], () => [{ label: '+1', points: 1 }]);
+	renderTeamAwardButtons('awardDuel', [teamA, teamB], () => [
+		{ label: '+1', points: 1 },
+	]);
 }
 
 function openDuelModal() {
@@ -127,7 +129,10 @@ function deleteCustomDuel(i) {
 }
 
 function renderCustomDuelList() {
-	renderCustomList('customDuelList', customDuel, (problem, i) => `
+	renderCustomList(
+		'customDuelList',
+		customDuel,
+		(problem, i) => `
 		<div class="custom-list-item">
 			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
 			<div class="txt">
@@ -137,5 +142,6 @@ function renderCustomDuelList() {
 			</div>
 			<button class="btn small ghost" onclick="deleteCustomDuel(${i})">Delete</button>
 		</div>
-	`);
+	`,
+	);
 }
