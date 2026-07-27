@@ -114,9 +114,9 @@ const gameInfo = {
 		mechanic: 'Auction',
 		format: 'All teams, simultaneous',
 		howToPlay:
-			'Every team starts with a stash of 10 swap tokens. When a hard problem is revealed, there\'s only one easier backup problem up for grabs, worth exactly the same points, teams secretly bid however many tokens they\'re willing to spend on it before the timer starts. The highest bidder wins the backup and answers that instead; every other team is stuck with the harder problem, whether they wanted to swap or not. Ties for the high bid are broken at random. Unlike All-In Wager, which bets points on confidence in the same problem, this is a real market: only one team can buy their way to an easier problem for free, so it pays to guess what the rest of the room is willing to spend.',
+			"Every team starts with a stash of 10 swap tokens. When a hard problem is revealed, there's only one easier backup problem up for grabs, worth exactly the same points, teams secretly bid however many tokens they're willing to spend on it before the timer starts. The highest bidder wins the backup and answers that instead; every other team is stuck with the harder problem, whether they wanted to swap or not. Ties for the high bid are broken at random. Unlike All-In Wager, which bets points on confidence in the same problem, this is a real market: only one team can buy their way to an easier problem for free, so it pays to guess what the rest of the room is willing to spend.",
 		scoring:
-			'Both the hard problem and the backup are worth 3 pts, winning the auction only makes the problem easier, it doesn\'t cost points. The winning bid is spent whether or not the backup is answered correctly, everyone else keeps their tokens for the next round.',
+			"Both the hard problem and the backup are worth 3 pts, winning the auction only makes the problem easier, it doesn't cost points. The winning bid is spent whether or not the backup is answered correctly, everyone else keeps their tokens for the next round.",
 		customization:
 			'"Manage Problem Pairs" adds a hard problem paired with its easier backup, so every round has a backup up for auction.',
 	},
@@ -191,7 +191,7 @@ const gameInfo = {
 		mechanic: 'Pattern ID',
 		format: 'All teams, simultaneous',
 		howToPlay:
-			"Teams see a sequence of numbers with the last one or two terms hidden as \"?\" (e.g. 2, 6, 18, 54, ?). On their whiteboards, they have to work out both the underlying rule — geometric, Fibonacci-style, alternating, etc. — and what the hidden term(s) should be, within the timer. \"Reveal Answer\" shows the named pattern and the correct missing term(s).",
+			'Teams see a sequence of numbers with the last one or two terms hidden as "?" (e.g. 2, 6, 18, 54, ?). On their whiteboards, they have to work out both the underlying rule — geometric, Fibonacci-style, alternating, etc. — and what the hidden term(s) should be, within the timer. "Reveal Answer" shows the named pattern and the correct missing term(s).',
 		scoring:
 			'Two independent 1 pt awards per team: one for correctly naming/describing the pattern, one for correctly guessing the hidden term(s). A team can earn either, both, or neither.',
 		customization:
@@ -208,16 +208,16 @@ const gameInfo = {
 		customization:
 			'"Manage Questions" adds problems to the shared pool; "Manage Siege Rules" sets the Army-to-points conversion rate, attack transfer amount, and how much Reinforce reduces incoming damage.',
 	},
-	prophetsgambit: {
-		title: "Prophet's Gambit: How to Play",
+	pool: {
+		title: 'The Pool: How to Play',
 		mechanic: 'Forecasting',
 		format: 'All teams, simultaneous',
 		howToPlay:
-			"At the very start of the session, every team privately writes down their prediction for the final standings, ranking all teams from 1st to last, and seals it with the host unseen by anyone else. Normal rounds play out as usual on top of this. Every few rounds, the host pauses for a Checkpoint: current standings are compared against each team's sealed prediction, and any team whose call matches a team's current position (partially or fully) earns a bonus, even for teams whose prediction isn't about themselves. Because part-credit resets each Checkpoint but the sealed order never changes, teams start weighing whether to keep playing purely for their own score or to quietly nudge the game (choosing who to target in other games, when to bank vs. push) to protect the standings shape they predicted.",
+			"At the very start of the session, every team privately writes down their prediction for the final standings, ranking all teams from 1st to last, and seals it with the host unseen by anyone else. Normal rounds of any other game play out as usual on top of this. Every so often, the host pauses for a Checkpoint: current standings are compared against each team's sealed prediction, and any team whose call matches a team's current position (partially or fully) earns a bonus, even for teams whose prediction isn't about themselves. Because part-credit resets each Checkpoint but the sealed order never changes, teams start weighing whether to keep playing purely for their own score or to quietly nudge the game to protect the standings shape they predicted.",
 		scoring:
-			'Normal round scoring applies as usual on top of this game. At each Checkpoint, a team earns 1 pt for every position in the current standings that exactly matches their sealed prediction, plus a one-time bonus at the final Checkpoint if their entire predicted order matches exactly.',
+			'Normal round scoring applies as usual on top of this game. At each Checkpoint, a team earns points for every position in the current standings that exactly matches their sealed prediction, plus a one-time bonus at the final Checkpoint if their entire predicted order matches exactly.',
 		customization:
-			'"Manage Checkpoints" sets how many rounds apart Checkpoints fall and the exact-match bonus value; predictions themselves are collected live at the start of the session and require no question pool of their own.',
+			'"Manage Predictions" sets the points-per-match and final-match bonus, and holds each team\'s sealed prediction, entered live at the start of the session; there\'s no question pool of its own.',
 	},
 };
 

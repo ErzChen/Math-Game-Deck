@@ -19,3 +19,4 @@ initPointHeist();
 initHotPotato();
 initBounty();
 initSequence();
+initSiege();

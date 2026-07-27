@@ -1370,6 +1370,100 @@ h1 {
 	min-width: 22px;
 }
 
+/* ---------- Siege Castles ---------- */
+.siege-battlefield {
+	display: flex;
+	gap: 18px;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 4px 0 24px;
+}
+.siege-castle-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	width: 120px;
+}
+.siege-castle-svg {
+	filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.28));
+	transform-origin: 50% 90%;
+}
+.siege-castle-name {
+	font-size: 12px;
+	font-weight: 700;
+	margin-top: 2px;
+}
+.siege-castle-tier-label {
+	font-size: 10px;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--chalk-muted);
+}
+.siege-army-count {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	color: var(--chalk-muted);
+}
+
+/* Fortify: castle pulses gold */
+@keyframes siegeFortifyPulse {
+	0% { transform: scale(1); }
+	35% { transform: scale(1.14); filter: drop-shadow(0 0 16px var(--chalk-yellow)); }
+	100% { transform: scale(1); }
+}
+.siege-castle-svg.fortify-anim {
+	animation: siegeFortifyPulse 0.75s ease;
+}
+
+/* Reinforce: shield ring pulses in */
+@keyframes siegeShieldPulse {
+	0% { opacity: 0; transform: scale(0.7); }
+	55% { opacity: 1; transform: scale(1.12); }
+	100% { opacity: 0.85; transform: scale(1); }
+}
+.siege-shield-ring {
+	animation: siegeShieldPulse 0.7s ease;
+	transform-origin: 50% 50%;
+}
+
+/* Attack lands: target shakes */
+@keyframes siegeHitShake {
+	0%, 100% { transform: translateX(0) rotate(0); }
+	20% { transform: translateX(-6px) rotate(-2deg); }
+	40% { transform: translateX(5px) rotate(2deg); }
+	60% { transform: translateX(-4px) rotate(-1deg); }
+	80% { transform: translateX(3px) rotate(1deg); }
+}
+.siege-castle-svg.hit-anim {
+	animation: siegeHitShake 0.5s ease;
+}
+
+/* Attack misses: attacker recoils */
+@keyframes siegeMissRecoil {
+	0% { transform: translateX(0) rotate(0); }
+	50% { transform: translateX(-5px) rotate(-3deg); }
+	100% { transform: translateX(0) rotate(0); }
+}
+.siege-castle-svg.miss-anim {
+	animation: siegeMissRecoil 0.4s ease;
+}
+
+/* Flying catapult projectile */
+.siege-projectile {
+	position: fixed;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background: radial-gradient(circle at 35% 35%, #ffe08a, var(--chalk-yellow) 60%, #7a4a00);
+	box-shadow: 0 0 10px rgba(217, 140, 0, 0.85);
+	pointer-events: none;
+	z-index: 500;
+	transition:
+		transform 0.55s cubic-bezier(0.3, 0.6, 0.4, 1),
+		opacity 0.2s ease 0.4s;
+}
+
 /* ---------- KaTeX Theming ---------- */
 .katex {
 	color: inherit;

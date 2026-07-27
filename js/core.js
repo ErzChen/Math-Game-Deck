@@ -567,6 +567,7 @@ function renderAwardButtons() {
 	if (document.getElementById('hotPotatoTeamSelect')) populateHotPotatoTeamSelector();
 	if (document.getElementById('bountyRoster')) renderBountyRoster();
 	if (document.getElementById('awardSequence')) renderSequenceAwardButtons();
+	if (document.getElementById('siegeRoster')) renderSiegeRoster();
 }
 
 function formatSeconds(total) {
@@ -610,6 +611,12 @@ function gatherState() {
 		bountyPercent: bountyPercent,
 		bountyAllTiedLeaders: bountyAllTiedLeaders,
 		customSequence: customSequence,
+		customSiege: customSiege,
+		siegeArmy: siegeArmy,
+		siegeShielded: siegeShielded,
+		siegeConversionRate: siegeConversionRate,
+		siegeAttackAmount: siegeAttackAmount,
+		siegeReinforcePct: siegeReinforcePct,
 	};
 }
 
@@ -695,6 +702,12 @@ function restoreState(data) {
 	if (typeof data.bountyPercent === 'number') bountyPercent = data.bountyPercent;
 	if (typeof data.bountyAllTiedLeaders === 'boolean') bountyAllTiedLeaders = data.bountyAllTiedLeaders;
 	if (Array.isArray(data.customSequence)) customSequence = data.customSequence;
+	if (Array.isArray(data.customSiege)) customSiege = data.customSiege;
+	if (data.siegeArmy && typeof data.siegeArmy === 'object') siegeArmy = data.siegeArmy;
+	if (data.siegeShielded && typeof data.siegeShielded === 'object') siegeShielded = data.siegeShielded;
+	if (typeof data.siegeConversionRate === 'number') siegeConversionRate = data.siegeConversionRate;
+	if (typeof data.siegeAttackAmount === 'number') siegeAttackAmount = data.siegeAttackAmount;
+	if (typeof data.siegeReinforcePct === 'number') siegeReinforcePct = data.siegeReinforcePct;
 
 	if (data.sessionMinutes) {
 		sessionTotalMinutes = data.sessionMinutes;
@@ -726,6 +739,7 @@ function restoreState(data) {
 	initHotPotato();
 	initBounty();
 	initSequence();
+	initSiege();
 	const customLadderList = document.getElementById('customLadderList');
 	if (customLadderList) renderCustomLadderList();
 	const customDuelList = document.getElementById('customDuelList');
