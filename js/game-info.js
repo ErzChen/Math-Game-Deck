@@ -186,16 +186,16 @@ const gameInfo = {
 		customization:
 			'"Manage Questions" adds problems to the shared pool; "Manage Bounty" lets the host adjust the percentage taken and toggle whether ties for the lead are broken randomly or all tied leaders are marked simultaneously.',
 	},
-	timelinesort: {
-		title: 'Timeline Sort: How to Play',
-		mechanic: 'Sequencing',
+	sequencedetective: {
+		title: 'Sequence Detective: How to Play',
+		mechanic: 'Pattern ID',
 		format: 'All teams, simultaneous',
 		howToPlay:
-			"Instead of a single problem, teams are shown 4-6 numeric expressions or values on screen (e.g. fractions, roots, function outputs) shuffled out of order, and must write down what they believe is the correct order from least to greatest within the timer. Once time's up, the correct order is revealed and each team checks their own against it.",
+			"Teams see a sequence of numbers with the last one or two terms hidden as \"?\" (e.g. 2, 6, 18, 54, ?). On their whiteboards, they have to work out both the underlying rule — geometric, Fibonacci-style, alternating, etc. — and what the hidden term(s) should be, within the timer. \"Reveal Answer\" shows the named pattern and the correct missing term(s).",
 		scoring:
-			"Points are awarded per item placed in its exact correct position (e.g. 1 pt each), so partial credit is normal, a team doesn't need the whole sequence right to score.",
+			'Two independent 1 pt awards per team: one for correctly naming/describing the pattern, one for correctly guessing the hidden term(s). A team can earn either, both, or neither.',
 		customization:
-			'"Manage Sets" builds shuffled value sets with their correct order; "Manage Scoring" sets points per correctly placed item and any perfect-order bonus.',
+			'"Manage Sequences" adds a full sequence (comma-separated, including the terms to hide), a name for the pattern, and how many trailing terms to hide.',
 	},
 	siege: {
 		title: 'Siege: How to Play',

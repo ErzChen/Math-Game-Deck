@@ -17,3 +17,5 @@ initCurse();
 initScapegoat();
 initPointHeist();
 initHotPotato();
+initBounty();
+initSequence();

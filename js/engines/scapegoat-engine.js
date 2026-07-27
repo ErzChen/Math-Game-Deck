@@ -145,24 +145,24 @@ function renderScapegoatRoster() {
 	wrap.innerHTML = teams.map((team) => renderScapegoatTeamRow(team)).join('');
 }
 
-function renderScapegoatTeamRow(renderTeam) {
+function renderScapegoatTeamRow(team) {
 	const nominationOptions = teams
-		.filter((team) => team.id !== renderTeam.id)
+		.filter((t) => t.id !== team.id)
 		.map(
-			(team) =>
-				`<option value="${team.id}" ${scapegoatNominations[renderTeam.id] === team.id ? 'selected' : ''}>${escapeHtml(team.name)}</option>`,
+			(t) =>
+				`<option value="${t.id}" ${scapegoatNominations[team.id] === t.id ? 'selected' : ''}>${escapeHtml(t.name)}</option>`,
 		)
 		.join('');
 
-	const result = scapegoatResults[renderTeam.id];
+	const result = scapegoatResults[team.id];
 
 	return `
-		<div class="team-group" style="border-left-color: ${renderTeam.color};">
-			<span class="team-name">${escapeHtml(renderTeam.name)}</span>
+		<div class="team-group" style="border-left-color: ${team.color};">
+			<span class="team-name">${escapeHtml(team.name)}</span>
 			<div class="team-btns">
 				<select
 					class="scapegoat-select mono"
-					onchange="setScapegoatNomination('${renderTeam.id}', this.value)"
+					onchange="setScapegoatNomination('${team.id}', this.value)"
 					${scapegoatResolved ? 'disabled' : ''}
 				>
 					<option value="">Scapegoat: none</option>
@@ -170,16 +170,16 @@ function renderScapegoatTeamRow(renderTeam) {
 				</select>
 				<button
 					class="btn small award-btn ${result === 'wrong' ? 'elim-wrong-active' : ''}"
-					style="border-color: ${renderTeam.color};"
-					onclick="markScapegoatResult('${renderTeam.id}', 'wrong')"
+					style="border-color: ${team.color};"
+					onclick="markScapegoatResult('${team.id}', 'wrong')"
 					${scapegoatResolved ? 'disabled' : ''}
 				>
 					✗ Wrong
 				</button>
 				<button
 					class="btn small award-btn"
-					style="border-color: ${renderTeam.color};"
-					onclick="markScapegoatResult('${renderTeam.id}', 'correct')"
+					style="border-color: ${team.color};"
+					onclick="markScapegoatResult('${team.id}', 'correct')"
 					${scapegoatResolved ? 'disabled' : ''}
 				>
 					✓ Correct

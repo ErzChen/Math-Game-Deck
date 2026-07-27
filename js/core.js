@@ -517,11 +517,13 @@ function addScore(id, delta, event) {
 		.querySelectorAll(`[data-team-score="${id}"]`)
 		.forEach((element) => (element.textContent = team.score));
 	if (event) spawnDust(event.clientX, event.clientY, team.color);
+	autosave();
 }
 
 function resetScores() {
 	teams.forEach((team) => (team.score = 0));
 	renderTeamsList();
+	autosave();
 }
 
 function spawnDust(x, y, color) {
@@ -563,6 +565,8 @@ function renderAwardButtons() {
 	if (document.getElementById('scapegoatRoster')) renderScapegoatRoster();
 	if (document.getElementById('pointHeistRoster')) renderPointHeistRoster();
 	if (document.getElementById('hotPotatoTeamSelect')) populateHotPotatoTeamSelector();
+	if (document.getElementById('bountyRoster')) renderBountyRoster();
+	if (document.getElementById('awardSequence')) renderSequenceAwardButtons();
 }
 
 function formatSeconds(total) {
@@ -602,6 +606,10 @@ function gatherState() {
 		customHotPotato: customHotPotato,
 		hotPotatoAutoMin: hotPotatoAutoMin,
 		hotPotatoAutoMax: hotPotatoAutoMax,
+		customBounty: customBounty,
+		bountyPercent: bountyPercent,
+		bountyAllTiedLeaders: bountyAllTiedLeaders,
+		customSequence: customSequence,
 	};
 }
 
@@ -683,6 +691,10 @@ function restoreState(data) {
 	if (Array.isArray(data.customHotPotato)) customHotPotato = data.customHotPotato;
 	if (typeof data.hotPotatoAutoMin === 'number') hotPotatoAutoMin = data.hotPotatoAutoMin;
 	if (typeof data.hotPotatoAutoMax === 'number') hotPotatoAutoMax = data.hotPotatoAutoMax;
+	if (Array.isArray(data.customBounty)) customBounty = data.customBounty;
+	if (typeof data.bountyPercent === 'number') bountyPercent = data.bountyPercent;
+	if (typeof data.bountyAllTiedLeaders === 'boolean') bountyAllTiedLeaders = data.bountyAllTiedLeaders;
+	if (Array.isArray(data.customSequence)) customSequence = data.customSequence;
 
 	if (data.sessionMinutes) {
 		sessionTotalMinutes = data.sessionMinutes;
@@ -712,6 +724,8 @@ function restoreState(data) {
 	initScapegoat();
 	initPointHeist();
 	initHotPotato();
+	initBounty();
+	initSequence();
 	const customLadderList = document.getElementById('customLadderList');
 	if (customLadderList) renderCustomLadderList();
 	const customDuelList = document.getElementById('customDuelList');

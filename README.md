@@ -47,6 +47,13 @@ you've got, and go. No build step, no backend, just static files.
   passed between teams. Answer right and pass it on to anyone else,
   but a hidden random (or host-triggered) cutoff can end the round any
   time, whoever's holding it then forfeits everything it's worth.
+- **Bounty**: the current point leader is automatically marked each round.
+  Answer first and choose to bank your own points or collect a cut
+  straight from the Bounty team instead.
+- **Sequence Detective**: a numeric sequence appears with the last term(s)
+  hidden as "?". Teams have to work out the underlying pattern (geometric,
+  Fibonacci-style, alternating, etc.) and guess what's missing, earning
+  separate points for naming the rule and for guessing the hidden term(s).
 
 Each game has a "How to Play" button (rules) and a "Manage Questions" /
 "Edit Board" button (content), plus a shared scoreboard bar and session
@@ -67,7 +74,7 @@ quirks in some browsers.
 ## Project structure
 
 ```
-index.html                 markup for every screen (home + 15 games)
+index.html                 markup for every screen (home + 18 games)
 styles.css                 all styling (chalkboard theme, layout, components)
 js/
   core.js                  app shell: nav, teams/scoreboard, session timer,
@@ -92,6 +99,8 @@ js/
     scapegoat-engine.js
     point-heist-engine.js
     hotpotato-engine.js
+    bounty-engine.js
+    sequence-engine.js
 ```
 
 Each game is a data file plus an engine. The data file just exports a pool
