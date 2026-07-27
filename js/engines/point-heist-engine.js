@@ -209,7 +209,7 @@ function renderPointHeistTeamRow(team) {
 					${
 						allowRaid && otherTeams.length
 							? `
-								<select class="pointheist-raid-select mono" id="pointHeistRaidSelect-${team.id}">
+								<select class="target-select mono" id="pointHeistRaidSelect-${team.id}">
 									${raidOptions}
 								</select>
 								<button

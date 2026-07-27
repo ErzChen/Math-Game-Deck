@@ -81,7 +81,8 @@ function resetSiegeTimer() {
 }
 
 function setSiegeSetting(kind, val) {
-	if (kind === 'conversion') siegeConversionRate = Math.max(1, parseInt(val, 10) || 2);
+	if (kind === 'conversion')
+		siegeConversionRate = Math.max(1, parseInt(val, 10) || 2);
 	if (kind === 'attack') siegeAttackAmount = Math.max(1, parseInt(val, 10) || 3);
 	if (kind === 'reinforce')
 		siegeReinforcePct = Math.max(0, Math.min(100, parseInt(val, 10) || 50));
@@ -145,7 +146,7 @@ function setSiegeMove(teamId, type) {
 	}
 	const move = { type };
 	if (type === 'attack') {
-		const other = teams.find((t) => t.id !== teamId);
+		const other = teams.find((team) => team.id !== teamId);
 		move.targetId = other ? other.id : null;
 	}
 	siegeMoves[teamId] = move;
@@ -167,11 +168,13 @@ function markSiegeResult(teamId, result) {
 function resolveSiegeRound() {
 	if (siegePool.length === 0 || siegeResolved) return;
 	if (teams.some((team) => !siegeMoves[team.id])) {
-		alert('Every team needs to pick Fortify, Reinforce, or Attack before resolving.');
+		alert(
+			'Every team needs to pick Fortify, Reinforce, or Attack before resolving.',
+		);
 		return;
 	}
 	if (teams.some((team) => !siegeResults[team.id])) {
-		alert('Mark every team ✓ Correct or ✗ Wrong before resolving the round.');
+		alert('Mark every team Correct or Wrong before resolving the round.');
 		return;
 	}
 
@@ -220,11 +223,10 @@ function resolveSiegeRound() {
 
 	siegeResolved = true;
 	autosave();
-    nextSiegeProblem();
+	nextSiegeProblem();
 	renderSiegeRoster();
 	playSiegeAnimations(fortifyHits, attackEvents);
 }
-
 
 function siegeCastleTier(score) {
 	if (score >= 50) return 3;
@@ -297,7 +299,7 @@ function renderSiegeCastleCard(team) {
 			${siegeCastleSVG(team, tier, army, shielded)}
 			<div class="siege-castle-name" style="color: ${team.color};">${escapeHtml(team.name)}</div>
 			<div class="siege-castle-tier-label">${info.label}</div>
-			<div class="siege-army-count">⚔ Army: ${army}</div>
+			<div class="siege-army-count">Army: ${army}</div>
 		</div>
 	`;
 }
@@ -323,8 +325,10 @@ function fireSiegeProjectile(fromId, toId, hit) {
 	document.body.appendChild(proj);
 
 	requestAnimationFrame(() => {
-		const dx = toRect.left + toRect.width / 2 - (fromRect.left + fromRect.width / 2);
-		const dy = toRect.top + toRect.height / 2 - (fromRect.top + fromRect.height / 2);
+		const dx =
+			toRect.left + toRect.width / 2 - (fromRect.left + fromRect.width / 2);
+		const dy =
+			toRect.top + toRect.height / 2 - (fromRect.top + fromRect.height / 2);
 		proj.style.transform = `translate(${dx}px, ${dy}px) scale(${hit ? 1 : 0.6})`;
 		proj.style.opacity = '0';
 	});
@@ -348,14 +352,17 @@ function playSiegeAnimations(fortifyIds, attacks) {
 		}
 	});
 	attacks.forEach((atk, i) => {
-		setTimeout(() => fireSiegeProjectile(atk.attackerId, atk.targetId, atk.hit), i * 250);
+		setTimeout(
+			() => fireSiegeProjectile(atk.attackerId, atk.targetId, atk.hit),
+			i * 250,
+		);
 	});
 }
 
 function renderSiegeRoster() {
 	renderSiegeSettingsInputs();
 	ensureSiegeTeams();
-    renderSiegeBattlefield();
+	renderSiegeBattlefield();
 	const wrap = document.getElementById('siegeRoster');
 	if (!wrap) return;
 	if (teams.length === 0) {
@@ -370,7 +377,7 @@ function renderSiegeTeamRow(team) {
 	const result = siegeResults[team.id];
 	const army = siegeArmy[team.id] || 0;
 	const shieldTag = siegeShielded[team.id]
-		? '<span class="elimination-chip-tag">Shielded</span>'
+		? '<span class="status-tag">Shielded</span>'
 		: '';
 
 	const targetOptions = teams
@@ -385,10 +392,10 @@ function renderSiegeTeamRow(team) {
 
 	return `
 		<div class="team-group" style="border-left-color: ${team.color};">
-			<span class="team-name">${escapeHtml(team.name)} <span class="swap-token-count">(Army: ${army})</span> ${shieldTag}</span>
+			<span class="team-name">${escapeHtml(team.name)} <span class="stat-count">(Army: ${army})</span> ${shieldTag}</span>
 			<div class="team-btns">
 				<select
-					class="scapegoat-select mono"
+					class="inline-select mono"
 					onchange="setSiegeMove('${team.id}', this.value)"
 					${siegeResolved ? 'disabled' : ''}
 				>
@@ -399,11 +406,11 @@ function renderSiegeTeamRow(team) {
 				</select>
 				${
 					move && move.type === 'attack'
-						? `<select class="scapegoat-select mono" onchange="setSiegeAttackTarget('${team.id}', this.value)">${targetOptions}</select>`
+						? `<select class="inline-select mono" onchange="setSiegeAttackTarget('${team.id}', this.value)">${targetOptions}</select>`
 						: ''
 				}
 				<button
-					class="btn small award-btn ${result === 'wrong' ? 'elim-wrong-active' : ''}"
+					class="btn small award-btn ${result === 'wrong' ? 'wrong-active' : ''}"
 					style="border-color: ${team.color};"
 					onclick="markSiegeResult('${team.id}', 'wrong')"
 					${siegeResolved ? 'disabled' : ''}

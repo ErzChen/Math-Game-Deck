@@ -92,7 +92,7 @@ function renderWagerRoster() {
 					<div class="team-btns">
 						<input
 							type="number"
-							class="wager-input mono"
+							class="num-input mono"
 							id="wagerInput-${team.id}"
 							min="1"
 							max="5"

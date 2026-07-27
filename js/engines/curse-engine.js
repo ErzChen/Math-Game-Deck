@@ -137,7 +137,7 @@ function renderCurseTeamPanel() {
 function renderCurseTeamRow(team) {
 	const cursedTag =
 		activeCurse && activeCurse.teamId === team.id
-			? '<span class="elimination-chip-tag">Cursed</span>'
+			? '<span class="status-tag">Cursed</span>'
 			: '';
 	return `
 		<div class="team-group" style="border-left-color: ${team.color};">

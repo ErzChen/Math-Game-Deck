@@ -20,3 +20,4 @@ initHotPotato();
 initBounty();
 initSequence();
 initSiege();
+initPool();

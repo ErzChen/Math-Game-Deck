@@ -213,11 +213,11 @@ const gameInfo = {
 		mechanic: 'Forecasting',
 		format: 'All teams, simultaneous',
 		howToPlay:
-			"At the very start of the session, every team privately writes down their prediction for the final standings, ranking all teams from 1st to last, and seals it with the host unseen by anyone else. Normal rounds of any other game play out as usual on top of this. Every so often, the host pauses for a Checkpoint: current standings are compared against each team's sealed prediction, and any team whose call matches a team's current position (partially or fully) earns a bonus, even for teams whose prediction isn't about themselves. Because part-credit resets each Checkpoint but the sealed order never changes, teams start weighing whether to keep playing purely for their own score or to quietly nudge the game to protect the standings shape they predicted.",
+			"At the very start of the session, every team privately writes down their prediction for the final standings, ranking all teams from 1st to last (sealed however the room can manage — turn away, cover the screen, etc.). From there Pool plays like any other quickfire game: the host reveals a math problem, the whole room answers on whiteboards, and correct teams earn the usual point. Every so often, the host pauses for a Checkpoint: current standings are compared against each team's sealed prediction, and any team whose call matches a team's current position (partially or fully) earns a bonus, even for teams whose prediction isn't about themselves.",
 		scoring:
-			'Normal round scoring applies as usual on top of this game. At each Checkpoint, a team earns points for every position in the current standings that exactly matches their sealed prediction, plus a one-time bonus at the final Checkpoint if their entire predicted order matches exactly.',
+			'A correct answer on a Pool problem earns 1 pt as usual. At each Checkpoint, a team earns points for every position in the current standings that exactly matches their sealed prediction, plus a one-time bonus at the final Checkpoint if their entire predicted order matches exactly.',
 		customization:
-			'"Manage Predictions" sets the points-per-match and final-match bonus, and holds each team\'s sealed prediction, entered live at the start of the session; there\'s no question pool of its own.',
+			'"Manage Questions" adds math problems to Pool\'s own shared pool. "Pool Settings" sets the points-per-match and final-match bonus; each team\'s sealed prediction is set directly at the bottom of the Pool screen instead of a separate modal.',
 	},
 };
 

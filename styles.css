@@ -799,8 +799,7 @@ h1 {
 	font-family: inherit;
 	font-size: 14px;
 }
-.team-group,
-.hands-up-team-row {
+.team-group {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -812,15 +811,11 @@ h1 {
 	border-radius: 10px;
 	padding: 10px 14px;
 }
-.elimination-chip-name,
-.team-name,
-.hands-up-team-name {
+.team-name {
 	font-weight: 700;
 	font-size: 14px;
 }
-.elimination-chip-btns,
-.team-btns,
-.hands-up-team-btns {
+.team-btns {
 	display: flex;
 	gap: 8px;
 	flex-wrap: nowrap;
@@ -828,15 +823,57 @@ h1 {
 .team-group.marked {
 	opacity: 0.6;
 }
+.stat-count {
+	font-size: 12.5px;
+	color: var(--chalk-muted);
+}
+.num-input {
+	width: 52px;
+	background: var(--surface);
+	border: 1px solid var(--line-strong);
+	color: var(--chalk-white);
+	border-radius: var(--radius-small);
+	padding: 6px 8px;
+	font-family: inherit;
+	font-size: 14px;
+	text-align: center;
+}
+.inline-select {
+	background: var(--surface);
+	border: 1px solid var(--line-strong);
+	color: var(--chalk-white);
+	border-radius: var(--radius-small);
+	padding: 6px 8px;
+	font-size: 13px;
+	max-width: 160px;
+}
+.target-select {
+	background: var(--surface);
+	border: 1px solid var(--line-strong);
+	color: var(--chalk-white);
+	border-radius: var(--radius-small);
+	padding: 6px 8px;
+	font-size: 13px;
+	max-width: 150px;
+}
+.wrong-active {
+	border-color: var(--chalk-pink) !important;
+	color: var(--chalk-pink);
+}
+.solved-banner {
+	font-size: 15px;
+	font-weight: 600;
+	padding: 10px 2px;
+}
 .panel {
 	background: var(--surface);
 	border: 1px solid var(--line);
 	border-radius: var(--radius);
 	padding: 28px;
 }
-.elimination-roster,
+.roster-list,
 .estimation-award-list,
-.hands-up-list,
+.caller-list,
 .curse-list {
 	display: flex;
 	flex-direction: column;
@@ -884,7 +921,7 @@ h1 {
 	font-weight: 700;
 	font-size: 14px;
 }
-.elimination-chip-tag {
+.status-tag {
 	font-family: var(--font-mono);
 	font-size: 11px;
 	letter-spacing: 0.08em;
@@ -1038,10 +1075,6 @@ h1 {
 .elim-champion .btn {
 	margin: 0 6px;
 }
-.elim-wrong-active {
-	border-color: var(--chalk-pink) !important;
-	color: var(--chalk-pink);
-}
 
 /* ---------- Hands-Up Steal ---------- */
 .hands-up-team-row.tried {
@@ -1052,11 +1085,6 @@ h1 {
 	font-size: 11px;
 	letter-spacing: 0.06em;
 	color: var(--chalk-muted);
-}
-.hands-up-solved {
-	font-size: 15px;
-	font-weight: 600;
-	padding: 10px 2px;
 }
 
 /* ---------- Pyramid Race ---------- */
@@ -1217,10 +1245,6 @@ h1 {
 .swap-col .question {
 	font-size: 16px;
 }
-.swap-token-count {
-	font-size: 12.5px;
-	color: var(--chalk-muted);
-}
 
 /* ---------- Speed Sprint ---------- */
 .sprint-key-wrap {
@@ -1243,28 +1267,6 @@ h1 {
 .tier-badge.t5 {
 	color: var(--chalk-white);
 	border: 1px solid var(--line-strong);
-}
-.wager-input {
-	width: 52px;
-	background: var(--surface);
-	border: 1px solid var(--line-strong);
-	color: var(--chalk-white);
-	border-radius: var(--radius-small);
-	padding: 6px 8px;
-	font-family: inherit;
-	font-size: 14px;
-	text-align: center;
-}
-
-/* ---------- Scapegoat ---------- */
-.scapegoat-select {
-	background: var(--surface);
-	border: 1px solid var(--line-strong);
-	color: var(--chalk-white);
-	border-radius: var(--radius-small);
-	padding: 6px 8px;
-	font-size: 13px;
-	max-width: 160px;
 }
 
 /* ---------- Point Heist ---------- */
@@ -1335,15 +1337,6 @@ h1 {
 	font-family: inherit;
 	font-size: 13px;
 }
-.pointheist-raid-select {
-	background: var(--surface);
-	border: 1px solid var(--line-strong);
-	color: var(--chalk-white);
-	border-radius: var(--radius-small);
-	padding: 6px 8px;
-	font-size: 13px;
-	max-width: 150px;
-}
 
 /* ---------- Timeline Sort ---------- */
 .timeline-item-list {
@@ -1408,9 +1401,16 @@ h1 {
 
 /* Fortify: castle pulses gold */
 @keyframes siegeFortifyPulse {
-	0% { transform: scale(1); }
-	35% { transform: scale(1.14); filter: drop-shadow(0 0 16px var(--chalk-yellow)); }
-	100% { transform: scale(1); }
+	0% {
+		transform: scale(1);
+	}
+	35% {
+		transform: scale(1.14);
+		filter: drop-shadow(0 0 16px var(--chalk-yellow));
+	}
+	100% {
+		transform: scale(1);
+	}
 }
 .siege-castle-svg.fortify-anim {
 	animation: siegeFortifyPulse 0.75s ease;
@@ -1418,9 +1418,18 @@ h1 {
 
 /* Reinforce: shield ring pulses in */
 @keyframes siegeShieldPulse {
-	0% { opacity: 0; transform: scale(0.7); }
-	55% { opacity: 1; transform: scale(1.12); }
-	100% { opacity: 0.85; transform: scale(1); }
+	0% {
+		opacity: 0;
+		transform: scale(0.7);
+	}
+	55% {
+		opacity: 1;
+		transform: scale(1.12);
+	}
+	100% {
+		opacity: 0.85;
+		transform: scale(1);
+	}
 }
 .siege-shield-ring {
 	animation: siegeShieldPulse 0.7s ease;
@@ -1429,11 +1438,22 @@ h1 {
 
 /* Attack lands: target shakes */
 @keyframes siegeHitShake {
-	0%, 100% { transform: translateX(0) rotate(0); }
-	20% { transform: translateX(-6px) rotate(-2deg); }
-	40% { transform: translateX(5px) rotate(2deg); }
-	60% { transform: translateX(-4px) rotate(-1deg); }
-	80% { transform: translateX(3px) rotate(1deg); }
+	0%,
+	100% {
+		transform: translateX(0) rotate(0);
+	}
+	20% {
+		transform: translateX(-6px) rotate(-2deg);
+	}
+	40% {
+		transform: translateX(5px) rotate(2deg);
+	}
+	60% {
+		transform: translateX(-4px) rotate(-1deg);
+	}
+	80% {
+		transform: translateX(3px) rotate(1deg);
+	}
 }
 .siege-castle-svg.hit-anim {
 	animation: siegeHitShake 0.5s ease;
@@ -1441,9 +1461,15 @@ h1 {
 
 /* Attack misses: attacker recoils */
 @keyframes siegeMissRecoil {
-	0% { transform: translateX(0) rotate(0); }
-	50% { transform: translateX(-5px) rotate(-3deg); }
-	100% { transform: translateX(0) rotate(0); }
+	0% {
+		transform: translateX(0) rotate(0);
+	}
+	50% {
+		transform: translateX(-5px) rotate(-3deg);
+	}
+	100% {
+		transform: translateX(0) rotate(0);
+	}
 }
 .siege-castle-svg.miss-anim {
 	animation: siegeMissRecoil 0.4s ease;
@@ -1455,7 +1481,12 @@ h1 {
 	width: 14px;
 	height: 14px;
 	border-radius: 50%;
-	background: radial-gradient(circle at 35% 35%, #ffe08a, var(--chalk-yellow) 60%, #7a4a00);
+	background: radial-gradient(
+		circle at 35% 35%,
+		#ffe08a,
+		var(--chalk-yellow) 60%,
+		#7a4a00
+	);
 	box-shadow: 0 0 10px rgba(217, 140, 0, 0.85);
 	pointer-events: none;
 	z-index: 500;

@@ -70,7 +70,8 @@ function resetSwapTokens() {
 
 function setSwapBid(teamId, val) {
 	if (swapLocked) return;
-	const tokens = swapTokens[teamId] !== undefined ? swapTokens[teamId] : swapStartTokens;
+	const tokens =
+		swapTokens[teamId] !== undefined ? swapTokens[teamId] : swapStartTokens;
 	let n = parseInt(val, 10);
 	if (isNaN(n) || n < 0) n = 0;
 	if (n > tokens) n = tokens;
@@ -93,12 +94,15 @@ function lockSwapsAndStart() {
 
 	let winnerId = null;
 	if (highest > 0) {
-		const contenders = teams.filter((team) => (swapBids[team.id] || 0) === highest);
+		const contenders = teams.filter(
+			(team) => (swapBids[team.id] || 0) === highest,
+		);
 		winnerId = contenders[Math.floor(Math.random() * contenders.length)].id;
 		swapTokens[winnerId] = Math.max(
 			0,
-			(swapTokens[winnerId] !== undefined ? swapTokens[winnerId] : swapStartTokens) -
-				highest,
+			(swapTokens[winnerId] !== undefined
+				? swapTokens[winnerId]
+				: swapStartTokens) - highest,
 		);
 	}
 
@@ -175,7 +179,7 @@ function renderSwapRoster() {
 			const winner = teams.find((team) => team.id === swapWinnerId);
 			banner = winner
 				? `
-					<div class="swap-token-count" style="margin-bottom: 10px; font-size: 13px;">
+					<div class="stat-count" style="margin-bottom: 10px; font-size: 13px;">
 						<b style="color: ${winner.color};">${escapeHtml(winner.name)}</b> won the auction with a bid of
 						${swapWinningBid} token${swapWinningBid === 1 ? '' : 's'}, they swap to the easier backup problem, still worth 3 pts.
 						Everyone else is stuck with the hard problem (also 3 pts).
@@ -184,34 +188,36 @@ function renderSwapRoster() {
 				: '';
 		} else {
 			banner = `
-				<div class="swap-token-count" style="margin-bottom: 10px; font-size: 13px;">
+				<div class="stat-count" style="margin-bottom: 10px; font-size: 13px;">
 					No one bid, every team answers the hard problem (3 pts).
 				</div>
 			`;
 		}
 	}
 
-	wrap.innerHTML = banner + teams.map((team) => renderSwapTeamRow(team)).join('');
+	wrap.innerHTML =
+		banner + teams.map((team) => renderSwapTeamRow(team)).join('');
 }
 
 function renderSwapTeamRow(team) {
-	const tokens = swapTokens[team.id] !== undefined ? swapTokens[team.id] : swapStartTokens;
+	const tokens =
+		swapTokens[team.id] !== undefined ? swapTokens[team.id] : swapStartTokens;
 	const isWinner = swapLocked && swapWinnerId === team.id;
 	const pts = 3;
 
 	const bidControl = swapLocked
-		? `<span class="swap-token-count">${isWinner ? `Spent ${swapWinningBid}` : `${tokens} token${tokens === 1 ? '' : 's'} left`}</span>`
+		? `<span class="stat-count">${isWinner ? `Spent ${swapWinningBid}` : `${tokens} token${tokens === 1 ? '' : 's'} left`}</span>`
 		: `
 			<input
 				type="number"
-				class="wager-input mono"
+				class="num-input mono"
 				min="0"
 				max="${tokens}"
 				value="${swapBids[team.id] || 0}"
 				style="border-color: ${team.color};"
 				onchange="setSwapBid('${team.id}', this.value)"
 			/>
-			<span class="swap-token-count flex middle">of ${tokens}</span>
+			<span class="stat-count flex middle">of ${tokens}</span>
 		`;
 
 	return `

@@ -123,7 +123,7 @@ function addCustomSequence() {
 	const explanation = document.getElementById('newSeqE').value.trim();
 	const terms = termsRaw
 		.split(',')
-		.map((t) => t.trim())
+		.map((term) => term.trim())
 		.filter(Boolean);
 
 	if (!patternName || terms.length < 3 || hiddenCount >= terms.length) {

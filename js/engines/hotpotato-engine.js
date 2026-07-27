@@ -90,7 +90,8 @@ function revealHotPotatoAnswer() {
 	const problem = hotPotatoPool[hotPotatoIndex % hotPotatoPool.length];
 	document.getElementById('hotPotatoAnswerFigure').textContent = problem.a;
 	setPromptImage('hotPotatoAnswerImg', problem.aImg);
-	document.getElementById('hotPotatoAnswerReasoning').textContent = problem.e || '';
+	document.getElementById('hotPotatoAnswerReasoning').textContent =
+		problem.e || '';
 	const box = document.getElementById('hotPotatoAnswerBox');
 	box.classList.add('show');
 	typeset(box);
@@ -105,7 +106,8 @@ function markHotPotatoCorrect(event) {
 }
 
 function confirmHotPotatoPass(targetId) {
-	if (hotPotatoState !== 'pass' || !targetId || targetId === hotPotatoHolderId) return;
+	if (hotPotatoState !== 'pass' || !targetId || targetId === hotPotatoHolderId)
+		return;
 	hotPotatoHolderId = targetId;
 	hotPotatoValue += 1;
 	hotPotatoIndex++;
@@ -131,7 +133,8 @@ function cutOffHotPotato(auto) {
 
 function setHotPotatoSetting(kind, val) {
 	if (kind === 'min') hotPotatoAutoMin = Math.max(5, parseInt(val, 10) || 30);
-	if (kind === 'max') hotPotatoAutoMax = Math.max(hotPotatoAutoMin, parseInt(val, 10) || 90);
+	if (kind === 'max')
+		hotPotatoAutoMax = Math.max(hotPotatoAutoMin, parseInt(val, 10) || 90);
 	renderHotPotatoSettingsInputs();
 	autosave();
 }
@@ -139,8 +142,10 @@ function setHotPotatoSetting(kind, val) {
 function renderHotPotatoSettingsInputs() {
 	const minInput = document.getElementById('hotPotatoAutoMin');
 	const maxInput = document.getElementById('hotPotatoAutoMax');
-	if (minInput && document.activeElement !== minInput) minInput.value = hotPotatoAutoMin;
-	if (maxInput && document.activeElement !== maxInput) maxInput.value = hotPotatoAutoMax;
+	if (minInput && document.activeElement !== minInput)
+		minInput.value = hotPotatoAutoMin;
+	if (maxInput && document.activeElement !== maxInput)
+		maxInput.value = hotPotatoAutoMax;
 }
 
 function renderHotPotatoQuestion() {
@@ -151,7 +156,9 @@ function renderHotPotatoQuestion() {
 
 	const holder = teams.find((team) => team.id === hotPotatoHolderId);
 	if (holderBadge) {
-		holderBadge.textContent = holder ? `${holder.name} is holding the potato` : '';
+		holderBadge.textContent = holder
+			? `${holder.name} is holding the potato`
+			: '';
 		holderBadge.style.color = holder ? holder.color : '';
 		holderBadge.style.borderColor = holder ? holder.color : '';
 	}
@@ -227,7 +234,9 @@ function renderHotPotatoScreen() {
 	const judgeControls = document.getElementById('hotPotatoJudgeControls');
 
 	if (hotPotatoPool.length === 0 && hotPotatoState === 'idle') {
-		if (progress) progress.textContent = 'No questions yet, use "Manage Questions" above to add some.';
+		if (progress)
+			progress.textContent =
+				'No questions yet, use "Manage Questions" above to add some.';
 	}
 
 	if (hotPotatoState === 'idle') {

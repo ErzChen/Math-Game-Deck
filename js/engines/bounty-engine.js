@@ -178,12 +178,12 @@ function renderBountySolvedHtml() {
 		const target = teams.find((team) => team.id === bountyCollected.targetId);
 		line = `${label} collected the bounty, pulling <b>${bountyCollected.amount}</b> pt${bountyCollected.amount === 1 ? '' : 's'} from ${target ? escapeHtml(target.name) : 'the marked team'}.`;
 	}
-	return `<div class="hands-up-solved">${iconCheck()}${line} Hit "Next Problem" to continue.</div>`;
+	return `<div class="solved-banner">${iconCheck()}${line} Hit "Next Problem" to continue.</div>`;
 }
 
 function renderBountyTeamRow(team) {
 	const isMarked = bountyMarkedIds.includes(team.id);
-	const tag = isMarked ? '<span class="elimination-chip-tag">Bounty</span>' : '';
+	const tag = isMarked ? '<span class="status-tag">Bounty</span>' : '';
 
 	if (isMarked) {
 		return `
@@ -225,7 +225,7 @@ function renderBountyTeamRow(team) {
 			})
 			.join('');
 		collectControl = `
-			<select class="pointheist-raid-select mono" id="bountyTargetSelect-${team.id}">
+			<select class="target-select mono" id="bountyTargetSelect-${team.id}">
 				${options}
 			</select>
 			<button

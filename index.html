@@ -5,10 +5,24 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Math Club Game Deck</title>
 
-		<link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
-		<link rel="manifest" href="./favicon/site.webmanifest">
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="./favicon/apple-touch-icon.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="./favicon/favicon-32x32.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="./favicon/favicon-16x16.png"
+		/>
+		<link rel="manifest" href="./favicon/site.webmanifest" />
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -204,8 +218,16 @@
 						<div class="arcade-num mono">19</div>
 						<h3>Siege</h3>
 						<p>
-							Every correct answer forks between Fortress and Army. Fortify to score, Reinforce
-							to shield up, or Attack to raid another team's Fortress.
+							Every correct answer forks between Fortress and Army. Fortify to score,
+							Reinforce to shield up, or Attack to raid another team's Fortress.
+						</p>
+					</div>
+					<div class="arcade-tile tile-yellow" onclick="goTo('Pool')">
+						<div class="arcade-num mono">20</div>
+						<h3>The Pool</h3>
+						<p>
+							Every team seals a prediction for the final standings up front. Periodic
+							checkpoints score matches against the live leaderboard.
 						</p>
 					</div>
 				</div>
@@ -760,7 +782,7 @@
 					</div>
 					<div class="award-row">
 						<div class="label">Mark each team's result this round</div>
-						<div id="eliminationRoster" class="elimination-roster"></div>
+						<div id="eliminationRoster" class="roster-list"></div>
 					</div>
 				</div>
 			</section>
@@ -945,7 +967,7 @@
 					</div>
 					<div class="award-row">
 						<div class="label">First hand up (host calls it)</div>
-						<div id="handsUpTeamButtons" class="hands-up-list"></div>
+						<div id="handsUpTeamButtons" class="caller-list"></div>
 					</div>
 				</div>
 			</section>
@@ -1434,7 +1456,7 @@
 						<div class="label">
 							Teams &amp; bids (tokens left, enter a bid for the backup)
 						</div>
-						<div class="elimination-roster" id="swapRoster"></div>
+						<div class="roster-list" id="swapRoster"></div>
 					</div>
 				</div>
 			</section>
@@ -1537,7 +1559,7 @@
 					</div>
 					<div class="award-row">
 						<div class="label">Each team's secret wager (1–5)</div>
-						<div class="elimination-roster" id="wagerRoster"></div>
+						<div class="roster-list" id="wagerRoster"></div>
 					</div>
 				</div>
 			</section>
@@ -1659,7 +1681,7 @@
 					</div>
 					<div class="award-row">
 						<div class="label">First correct answer (host calls it)</div>
-						<div id="curseTeamButtons" class="hands-up-list"></div>
+						<div id="curseTeamButtons" class="caller-list"></div>
 					</div>
 				</div>
 			</section>
@@ -1750,7 +1772,7 @@
 						<div class="label">
 							Secret scapegoat picks, then mark each team's result
 						</div>
-						<div id="scapegoatRoster" class="elimination-roster"></div>
+						<div id="scapegoatRoster" class="roster-list"></div>
 						<div
 							class="row-actions"
 							style="justify-content: center; margin-top: 14px"
@@ -1976,7 +1998,7 @@
 						<div class="label">
 							Mark each team's result, then let correct teams choose
 						</div>
-						<div id="pointHeistRoster" class="elimination-roster"></div>
+						<div id="pointHeistRoster" class="roster-list"></div>
 					</div>
 				</div>
 			</section>
@@ -2245,31 +2267,59 @@
 
 					<div class="award-row" style="flex-direction: column">
 						<div class="label">First correct answer (host calls it)</div>
-						<div id="bountyRoster" class="elimination-roster"></div>
+						<div id="bountyRoster" class="roster-list"></div>
 					</div>
 				</div>
 			</section>
-			
+
 			<section class="screen" id="screenSequence">
 				<div class="screen-head">
 					<div>
 						<div class="eyebrow">Game 18</div>
 						<h1>Sequence Detective</h1>
 						<div class="subtitle">
-							A sequence shows up with the last term(s) hidden. Teams have to
-							name the pattern and guess what's missing.
+							A sequence shows up with the last term(s) hidden. Teams have to name the
+							pattern and guess what's missing.
 						</div>
 					</div>
 					<div style="display: flex; gap: 10px">
-						<button class="btn ghost" onclick="openGameInfoModal('sequencedetective')">
-							<svg class="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px">
-								<circle cx="12" cy="12" r="9" /><line x1="12" y1="11" x2="12" y2="16" /><circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
+						<button
+							class="btn ghost"
+							onclick="openGameInfoModal('sequencedetective')"
+						>
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<circle cx="12" cy="12" r="9" />
+								<line x1="12" y1="11" x2="12" y2="16" />
+								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
 							</svg>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openSequenceModal()">
-							<svg class="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px">
-								<path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M12 20h9" />
+								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
 							</svg>
 							Manage Sequences
 						</button>
@@ -2280,7 +2330,11 @@
 					<div class="question mono" id="sequenceQuestionText"></div>
 					<div class="timer mono" id="sequenceTimerDisplay"></div>
 					<div class="btn-wrap">
-						<button class="btn" id="sequenceTimerToggle" onclick="toggleSequenceTimer()">
+						<button
+							class="btn"
+							id="sequenceTimerToggle"
+							onclick="toggleSequenceTimer()"
+						>
 							Start
 						</button>
 						<button class="btn primary" onclick="revealSequenceAnswer()">
@@ -2294,19 +2348,35 @@
 					</div>
 					<div class="row-actions">
 						<button class="btn ghost" onclick="nextSequenceProblem()">
-							<svg class="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px">
-								<path d="M5 12h14" /><path d="M13 6l6 6-6 6" />
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M5 12h14" />
+								<path d="M13 6l6 6-6 6" />
 							</svg>
 							Next Sequence
 						</button>
 					</div>
 					<div class="award-row">
 						<div class="label">Award pattern ID and/or next-term guesses</div>
-						<div class="flex middle" id="awardSequence" style="gap: 10px; flex-wrap: wrap"></div>
+						<div
+							class="flex middle"
+							id="awardSequence"
+							style="gap: 10px; flex-wrap: wrap"
+						></div>
 					</div>
 				</div>
 			</section>
-			
+
 			<section class="screen" id="screenSiege">
 				<div class="screen-head">
 					<div>
@@ -2319,14 +2389,39 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('siege')">
-							<svg class="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px">
-								<circle cx="12" cy="12" r="9" /><line x1="12" y1="11" x2="12" y2="16" /><circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<circle cx="12" cy="12" r="9" />
+								<line x1="12" y1="11" x2="12" y2="16" />
+								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
 							</svg>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openSiegeModal()">
-							<svg class="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px">
-								<path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M12 20h9" />
+								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
 							</svg>
 							Manage Questions
 						</button>
@@ -2335,11 +2430,19 @@
 				<div class="panel flex middle column">
 					<div class="progress-line" id="siegeProgress"></div>
 					<div class="question" id="siegeQuestionText"></div>
-					<img class="prompt-img hidden" id="siegeQuestionImg" alt="Question figure" />
+					<img
+						class="prompt-img hidden"
+						id="siegeQuestionImg"
+						alt="Question figure"
+					/>
 					<div class="timer mono" id="siegeTimerDisplay"></div>
 					<div class="btn-wrap">
-						<button class="btn" id="siegeTimerToggle" onclick="toggleSiegeTimer()">Start</button>
-						<button class="btn primary" onclick="revealSiegeAnswer()">Reveal Answer</button>
+						<button class="btn" id="siegeTimerToggle" onclick="toggleSiegeTimer()">
+							Start
+						</button>
+						<button class="btn primary" onclick="revealSiegeAnswer()">
+							Reveal Answer
+						</button>
 						<button class="btn ghost" onclick="resetSiegeTimer()">Reset</button>
 					</div>
 					<div class="answer-box" id="siegeAnswerBox">
@@ -2348,29 +2451,205 @@
 						<div class="reasoning" id="siegeAnswerReasoning"></div>
 					</div>
 					<div class="row-actions">
-						<button class="btn ghost" onclick="nextSiegeProblem()">Next Problem</button>
-						<button class="btn ghost" onclick="resetSiegeArmies()">Reset Armies</button>
+						<button class="btn ghost" onclick="nextSiegeProblem()">
+							Next Problem
+						</button>
+						<button class="btn ghost" onclick="resetSiegeArmies()">
+							Reset Armies
+						</button>
 					</div>
 					<div class="siege-battlefield" id="siegeBattlefield"></div>
 
 					<div class="vault-settings" style="margin-top: 22px">
-						<label>Conversion rate
-							<input type="number" min="1" id="siegeConversionInput" value="2" onchange="setSiegeSetting('conversion', this.value)" />
+						<label
+							>Conversion rate
+							<input
+								type="number"
+								min="1"
+								id="siegeConversionInput"
+								value="2"
+								onchange="setSiegeSetting('conversion', this.value)"
+							/>
 						</label>
-						<label>Attack amount
-							<input type="number" min="1" id="siegeAttackInput" value="3" onchange="setSiegeSetting('attack', this.value)" />
+						<label
+							>Attack amount
+							<input
+								type="number"
+								min="1"
+								id="siegeAttackInput"
+								value="3"
+								onchange="setSiegeSetting('attack', this.value)"
+							/>
 						</label>
-						<label>Reinforce reduction %
-							<input type="number" min="0" max="100" id="siegeReinforceInput" value="50" onchange="setSiegeSetting('reinforce', this.value)" />
+						<label
+							>Reinforce reduction %
+							<input
+								type="number"
+								min="0"
+								max="100"
+								id="siegeReinforceInput"
+								value="50"
+								onchange="setSiegeSetting('reinforce', this.value)"
+							/>
 						</label>
 					</div>
 
 					<div class="award-row" style="flex-direction: column">
-						<div class="label">Each team's private move, then mark this round's result</div>
-						<div id="siegeRoster" class="elimination-roster"></div>
-						<div class="row-actions" style="justify-content: center; margin-top: 14px">
-							<button class="btn primary" onclick="resolveSiegeRound()">Resolve Round</button>
+						<div class="label">
+							Each team's private move, then mark this round's result
 						</div>
+						<div id="siegeRoster" class="roster-list"></div>
+						<div
+							class="row-actions"
+							style="justify-content: center; margin-top: 14px"
+						>
+							<button class="btn primary" onclick="resolveSiegeRound()">
+								Resolve Round
+							</button>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="screen" id="screenPool">
+				<div class="screen-head">
+					<div>
+						<div class="eyebrow">Game 20</div>
+						<h1>The Pool</h1>
+						<div class="subtitle">
+							Every team seals a prediction for the final standings up front, then
+							answers its own math problems like any other game. Periodic checkpoints
+							score matches against the live leaderboard.
+						</div>
+					</div>
+					<div style="display: flex; gap: 10px">
+						<button class="btn ghost" onclick="openGameInfoModal('pool')">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<circle cx="12" cy="12" r="9" />
+								<line x1="12" y1="11" x2="12" y2="16" />
+								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
+							</svg>
+							How to Play
+						</button>
+						<button class="btn ghost" onclick="openPoolModal()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M12 20h9" />
+								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+							</svg>
+							Manage Questions
+						</button>
+						<button class="btn ghost" onclick="openPoolSettingsModal()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<circle cx="12" cy="12" r="3" />
+								<path
+									d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"
+								/>
+							</svg>
+							Pool Settings
+						</button>
+					</div>
+				</div>
+				<div class="panel flex middle column">
+					<div class="progress-line" id="poolProgress"></div>
+					<div class="question" id="poolQuestionText"></div>
+					<img
+						class="prompt-img hidden"
+						id="poolQuestionImg"
+						alt="Question figure"
+					/>
+					<div class="timer mono" id="poolTimerDisplay"></div>
+					<div class="btn-wrap">
+						<button class="btn" id="poolTimerToggle" onclick="togglePoolTimer()">
+							Start
+						</button>
+						<button class="btn primary" onclick="revealPoolAnswer()">
+							Reveal Answer
+						</button>
+						<button class="btn ghost" onclick="resetPoolTimer()">Reset</button>
+					</div>
+					<div class="answer-box" id="poolAnswerBox">
+						<div class="figure" id="poolAnswerFigure"></div>
+						<img class="prompt-img hidden" id="poolAnswerImg" alt="Answer figure" />
+						<div class="reasoning" id="poolAnswerReasoning"></div>
+					</div>
+					<button class="btn ghost" onclick="nextPoolProblem()">
+						<svg
+							class="icon"
+							viewBox="0 0 24 24"
+							width="14"
+							height="14"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							style="vertical-align: -2px; margin-right: 4px"
+						>
+							<path d="M5 12h14" />
+							<path d="M13 6l6 6-6 6" />
+						</svg>
+						Next Problem
+					</button>
+					<div class="award-row">
+						<div class="label">Award each correct team</div>
+						<div
+							id="awardPool"
+							style="display: flex; gap: 10px; flex-wrap: wrap"
+						></div>
+					</div>
+
+					<div class="progress-line" style="margin-top: 22px">Live standings</div>
+					<div class="timeline-item-list" id="poolStandingsList"></div>
+					<div class="row-actions middle" style="margin-top: 10px">
+						<button class="btn primary" onclick="runPoolCheckpoint(false)">
+							Run Checkpoint
+						</button>
+						<button class="btn ghost" onclick="runPoolCheckpoint(true)">
+							Run Final Checkpoint
+						</button>
+					</div>
+					<div
+						class="award-row"
+						style="flex-direction: column"
+						id="poolCheckpointResults"
+					></div>
+
+					<div class="award-row" style="flex-direction: column">
+						<div class="label">Set each team's sealed prediction (1st → last)</div>
+						<div id="poolPredictionPanel" class="roster-list"></div>
 					</div>
 				</div>
 			</section>
@@ -2471,6 +2750,7 @@
 		<script defer src="js/engines/bounty-engine.js"></script>
 		<script defer src="js/engines/sequence-engine.js"></script>
 		<script defer src="js/engines/siege-engine.js"></script>
+		<script defer src="js/engines/pool-engine.js"></script>
 
 		<script defer src="js/init.js"></script>
 	</body>

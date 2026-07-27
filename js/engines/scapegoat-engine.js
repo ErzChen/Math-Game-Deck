@@ -107,7 +107,7 @@ function markScapegoatResult(teamId, result) {
 function resolveScapegoatRound() {
 	if (scapegoatPool.length === 0 || scapegoatResolved) return;
 	if (teams.some((team) => !scapegoatResults[team.id])) {
-		alert('Mark every team ✓ Correct or ✗ Wrong before resolving the round.');
+		alert('Mark every team Correct or Wrong before resolving the round.');
 		return;
 	}
 
@@ -161,7 +161,7 @@ function renderScapegoatTeamRow(team) {
 			<span class="team-name">${escapeHtml(team.name)}</span>
 			<div class="team-btns">
 				<select
-					class="scapegoat-select mono"
+					class="inline-select mono"
 					onchange="setScapegoatNomination('${team.id}', this.value)"
 					${scapegoatResolved ? 'disabled' : ''}
 				>
@@ -169,12 +169,12 @@ function renderScapegoatTeamRow(team) {
 					${nominationOptions}
 				</select>
 				<button
-					class="btn small award-btn ${result === 'wrong' ? 'elim-wrong-active' : ''}"
+					class="btn small award-btn ${result === 'wrong' ? 'wrong-active' : ''}"
 					style="border-color: ${team.color};"
 					onclick="markScapegoatResult('${team.id}', 'wrong')"
 					${scapegoatResolved ? 'disabled' : ''}
 				>
-					✗ Wrong
+					${iconCross()}Wrong
 				</button>
 				<button
 					class="btn small award-btn"
@@ -182,7 +182,7 @@ function renderScapegoatTeamRow(team) {
 					onclick="markScapegoatResult('${team.id}', 'correct')"
 					${scapegoatResolved ? 'disabled' : ''}
 				>
-					✓ Correct
+					${iconCheck()}Correct
 				</button>
 			</div>
 		</div>

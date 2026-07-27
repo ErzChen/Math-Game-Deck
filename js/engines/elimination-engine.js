@@ -138,7 +138,7 @@ function renderEliminationTeamRow(team) {
 			<span class="team-name">${escapeHtml(team.name)}</span>
 			<div class="team-btns">
 				<button
-					class="btn small award-btn ${mark === 'wrong' ? 'elim-wrong-active' : ''}"
+					class="btn small award-btn ${mark === 'wrong' ? 'wrong-active' : ''}"
 					style="border-color: ${team.color};"
 					onclick="markElimination('${team.id}', 'wrong')"
 				>

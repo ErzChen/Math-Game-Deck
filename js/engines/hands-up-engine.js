@@ -68,14 +68,14 @@ function renderHandsUpTeamButtons() {
 	if (handsUpSolvedBy) {
 		const winner = teams.find((team) => team.id === handsUpSolvedBy);
 		element.innerHTML = winner
-			? `<div class="hands-up-solved" style="color: ${winner.color};">${iconCheck()}${escapeHtml(winner.name)} got it! Hit "Next Problem" to continue.</div>`
+			? `<div class="solved-banner" style="color: ${winner.color};">${iconCheck()}${escapeHtml(winner.name)} got it! Hit "Next Problem" to continue.</div>`
 			: '';
 		return;
 	}
 
 	const allTried = teams.every((team) => handsUpTriedIds[team.id]);
 	if (allTried && teams.length > 0) {
-		element.innerHTML = `<div class="hands-up-solved">No one got it, reveal the answer and move on.</div>`;
+		element.innerHTML = `<div class="solved-banner">No one got it, reveal the answer and move on.</div>`;
 		return;
 	}
 

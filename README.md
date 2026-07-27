@@ -54,6 +54,13 @@ you've got, and go. No build step, no backend, just static files.
   hidden as "?". Teams have to work out the underlying pattern (geometric,
   Fibonacci-style, alternating, etc.) and guess what's missing, earning
   separate points for naming the rule and for guessing the hidden term(s).
+- **Siege**: every correct answer forks between a permanent Fortress (score)
+  and a spendable Army. Fortify to bank points, Reinforce to shield against
+  the next attack, or Attack to raid another team's Fortress outright.
+- **The Pool**: every team seals a prediction for the final standings before
+  play starts, then answers ordinary math problems like any other quickfire
+  game. Periodic checkpoints compare the live leaderboard against each
+  sealed prediction and pay out for matches.
 
 Each game has a "How to Play" button (rules) and a "Manage Questions" /
 "Edit Board" button (content), plus a shared scoreboard bar and session
@@ -74,7 +81,7 @@ quirks in some browsers.
 ## Project structure
 
 ```
-index.html                 markup for every screen (home + 18 games)
+index.html                 markup for every screen (home + 20 games)
 styles.css                 all styling (chalkboard theme, layout, components)
 js/
   core.js                  app shell: nav, teams/scoreboard, session timer,
@@ -93,7 +100,7 @@ js/
     sprint-engine.js
     pyramid-engine.js
     streak-engine.js
-    swapmarket-engine.js
+    swap-engine.js
     wager-engine.js
     curse-engine.js
     scapegoat-engine.js
@@ -101,6 +108,8 @@ js/
     hotpotato-engine.js
     bounty-engine.js
     sequence-engine.js
+    siege-engine.js
+    pool-engine.js
 ```
 
 Each game is a data file plus an engine. The data file just exports a pool

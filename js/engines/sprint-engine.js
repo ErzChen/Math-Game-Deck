@@ -158,7 +158,6 @@ function renderSprintTimer() {
 	element.classList.toggle('low', sprintTimerSeconds <= 20);
 }
 
-
 function renderSprintProblem() {
 	sprintPool = customSprint;
 	const questionEl = document.getElementById('sprintQuestionText');

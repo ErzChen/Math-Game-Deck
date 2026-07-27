@@ -564,10 +564,12 @@ function renderAwardButtons() {
 	if (document.getElementById('curseTeamPanel')) renderCurseTeamPanel();
 	if (document.getElementById('scapegoatRoster')) renderScapegoatRoster();
 	if (document.getElementById('pointHeistRoster')) renderPointHeistRoster();
-	if (document.getElementById('hotPotatoTeamSelect')) populateHotPotatoTeamSelector();
+	if (document.getElementById('hotPotatoTeamSelect'))
+		populateHotPotatoTeamSelector();
 	if (document.getElementById('bountyRoster')) renderBountyRoster();
 	if (document.getElementById('awardSequence')) renderSequenceAwardButtons();
 	if (document.getElementById('siegeRoster')) renderSiegeRoster();
+	if (document.getElementById('poolStandingsList')) renderPoolScreen();
 }
 
 function formatSeconds(total) {
@@ -617,6 +619,11 @@ function gatherState() {
 		siegeConversionRate: siegeConversionRate,
 		siegeAttackAmount: siegeAttackAmount,
 		siegeReinforcePct: siegeReinforcePct,
+		gamblePredictions: gamblePredictions,
+		customPool: customPool,
+		poolMatchBonus: poolMatchBonus,
+		poolFinalBonus: poolFinalBonus,
+		poolCheckpointCount: poolCheckpointCount,
 	};
 }
 
@@ -695,19 +702,37 @@ function restoreState(data) {
 	if (typeof data.raidAmount === 'number') raidAmount = data.raidAmount;
 	if (typeof data.allowPull === 'boolean') allowPull = data.allowPull;
 	if (typeof data.allowRaid === 'boolean') allowRaid = data.allowRaid;
-	if (Array.isArray(data.customHotPotato)) customHotPotato = data.customHotPotato;
-	if (typeof data.hotPotatoAutoMin === 'number') hotPotatoAutoMin = data.hotPotatoAutoMin;
-	if (typeof data.hotPotatoAutoMax === 'number') hotPotatoAutoMax = data.hotPotatoAutoMax;
+	if (Array.isArray(data.customHotPotato))
+		customHotPotato = data.customHotPotato;
+	if (typeof data.hotPotatoAutoMin === 'number')
+		hotPotatoAutoMin = data.hotPotatoAutoMin;
+	if (typeof data.hotPotatoAutoMax === 'number')
+		hotPotatoAutoMax = data.hotPotatoAutoMax;
 	if (Array.isArray(data.customBounty)) customBounty = data.customBounty;
 	if (typeof data.bountyPercent === 'number') bountyPercent = data.bountyPercent;
-	if (typeof data.bountyAllTiedLeaders === 'boolean') bountyAllTiedLeaders = data.bountyAllTiedLeaders;
+	if (typeof data.bountyAllTiedLeaders === 'boolean')
+		bountyAllTiedLeaders = data.bountyAllTiedLeaders;
 	if (Array.isArray(data.customSequence)) customSequence = data.customSequence;
 	if (Array.isArray(data.customSiege)) customSiege = data.customSiege;
-	if (data.siegeArmy && typeof data.siegeArmy === 'object') siegeArmy = data.siegeArmy;
-	if (data.siegeShielded && typeof data.siegeShielded === 'object') siegeShielded = data.siegeShielded;
-	if (typeof data.siegeConversionRate === 'number') siegeConversionRate = data.siegeConversionRate;
-	if (typeof data.siegeAttackAmount === 'number') siegeAttackAmount = data.siegeAttackAmount;
-	if (typeof data.siegeReinforcePct === 'number') siegeReinforcePct = data.siegeReinforcePct;
+	if (data.siegeArmy && typeof data.siegeArmy === 'object')
+		siegeArmy = data.siegeArmy;
+	if (data.siegeShielded && typeof data.siegeShielded === 'object')
+		siegeShielded = data.siegeShielded;
+	if (typeof data.siegeConversionRate === 'number')
+		siegeConversionRate = data.siegeConversionRate;
+	if (typeof data.siegeAttackAmount === 'number')
+		siegeAttackAmount = data.siegeAttackAmount;
+	if (typeof data.siegeReinforcePct === 'number')
+		siegeReinforcePct = data.siegeReinforcePct;
+	if (data.gamblePredictions && typeof data.gamblePredictions === 'object')
+		gamblePredictions = data.gamblePredictions;
+	if (Array.isArray(data.customPool)) customPool = data.customPool;
+	if (typeof data.poolMatchBonus === 'number')
+		poolMatchBonus = data.poolMatchBonus;
+	if (typeof data.poolFinalBonus === 'number')
+		poolFinalBonus = data.poolFinalBonus;
+	if (typeof data.poolCheckpointCount === 'number')
+		poolCheckpointCount = data.poolCheckpointCount;
 
 	if (data.sessionMinutes) {
 		sessionTotalMinutes = data.sessionMinutes;
@@ -740,6 +765,7 @@ function restoreState(data) {
 	initBounty();
 	initSequence();
 	initSiege();
+	initPool();
 	const customLadderList = document.getElementById('customLadderList');
 	if (customLadderList) renderCustomLadderList();
 	const customDuelList = document.getElementById('customDuelList');
