@@ -4,13 +4,13 @@ let scapegoatIndex = 0;
 let scapegoatNominations = {};
 let scapegoatResults = {};
 let scapegoatResolved = false;
+const defaultScapegoatSeconds = 90;
 
 const scapegoatTimer = createCountdownTimer({
-	seconds: 90,
+	seconds: defaultScapegoatSeconds,
 	displayId: 'scapegoatTimerDisplay',
 	toggleBtnId: 'scapegoatTimerToggle',
 });
-const defaultScapegoatSeconds = 90;
 
 const scapegoatImageFields = createQAImageState({
 	qWrap: 'newScapegoatQImgWrap',
@@ -48,16 +48,6 @@ function resetScapegoatTimer() {
 	scapegoatTimer.reset();
 }
 
-function ensureScapegoatTimerUI() {
-	const questionEl = document.getElementById('scapegoatQuestionText');
-	const wrap = questionEl ? questionEl.parentElement : null;
-	if (!wrap || document.getElementById('scapegoatTimerDisplay')) return;
-	wrap.insertAdjacentHTML(
-		'afterbegin',
-		`<div class="timer mono" id="scapegoatTimerDisplay"></div>`,
-	);
-}
-
 function renderScapegoatProblem() {
 	scapegoatPool = customScapegoat;
 	const box = document.getElementById('scapegoatAnswerBox');
@@ -73,8 +63,6 @@ function renderScapegoatProblem() {
 		return;
 	}
 
-	ensureScapegoatTimerUI();
-
 	const problem = scapegoatPool[scapegoatIndex % scapegoatPool.length];
 	document.getElementById('scapegoatProgress').textContent =
 		`Round ${(scapegoatIndex % scapegoatPool.length) + 1} of ${scapegoatPool.length}`;
@@ -82,7 +70,6 @@ function renderScapegoatProblem() {
 	setPromptImage('scapegoatQuestionImg', problem.qImg);
 	typeset(document.getElementById('scapegoatQuestionText'));
 	scapegoatTimer.setDuration(problem.time || defaultScapegoatSeconds);
-	scapegoatTimer.toggle();
 	renderScapegoatRoster();
 }
 

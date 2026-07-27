@@ -562,6 +562,7 @@ function renderAwardButtons() {
 	if (document.getElementById('curseTeamPanel')) renderCurseTeamPanel();
 	if (document.getElementById('scapegoatRoster')) renderScapegoatRoster();
 	if (document.getElementById('pointHeistRoster')) renderPointHeistRoster();
+	if (document.getElementById('hotPotatoTeamSelect')) populateHotPotatoTeamSelector();
 }
 
 function formatSeconds(total) {
@@ -598,6 +599,9 @@ function gatherState() {
 		raidAmount: raidAmount,
 		allowPull: allowPull,
 		allowRaid: allowRaid,
+		customHotPotato: customHotPotato,
+		hotPotatoAutoMin: hotPotatoAutoMin,
+		hotPotatoAutoMax: hotPotatoAutoMax,
 	};
 }
 
@@ -676,6 +680,9 @@ function restoreState(data) {
 	if (typeof data.raidAmount === 'number') raidAmount = data.raidAmount;
 	if (typeof data.allowPull === 'boolean') allowPull = data.allowPull;
 	if (typeof data.allowRaid === 'boolean') allowRaid = data.allowRaid;
+	if (Array.isArray(data.customHotPotato)) customHotPotato = data.customHotPotato;
+	if (typeof data.hotPotatoAutoMin === 'number') hotPotatoAutoMin = data.hotPotatoAutoMin;
+	if (typeof data.hotPotatoAutoMax === 'number') hotPotatoAutoMax = data.hotPotatoAutoMax;
 
 	if (data.sessionMinutes) {
 		sessionTotalMinutes = data.sessionMinutes;
@@ -704,6 +711,7 @@ function restoreState(data) {
 	initCurse();
 	initScapegoat();
 	initPointHeist();
+	initHotPotato();
 	const customLadderList = document.getElementById('customLadderList');
 	if (customLadderList) renderCustomLadderList();
 	const customDuelList = document.getElementById('customDuelList');

@@ -29,9 +29,10 @@ you've got, and go. No build step, no backend, just static files.
 - **Streak Vault**: one team in the spotlight faces progressively harder
   problems, banking points after each correct answer or pushing their luck
   for a bigger prize, one miss while pushing wipes the unbanked total.
-- **Swap Market**: every team holds a few swap tokens they can spend to
-  trade a hard problem for an easier, lower-value backup before the timer
-  starts.
+- **Swap Market**: every team holds a stash of swap tokens and secretly
+  bids them on the one shared easier backup problem (worth the same
+  points as the hard one) before the timer starts, highest bid wins it,
+  everyone else is stuck with the hard problem.
 - **All-In Wager**: teams secretly wager points on their own confidence
   against a running bank total, a correct wager adds to the bank, a wrong
   one subtracts.
@@ -42,6 +43,10 @@ you've got, and go. No build step, no backend, just static files.
   nominating team steals half their current points.
 - **Point Heist**: A shared vault sits center stage, correct answers 
   let you draw from it or raid whoever's winning outright.
+- **Hot Potato**: a single potato holding a growing point value gets
+  passed between teams. Answer right and pass it on to anyone else,
+  but a hidden random (or host-triggered) cutoff can end the round any
+  time, whoever's holding it then forfeits everything it's worth.
 
 Each game has a "How to Play" button (rules) and a "Manage Questions" /
 "Edit Board" button (content), plus a shared scoreboard bar and session
@@ -86,6 +91,7 @@ js/
     curse-engine.js
     scapegoat-engine.js
     point-heist-engine.js
+    hotpotato-engine.js
 ```
 
 Each game is a data file plus an engine. The data file just exports a pool

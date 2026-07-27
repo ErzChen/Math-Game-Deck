@@ -2,10 +2,12 @@ let customSwapPairs = [];
 let swapPool = [];
 let swapIndex = 0;
 let swapTokens = {};
-let swapChoice = {};
+let swapBids = {};
 let swapLocked = false;
+let swapWinnerId = null;
+let swapWinningBid = 0;
 
-const swapStartTokens = 3;
+const swapStartTokens = 10;
 const defaultSwapSeconds = 90;
 
 const swapTimer = createCountdownTimer({
@@ -35,15 +37,16 @@ function resetSwapMarket() {
 	swapPool = customSwapPairs;
 	swapIndex = 0;
 	swapLocked = false;
+	swapWinnerId = null;
+	swapWinningBid = 0;
 	ensureSwapTeams(true);
 	renderSwapScreen();
 }
 
-function ensureSwapTeams(resetChoices) {
+function ensureSwapTeams(resetBids) {
 	teams.forEach((team) => {
 		if (swapTokens[team.id] === undefined) swapTokens[team.id] = swapStartTokens;
-		if (resetChoices || swapChoice[team.id] === undefined)
-			swapChoice[team.id] = 'hard';
+		if (resetBids || swapBids[team.id] === undefined) swapBids[team.id] = 0;
 	});
 }
 
@@ -51,6 +54,8 @@ function nextSwapProblem() {
 	swapPool = customSwapPairs;
 	swapIndex++;
 	swapLocked = false;
+	swapWinnerId = null;
+	swapWinningBid = 0;
 	ensureSwapTeams(true);
 	renderSwapScreen();
 }
@@ -63,18 +68,13 @@ function resetSwapTokens() {
 	autosave();
 }
 
-function toggleSwapChoice(teamId) {
+function setSwapBid(teamId, val) {
 	if (swapLocked) return;
-	const current = swapChoice[teamId] || 'hard';
-	if (current === 'hard') {
-		if ((swapTokens[teamId] || 0) <= 0) {
-			alert('This team is out of swap tokens.');
-			return;
-		}
-		swapChoice[teamId] = 'backup';
-	} else {
-		swapChoice[teamId] = 'hard';
-	}
+	const tokens = swapTokens[teamId] !== undefined ? swapTokens[teamId] : swapStartTokens;
+	let n = parseInt(val, 10);
+	if (isNaN(n) || n < 0) n = 0;
+	if (n > tokens) n = tokens;
+	swapBids[teamId] = n;
 	renderSwapRoster();
 }
 
@@ -84,11 +84,26 @@ function lockSwapsAndStart() {
 		alert('Add a problem pair first via "Manage Problem Pairs".');
 		return;
 	}
+
+	let highest = 0;
 	teams.forEach((team) => {
-		if (swapChoice[team.id] === 'backup') {
-			swapTokens[team.id] = Math.max(0, (swapTokens[team.id] || 0) - 1);
-		}
+		const bid = swapBids[team.id] || 0;
+		if (bid > highest) highest = bid;
 	});
+
+	let winnerId = null;
+	if (highest > 0) {
+		const contenders = teams.filter((team) => (swapBids[team.id] || 0) === highest);
+		winnerId = contenders[Math.floor(Math.random() * contenders.length)].id;
+		swapTokens[winnerId] = Math.max(
+			0,
+			(swapTokens[winnerId] !== undefined ? swapTokens[winnerId] : swapStartTokens) -
+				highest,
+		);
+	}
+
+	swapWinnerId = winnerId;
+	swapWinningBid = winnerId ? highest : 0;
 	swapLocked = true;
 	swapTimer.toggle();
 	renderSwapScreen();
@@ -154,49 +169,66 @@ function renderSwapRoster() {
 	const wrap = document.getElementById('swapRoster');
 	if (!wrap) return;
 
-	wrap.innerHTML = teams
-		.map((team) => {
-			const choice = swapChoice[team.id] || 'hard';
-			const tokens =
-				swapTokens[team.id] !== undefined ? swapTokens[team.id] : swapStartTokens;
-			const pts = choice === 'backup' ? 1 : 3;
-
-			const actionHtml = swapLocked
+	let banner = '';
+	if (swapLocked) {
+		if (swapWinnerId) {
+			const winner = teams.find((team) => team.id === swapWinnerId);
+			banner = winner
 				? `
-					<button 
-						class="btn small ${choice === 'backup' ? 'ghost' : ''} award-btn" 
-						style="border-color: ${team.color};"
-					>
-						${choice === 'backup' ? 'Backup locked in' : 'Hard problem locked in'}
-					</button>
-				`
-				: `
-					<button 
-						class="btn small ${choice === 'backup' ? 'ghost' : ''} award-btn" 
-						style="border-color: ${team.color};"
-						onclick="toggleSwapChoice('${team.id}')"
-					>
-						${choice === 'backup' ? 'Use Hard Problem' : `Swap for Backup (${tokens} left)`}
-					</button>
-				`;
-
-			return `
-				<div class="team-group" style="border-left-color: ${team.color};">
-					<span class="team-name">${escapeHtml(team.name)}</span>
-					<div class="team-btns">
-						${actionHtml}
-						<button
-							class="btn small award-btn"
-							style="border-color: ${team.color};"
-							onclick="addScore('${team.id}', ${pts}, event)"
-						>
-							+${pts}
-						</button>
+					<div class="swap-token-count" style="margin-bottom: 10px; font-size: 13px;">
+						<b style="color: ${winner.color};">${escapeHtml(winner.name)}</b> won the auction with a bid of
+						${swapWinningBid} token${swapWinningBid === 1 ? '' : 's'}, they swap to the easier backup problem, still worth 3 pts.
+						Everyone else is stuck with the hard problem (also 3 pts).
 					</div>
+				`
+				: '';
+		} else {
+			banner = `
+				<div class="swap-token-count" style="margin-bottom: 10px; font-size: 13px;">
+					No one bid, every team answers the hard problem (3 pts).
 				</div>
 			`;
-		})
-		.join('');
+		}
+	}
+
+	wrap.innerHTML = banner + teams.map((team) => renderSwapTeamRow(team)).join('');
+}
+
+function renderSwapTeamRow(team) {
+	const tokens = swapTokens[team.id] !== undefined ? swapTokens[team.id] : swapStartTokens;
+	const isWinner = swapLocked && swapWinnerId === team.id;
+	const pts = 3;
+
+	const bidControl = swapLocked
+		? `<span class="swap-token-count">${isWinner ? `Spent ${swapWinningBid}` : `${tokens} token${tokens === 1 ? '' : 's'} left`}</span>`
+		: `
+			<input
+				type="number"
+				class="wager-input mono"
+				min="0"
+				max="${tokens}"
+				value="${swapBids[team.id] || 0}"
+				style="border-color: ${team.color};"
+				onchange="setSwapBid('${team.id}', this.value)"
+			/>
+			<span class="swap-token-count flex middle">of ${tokens}</span>
+		`;
+
+	return `
+		<div class="team-group" style="border-left-color: ${team.color};">
+			<span class="team-name">${escapeHtml(team.name)}</span>
+			<div class="team-btns">
+				${bidControl}
+				<button
+					class="btn small award-btn"
+					style="border-color: ${team.color};"
+					onclick="addScore('${team.id}', ${pts}, event)"
+				>
+					+${pts}
+				</button>
+			</div>
+		</div>
+	`;
 }
 
 function renderSwapScreen() {
@@ -213,8 +245,8 @@ function openSwapModal() {
 		'Manage Problem Pairs',
 		`
 			<div style="font-size: 13px; color: var(--chalk-muted); line-height: 1.6;">
-				Each pair has a harder problem (worth 3 pts) and an easier backup (worth 1 pt) that
-				a team can trade into using one swap token, before the timer starts.
+				Each pair has a harder problem and an easier backup, both worth 3 pts. Teams bid
+				swap tokens for the backup before the timer starts, so winning it is pure upside.
 			</div>
 			<div class="field-label">Time limit in seconds (optional, defaults to standard timer)</div>
 			<input type="number" min="1" id="newSwapTime" placeholder="e.g. 90" />
@@ -233,7 +265,7 @@ function openSwapModal() {
 			<div id="newSwapHardAImgWrap"></div>
 
 			<div class="field-label" style="margin-top: 20px; font-size: 13px; color: var(--chalk-teal);">
-				Easier Backup (1 pt)
+				Easier Backup (3 pts)
 			</div>
 			<div class="field-label">Question (use $...$ for math)</div>
 			<textarea id="newSwapBackQ" placeholder="e.g. A gentler version of the question"></textarea>

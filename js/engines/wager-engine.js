@@ -30,14 +30,12 @@ function nextWagerProblem() {
 	renderWagerProblem();
 }
 
-function ensureWagerTimerUI() {
-	const questionEl = document.getElementById('wagerQuestionText');
-	const wrap = questionEl ? questionEl.parentElement : null;
-	if (!wrap || document.getElementById('wagerTimerDisplay')) return;
-	wrap.insertAdjacentHTML(
-		'afterbegin',
-		`<div class="timer mono" id="wagerTimerDisplay"></div>`,
-	);
+function toggleWagerTimer() {
+	wagerTimer.toggle();
+}
+
+function resetWagerTimer() {
+	wagerTimer.reset();
 }
 
 function renderWagerProblem() {
@@ -58,8 +56,6 @@ function renderWagerProblem() {
 		return;
 	}
 
-	ensureWagerTimerUI();
-
 	const problem = wagerPool[wagerIndex % wagerPool.length];
 	document.getElementById('wagerProgress').textContent =
 		`Round ${(wagerIndex % wagerPool.length) + 1} of ${wagerPool.length}`;
@@ -70,7 +66,6 @@ function renderWagerProblem() {
 	typeset(document.getElementById('wagerQuestionText'));
 	renderWagerRoster();
 	wagerTimer.setDuration(problem.time || defaultWagerSeconds);
-	wagerTimer.toggle();
 }
 
 function revealWagerAnswer() {

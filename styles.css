@@ -1220,6 +1220,23 @@ h1 {
 	color: var(--chalk-muted);
 }
 
+/* ---------- Speed Sprint ---------- */
+.sprint-key-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 18px;
+}
+.sprint-answer-key {
+	display: none;
+	color: var(--chalk-yellow);
+	font-weight: 700;
+}
+.sprint-answer-key.show {
+	display: block;
+}
+
 /* ---------- All-In Wager ---------- */
 .tier-badge.t5 {
 	color: var(--chalk-white);

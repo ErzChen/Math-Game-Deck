@@ -72,6 +72,22 @@ function startSprint() {
 	renderSprintScreen();
 }
 
+function toggleSprintKey() {
+	sprintKeyRevealed = !sprintKeyRevealed;
+	renderSprintKeyVisibility();
+}
+
+function renderSprintKeyVisibility() {
+	const keyEl = document.getElementById('sprintAnswerKey');
+	const btn = document.getElementById('sprintKeyToggle');
+	if (keyEl) keyEl.classList.toggle('show', sprintKeyRevealed);
+	if (btn) {
+		btn.textContent = sprintKeyRevealed
+			? 'Hide Answer'
+			: 'Show Answer (host only)';
+	}
+}
+
 function tickSprintTimer() {
 	if (sprintTimerSeconds > 0) {
 		sprintTimerSeconds--;
@@ -124,6 +140,17 @@ function advanceSprint(wasCorrect) {
 	renderSprintProblem();
 }
 
+function revealSprintAnswer() {
+	if (sprintPool.length === 0) return;
+	if (sprintOrder.length !== sprintPool.length) shuffleSprintOrder();
+	const lap = sprintIndex % sprintPool.length;
+	const problem = sprintPool[sprintOrder[lap]];
+	document.getElementById('sprintAnswerFigure').textContent = problem.a;
+	const box = document.getElementById('sprintAnswerBox');
+	box.classList.add('show');
+	typeset(box);
+}
+
 function renderSprintTimer() {
 	const element = document.getElementById('sprintTimerDisplay');
 	if (!element) return;
@@ -131,16 +158,17 @@ function renderSprintTimer() {
 	element.classList.toggle('low', sprintTimerSeconds <= 20);
 }
 
+
 function renderSprintProblem() {
 	sprintPool = customSprint;
 	const questionEl = document.getElementById('sprintQuestionText');
-	const keyEl = document.getElementById('sprintAnswerKey');
+	const box = document.getElementById('sprintAnswerBox');
+	if (box) box.classList.remove('show');
 	if (!questionEl) return;
 	if (sprintPool.length === 0) {
 		document.getElementById('sprintProgress').textContent = 'No questions yet';
 		questionEl.textContent =
 			'No questions yet, use "Manage Questions" above to add some.';
-		if (keyEl) keyEl.textContent = '';
 		setPromptImage('sprintQuestionImg', null);
 		return;
 	}
@@ -153,7 +181,6 @@ function renderSprintProblem() {
 		`Question ${lap + 1} of ${sprintPool.length} · ${sprintCorrectCount} correct so far`;
 	questionEl.textContent = problem.q;
 	setPromptImage('sprintQuestionImg', problem.qImg);
-	if (keyEl) keyEl.textContent = 'Answer key: ' + problem.a;
 	typeset(questionEl);
 }
 
@@ -162,17 +189,24 @@ function renderSprintScreen() {
 	renderSprintTimer();
 	const startBtn = document.getElementById('sprintStartBtn');
 	const pauseBtn = document.getElementById('sprintPauseToggle');
+	const resetBtn = document.getElementById('sprintResetBtn');
+	const revealBtn = document.getElementById('sprintRevealBtn');
+	const box = document.getElementById('sprintAnswerBox');
 	const controls = document.getElementById('sprintActiveControls');
 	const summary = document.getElementById('sprintSummary');
-	const questionWrap = document.getElementById('sprintQuestionWrap');
+	const questionEl = document.getElementById('sprintQuestionText');
 	const progress = document.getElementById('sprintProgress');
 
 	if (sprintState === 'idle') {
 		if (startBtn) startBtn.style.display = '';
 		if (pauseBtn) pauseBtn.style.display = 'none';
+		if (resetBtn) resetBtn.style.display = 'none';
+		if (revealBtn) revealBtn.style.display = 'none';
+		if (box) box.classList.remove('show');
 		if (controls) controls.style.display = 'none';
 		if (summary) summary.style.display = 'none';
-		if (questionWrap) questionWrap.style.display = 'none';
+		if (questionEl) questionEl.textContent = '';
+		setPromptImage('sprintQuestionImg', null);
 		if (progress) progress.textContent = 'Pick a team and hit Start Sprint';
 		return;
 	}
@@ -183,20 +217,36 @@ function renderSprintScreen() {
 			pauseBtn.style.display = '';
 			pauseBtn.textContent = sprintTimerInterval ? 'Pause' : 'Resume';
 		}
+		if (resetBtn) resetBtn.style.display = '';
+		if (revealBtn) revealBtn.style.display = '';
 		if (controls) controls.style.display = '';
 		if (summary) summary.style.display = 'none';
-		if (questionWrap) questionWrap.style.display = '';
 		renderSprintProblem();
 		return;
 	}
 
 	if (startBtn) startBtn.style.display = 'none';
 	if (pauseBtn) pauseBtn.style.display = 'none';
+	if (resetBtn) resetBtn.style.display = '';
+	if (revealBtn) revealBtn.style.display = 'none';
+	if (box) box.classList.remove('show');
 	if (controls) controls.style.display = 'none';
-	if (questionWrap) questionWrap.style.display = 'none';
+	if (questionEl) questionEl.textContent = '';
+	setPromptImage('sprintQuestionImg', null);
 	if (summary) {
 		summary.style.display = '';
 		summary.innerHTML = renderSprintSummaryHtml();
+	}
+}
+
+function renderSprintKeyVisibility() {
+	const keyBox = document.getElementById('sprintKeyBox');
+	const btn = document.getElementById('sprintKeyToggle');
+	if (keyBox) keyBox.classList.toggle('show', sprintKeyRevealed);
+	if (btn) {
+		btn.textContent = sprintKeyRevealed
+			? 'Hide Answer'
+			: 'Show Answer (host only)';
 	}
 }
 

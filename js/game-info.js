@@ -111,14 +111,14 @@ const gameInfo = {
 	},
 	swapmarket: {
 		title: 'Swap Market: How to Play',
-		mechanic: 'Trade',
+		mechanic: 'Auction',
 		format: 'All teams, simultaneous',
 		howToPlay:
-			'Every team starts with a small stash of swap tokens. When a hard problem is revealed, any team may spend one token before the timer starts to trade it for an easier backup problem worth fewer points, a real risk/reward call between guaranteed partial credit and a bigger payoff. Unlike All-In Wager, which bets points on confidence in the same problem, this is about opting out of a problem entirely at a resource cost. Once the timer starts, no more swaps are allowed for that round.',
+			'Every team starts with a stash of 10 swap tokens. When a hard problem is revealed, there\'s only one easier backup problem up for grabs, worth exactly the same points, teams secretly bid however many tokens they\'re willing to spend on it before the timer starts. The highest bidder wins the backup and answers that instead; every other team is stuck with the harder problem, whether they wanted to swap or not. Ties for the high bid are broken at random. Unlike All-In Wager, which bets points on confidence in the same problem, this is a real market: only one team can buy their way to an easier problem for free, so it pays to guess what the rest of the room is willing to spend.',
 		scoring:
-			'The original hard problem is worth 3 pts; a swapped-in backup problem is worth 1 pt. Tokens are spent whether or not the backup is answered correctly.',
+			'Both the hard problem and the backup are worth 3 pts, winning the auction only makes the problem easier, it doesn\'t cost points. The winning bid is spent whether or not the backup is answered correctly, everyone else keeps their tokens for the next round.',
 		customization:
-			'"Manage Problem Pairs" adds a hard problem paired with its easier backup, so every problem in the pool has a swap option ready to go.',
+			'"Manage Problem Pairs" adds a hard problem paired with its easier backup, so every round has a backup up for auction.',
 	},
 	wager: {
 		title: 'All-In Wager: How to Play',
@@ -169,11 +169,11 @@ const gameInfo = {
 		mechanic: 'Shared Danger',
 		format: 'Whole-group, first-to-answer',
 		howToPlay:
-			'A single "potato" holding a growing point value is passed between teams instead of scored individually. Correctly answering a problem lets a team pass the potato to any other team of their choice, it never stays with the solver. A hidden random cutoff (host-triggered or auto-timed) ends the round at any point; whichever team is holding the potato when it stops loses everything banked on it.',
+			'A single "potato" holding a growing point value is passed between teams on top of normal scoring. Correctly answering a problem earns the team a point and lets them pass the potato to any other team of their choice, it never stays with the solver. A hidden random cutoff always ends the round at some point within a host-set window; whichever team is holding the potato when it stops loses everything banked on it.',
 		scoring:
-			"The potato's value increases by 1 pt each time it's successfully passed. Whoever is holding it when the round cuts off forfeits the entire accumulated value, everyone else keeps their own separate scores untouched.",
+			"A correct answer is worth 1 pt outright, whether or not the round has ended. On top of that, the potato's value increases by 1 pt each time it's successfully passed, and whoever is holding it when the round cuts off forfeits that entire accumulated value.",
 		customization:
-			'"Manage Questions" adds problems to the shared pool; the cutoff can be set to a random window or manually triggered by the host for maximum suspense.',
+			'"Manage Questions" adds problems to the shared pool; the auto-cutoff\'s minimum and maximum seconds are set live in-app so the host controls how tense the window gets.',
 	},
 	bounty: {
 		title: 'Bounty: How to Play',

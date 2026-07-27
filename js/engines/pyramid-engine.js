@@ -134,7 +134,7 @@ function renderPyramidScreen() {
 	const startBtn = document.getElementById('pyramidStartBtn');
 	const pauseBtn = document.getElementById('pyramidPauseToggle');
 	const endBtn = document.getElementById('pyramidEndBtn');
-	const boardWrap = document.getElementById('pyramidBoardWrap');
+	const board = document.getElementById('pyramidBoard');
 	const summary = document.getElementById('pyramidSummary');
 	const progress = document.getElementById('pyramidProgress');
 
@@ -142,7 +142,7 @@ function renderPyramidScreen() {
 		if (startBtn) startBtn.style.display = '';
 		if (pauseBtn) pauseBtn.style.display = 'none';
 		if (endBtn) endBtn.style.display = 'none';
-		if (boardWrap) boardWrap.style.display = 'none';
+		if (board) board.style.display = 'none';
 		if (summary) summary.style.display = 'none';
 		if (progress) {
 			progress.textContent =
@@ -154,7 +154,8 @@ function renderPyramidScreen() {
 	if (pyramidState === 'running') {
 		if (startBtn) startBtn.style.display = 'none';
 		if (endBtn) endBtn.style.display = '';
-		if (boardWrap) boardWrap.style.display = '';
+		if (endBtn) endBtn.style.marginBottom = '28px';
+		if (board) board.style.display = '';
 		if (summary) summary.style.display = 'none';
 		if (progress) {
 			progress.textContent = `${pyramidTotalSlots} problems, base to peak — every team climbs at their own pace`;
@@ -166,7 +167,6 @@ function renderPyramidScreen() {
 	if (startBtn) startBtn.style.display = 'none';
 	if (pauseBtn) pauseBtn.style.display = 'none';
 	if (endBtn) endBtn.style.display = 'none';
-	if (boardWrap) boardWrap.style.display = 'none';
 	if (progress) progress.textContent = '';
 	if (summary) {
 		summary.style.display = '';

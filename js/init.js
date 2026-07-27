@@ -16,3 +16,4 @@ initWager();
 initCurse();
 initScapegoat();
 initPointHeist();
+initHotPotato();

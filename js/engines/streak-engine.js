@@ -9,6 +9,7 @@ let streakOutcome = null;
 const streakTimer = createCountdownTimer({
 	seconds: 90,
 	displayId: 'streakTimerDisplay',
+	toggleBtnId: 'streakTimerToggle',
 });
 const defaultStreakSeconds = 90;
 
@@ -118,13 +119,12 @@ function pushStreak() {
 	renderStreakScreen();
 }
 
-function ensureStreakTimerUI() {
-	const wrap = document.getElementById('streakQuestionWrap');
-	if (!wrap || document.getElementById('streakTimerDisplay')) return;
-	wrap.insertAdjacentHTML(
-		'afterbegin',
-		`<div class="timer mono" id="streakTimerDisplay"></div>`,
-	);
+function toggleStreakTimer() {
+	streakTimer.toggle();
+}
+
+function resetStreakTimer() {
+	streakTimer.reset();
 }
 
 function renderStreakQuestion() {
@@ -136,8 +136,6 @@ function renderStreakQuestion() {
 	if (controls) controls.style.display = 'none';
 
 	if (streakPool.length === 0 || streakIndex >= streakPool.length) return;
-
-	ensureStreakTimerUI();
 
 	const problem = streakPool[streakIndex];
 	const levelPts = pointsForStreakLevel(streakIndex);
@@ -153,7 +151,6 @@ function renderStreakQuestion() {
 	setPromptImage('streakQuestionImg', problem.qImg);
 	typeset(questionEl);
 	streakTimer.setDuration(problem.time || defaultStreakSeconds);
-	streakTimer.toggle();
 }
 
 function renderStreakScreen() {

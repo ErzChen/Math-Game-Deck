@@ -135,8 +135,8 @@
 						<div class="arcade-num mono">11</div>
 						<h3>Swap Market</h3>
 						<p>
-							Every team gets swap tokens to trade a hard problem for an easier,
-							lower-value backup.
+							Teams bid swap tokens for the one shared easier backup problem, highest
+							bidder gets it.
 						</p>
 					</div>
 					<div class="arcade-tile tile-purple" onclick="goTo('Wager')">
@@ -169,6 +169,14 @@
 						<p>
 							A shared vault sits center stage. Correct answers let you draw from it or
 							raid whoever's winning outright.
+						</p>
+					</div>
+					<div class="arcade-tile tile-purple" onclick="goTo('HotPotato')">
+						<div class="arcade-num mono">16</div>
+						<h3>Hot Potato</h3>
+						<p>
+							A single potato grows in value as it's passed around. Answer right to
+							pass it on, just don't be holding it when the cutoff hits.
 						</p>
 					</div>
 				</div>
@@ -970,7 +978,24 @@
 					<div class="progress-line" id="sprintProgress"></div>
 					<div id="sprintQuestionWrap" style="display: none">
 						<div class="question" id="sprintQuestionText"></div>
-						<div class="progress-line mono" id="sprintAnswerKey"></div>
+						<img
+							class="prompt-img hidden"
+							id="sprintQuestionImg"
+							alt="Question figure"
+						/>
+						<div class="sprint-key-wrap">
+							<button
+								class="btn small ghost"
+								id="sprintKeyToggle"
+								onclick="toggleSprintKey()"
+							>
+								Show Answer (host only)
+							</button>
+							<div
+								class="progress-line mono sprint-answer-key"
+								id="sprintAnswerKey"
+							></div>
+						</div>
 					</div>
 					<div class="timer-wrap">
 						<div class="timer mono" id="sprintTimerDisplay">03:00</div>
@@ -1240,8 +1265,8 @@
 						<div class="eyebrow">Game 11</div>
 						<h1>Swap Market</h1>
 						<div class="subtitle">
-							Every team gets swap tokens to trade a hard problem for an easier,
-							lower-value backup.
+							Every team gets swap tokens. When a hard problem drops, teams secretly
+							bid tokens for the one shared easier backup, highest bid wins it.
 						</div>
 					</div>
 					<div style="display: flex; gap: 10px">
@@ -1306,7 +1331,7 @@
 							</div>
 						</div>
 						<div class="swap-col">
-							<span class="tag time">Backup · 1 pt</span>
+							<span class="tag time">Backup · 3 pts (easier)</span>
 							<div class="question" id="swapBackQuestionText"></div>
 							<img
 								class="prompt-img hidden"
@@ -1339,7 +1364,7 @@
 							id="swapLockBtn"
 							onclick="lockSwapsAndStart()"
 						>
-							Lock Swaps &amp; Start Timer
+							Lock Bids &amp; Start Timer
 						</button>
 						<button class="btn primary" onclick="revealSwapAnswer()">
 							Reveal Answers
@@ -1377,7 +1402,7 @@
 						</button>
 					</div>
 					<div class="award-row">
-						<div class="label">Teams &amp; swap tokens</div>
+						<div class="label">Teams &amp; bids (tokens left, enter a bid for the backup)</div>
 						<div class="elimination-roster" id="swapRoster"></div>
 					</div>
 				</div>
@@ -1437,34 +1462,43 @@
 					<div class="progress-line" id="wagerProgress"></div>
 					<span class="tier-badge" id="wagerDifficultyBadge"></span>
 					<div class="question" id="wagerQuestionText"></div>
+					<div class="timer mono" id="wagerTimerDisplay"></div>
 					<img
 						class="prompt-img hidden"
 						id="wagerQuestionImg"
 						alt="Question figure"
 					/>
 					<div class="btn-wrap">
+						<button
+							class="btn"
+							id="pointHeistTimerToggle"
+							onclick="toggleWagerTimer()"
+						>
+							Start
+						</button>
 						<button class="btn primary" onclick="revealWagerAnswer()">
 							Reveal Answer
 						</button>
-						<button class="btn ghost" onclick="nextWagerProblem()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M5 12h14" />
-								<path d="M13 6l6 6-6 6" />
-							</svg>
-							Next Problem
-						</button>
+						<button class="btn ghost" onclick="resetWagerTimer()">Reset</button>
 					</div>
+					<button class="btn ghost" onclick="nextWagerProblem()">
+						<svg
+							class="icon"
+							viewBox="0 0 24 24"
+							width="14"
+							height="14"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							style="vertical-align: -2px; margin-right: 4px"
+						>
+							<path d="M5 12h14" />
+							<path d="M13 6l6 6-6 6" />
+						</svg>
+						Next Problem
+					</button>
 					<div class="answer-box" id="wagerAnswerBox">
 						<div class="figure" id="wagerAnswerFigure"></div>
 						<img class="prompt-img hidden" id="wagerAnswerImg" alt="Answer figure" />
@@ -1653,6 +1687,7 @@
 				<div class="panel flex middle column">
 					<div class="progress-line" id="scapegoatProgress"></div>
 					<div class="question" id="scapegoatQuestionText"></div>
+					<div class="timer mono" id="scapegoatTimerDisplay"></div>
 					<img
 						class="prompt-img hidden"
 						id="scapegoatQuestionImg"
@@ -1914,6 +1949,148 @@
 					</div>
 				</div>
 			</section>
+
+			<section class="screen" id="screenHotPotato">
+				<div class="screen-head">
+					<div>
+						<div class="eyebrow">Game 16</div>
+						<h1>Hot Potato</h1>
+						<div class="subtitle">
+							A single potato grows in value as it's passed around. Answer right to
+							pass it on, just don't be holding it when the cutoff hits.
+						</div>
+					</div>
+					<div style="display: flex; gap: 10px">
+						<button class="btn ghost" onclick="openGameInfoModal('hotpotato')">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<circle cx="12" cy="12" r="9" />
+								<line x1="12" y1="11" x2="12" y2="16" />
+								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
+							</svg>
+							How to Play
+						</button>
+						<button class="btn ghost" onclick="openHotPotatoModal()">
+							<svg
+								class="icon"
+								viewBox="0 0 24 24"
+								width="14"
+								height="14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								style="vertical-align: -2px; margin-right: 4px"
+							>
+								<path d="M12 20h9" />
+								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+							</svg>
+							Manage Questions
+						</button>
+					</div>
+				</div>
+				<div class="panel flex middle column">
+					<div class="progress-line" id="hotPotatoProgress"></div>
+
+					<div id="hotPotatoIdleWrap">
+						<div class="duel-picker">
+							<select id="hotPotatoTeamSelect"></select>
+							<button class="btn primary" onclick="startHotPotatoRound()">
+								Hand Over the Potato
+							</button>
+						</div>
+					</div>
+
+					<div id="hotPotatoActiveWrap" style="display: none">
+						<div class="vault-wrap" style="margin: 4px 0 18px">
+							<div class="vault-amount mono" id="hotPotatoValueDisplay"></div>
+							<div class="vault-label">Points riding on the potato</div>
+						</div>
+						<div class="t-badge" id="hotPotatoHolderBadge"></div>
+						<div class="question" id="hotPotatoQuestionText"></div>
+						<img
+							class="prompt-img hidden"
+							id="hotPotatoQuestionImg"
+							alt="Question figure"
+						/>
+						<div class="btn-wrap middle">
+							<button class="btn primary" onclick="revealHotPotatoAnswer()">
+								Reveal Answer
+							</button>
+						</div>
+						<div class="answer-box" id="hotPotatoAnswerBox">
+							<div class="figure" id="hotPotatoAnswerFigure"></div>
+							<img
+								class="prompt-img hidden"
+								id="hotPotatoAnswerImg"
+								alt="Answer figure"
+							/>
+							<div class="reasoning" id="hotPotatoAnswerReasoning"></div>
+						</div>
+						<div class="row-actions middle" id="hotPotatoJudgeControls">
+							<button class="btn primary" onclick="markHotPotatoCorrect(event)">
+								<svg
+									class="icon"
+									viewBox="0 0 24 24"
+									width="14"
+									height="14"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.5"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									style="vertical-align: -2px; margin-right: 4px"
+								>
+									<path d="M20 6 9 17l-5-5" />
+								</svg>
+								Correct, pass it on
+							</button>
+						</div>
+						<div id="hotPotatoPassWrap" style="display: none"></div>
+						<div class="row-actions middle" style="margin-top: 18px">
+							<button class="btn ghost" onclick="cutOffHotPotato()">
+								Cut It Off!
+							</button>
+						</div>
+					</div>
+
+					<div id="hotPotatoEndedWrap" style="display: none"></div>
+
+					<div class="vault-settings" style="margin-top: 22px">
+						<label>
+							Auto cutoff min secs
+							<input
+								type="number"
+								min="5"
+								id="hotPotatoAutoMin"
+								value="30"
+								onchange="setHotPotatoSetting('min', this.value)"
+							/>
+						</label>
+						<label>
+							Auto cutoff max secs
+							<input
+								type="number"
+								min="5"
+								id="hotPotatoAutoMax"
+								value="90"
+								onchange="setHotPotatoSetting('max', this.value)"
+							/>
+						</label>
+					</div>
+				</div>
+			</section>
 		</div>
 
 		<div id="showbar">
@@ -2007,6 +2184,7 @@
 		<script defer src="js/engines/curse-engine.js"></script>
 		<script defer src="js/engines/scapegoat-engine.js"></script>
 		<script defer src="js/engines/point-heist-engine.js"></script>
+		<script defer src="js/engines/hotpotato-engine.js"></script>
 
 		<script defer src="js/init.js"></script>
 	</body>
