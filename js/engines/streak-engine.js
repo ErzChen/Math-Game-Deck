@@ -6,6 +6,16 @@ let streakIndex = 0;
 let streakVault = 0;
 let streakOutcome = null;
 
+const streakLevelCount = 5;
+
+const streakTierNames = {
+	1: 'Tier 1 · Warm-up',
+	2: 'Tier 2 · Building',
+	3: 'Tier 3 · Push',
+	4: 'Tier 4 · Frontier',
+	5: 'Tier 5 · Peak',
+};
+
 const streakTimer = createCountdownTimer({
 	seconds: 90,
 	displayId: 'streakTimerDisplay',
@@ -21,11 +31,32 @@ const streakImageFields = createQAImageState({
 });
 
 function initStreak() {
+	// migrate any pre-existing questions (no tier) into Tier 1 so nothing is lost
+	customStreak = customStreak.map((problem) =>
+		problem && !problem.tier ? { ...problem, tier: 1 } : problem,
+	);
 	newStreakTurn();
 }
 
 function pointsForStreakLevel(i) {
 	return Math.pow(2, i);
+}
+
+// Builds one 5-question streak: a single random question from each tier 1-5.
+// Returns null if any tier has zero questions stocked.
+function buildStreakPool() {
+	const byTier = { 1: [], 2: [], 3: [], 4: [], 5: [] };
+	customStreak.forEach((problem) => {
+		if (byTier[problem.tier]) byTier[problem.tier].push(problem);
+	});
+	const pool = [];
+	for (let tier = 1; tier <= streakLevelCount; tier++) {
+		const available = byTier[tier];
+		if (!available || available.length === 0) return null;
+		const pick = available[Math.floor(Math.random() * available.length)];
+		pool.push({ ...pick, tier });
+	}
+	return pool;
 }
 
 function newStreakTurn() {
@@ -34,6 +65,7 @@ function newStreakTurn() {
 	streakIndex = 0;
 	streakVault = 0;
 	streakOutcome = null;
+	streakPool = [];
 	streakTimer.stop();
 	renderStreakScreen();
 }
@@ -50,9 +82,11 @@ function populateStreakTeamSelector() {
 }
 
 function startStreakTurn() {
-	streakPool = customStreak;
-	if (streakPool.length === 0) {
-		alert('Add some questions first via "Manage Streak Set".');
+	const pool = buildStreakPool();
+	if (!pool) {
+		alert(
+			`Every one of the ${streakLevelCount} tiers needs at least one question first, via "Manage Streak Set".`,
+		);
 		return;
 	}
 	const select = document.getElementById('streakTeamSelect');
@@ -60,6 +94,7 @@ function startStreakTurn() {
 		alert('Pick a team first.');
 		return;
 	}
+	streakPool = pool;
 	streakTeamId = select.value;
 	streakIndex = 0;
 	streakVault = 0;
@@ -69,7 +104,6 @@ function startStreakTurn() {
 }
 
 function revealStreakAnswer() {
-	streakPool = customStreak;
 	if (streakPool.length === 0) return;
 	const problem = streakPool[streakIndex];
 	document.getElementById('streakAnswerFigure').textContent = problem.a;
@@ -128,7 +162,6 @@ function resetStreakTimer() {
 }
 
 function renderStreakQuestion() {
-	streakPool = customStreak;
 	const badge = document.getElementById('streakLevelBadge');
 	const box = document.getElementById('streakAnswerBox');
 	const controls = document.getElementById('streakJudgeControls');
@@ -140,7 +173,8 @@ function renderStreakQuestion() {
 	const problem = streakPool[streakIndex];
 	const levelPts = pointsForStreakLevel(streakIndex);
 	if (badge) {
-		badge.textContent = `Level ${streakIndex + 1} of ${streakPool.length} · worth ${levelPts} pt${levelPts === 1 ? '' : 's'}`;
+		badge.textContent = `${streakTierNames[problem.tier] || 'Level ' + (streakIndex + 1)} · Level ${streakIndex + 1} of ${streakPool.length} · worth ${levelPts} pt${levelPts === 1 ? '' : 's'}`;
+		badge.className = 'tier-badge t' + problem.tier;
 	}
 	const vaultEl = document.getElementById('streakVaultTotal');
 	if (vaultEl) {
@@ -166,7 +200,9 @@ function renderStreakScreen() {
 	if (startBtn) startBtn.disabled = false;
 
 	if (streakState === 'idle') {
-		if (progress) progress.textContent = 'Pick a team and hit Start Turn';
+		if (progress) {
+			progress.textContent = `Pick a team and hit Start Turn — each turn draws a fresh streak of ${streakLevelCount} problems, one per tier`;
+		}
 		if (questionWrap) questionWrap.style.display = 'none';
 		if (decisionWrap) decisionWrap.style.display = 'none';
 		if (summary) summary.style.display = 'none';
@@ -195,10 +231,14 @@ function renderStreakScreen() {
 		const vaultEl = document.getElementById('streakDecisionVault');
 		const noteEl = document.getElementById('streakDecisionNote');
 		const nextPts = pointsForStreakLevel(streakIndex + 1);
+		const nextProblem = streakPool[streakIndex + 1];
+		const nextTierLabel = nextProblem
+			? streakTierNames[nextProblem.tier] || `Tier ${nextProblem.tier}`
+			: '';
 		if (vaultEl)
 			vaultEl.textContent = `Vault: ${streakVault} pt${streakVault === 1 ? '' : 's'}`;
 		if (noteEl) {
-			noteEl.textContent = `Push for level ${streakIndex + 2} of ${streakPool.length}, worth ${nextPts} more, but a miss wipes the vault.`;
+			noteEl.textContent = `Push for level ${streakIndex + 2} of ${streakPool.length} (${nextTierLabel}), worth ${nextPts} more, but a miss wipes the vault.`;
 		}
 		return;
 	}
@@ -229,7 +269,7 @@ function renderStreakSummaryHtml() {
 	}
 
 	const clearedLine =
-		streakOutcome === 'cleared' ? `Cleared the whole vault set! ` : `Banked it. `;
+		streakOutcome === 'cleared' ? `Cleared the whole streak! ` : `Banked it. `;
 	return `
 		<div class="summary-line">
 			${clearedLine}<b style="color: ${team.color};">${escapeHtml(team.name)}</b> locks in <b>${streakVault}</b> pt${streakVault === 1 ? '' : 's'}.
@@ -251,17 +291,32 @@ function openStreakModal() {
 		fieldPrefix: 'newStreak',
 		listId: 'customStreakList',
 		addFnName: 'addCustomStreak',
-		helpText:
-			'Add problems in the order the streak should climb. The first one you add is level 1 (worth 1 pt), and each level after doubles in value. Longer sequences raise the ceiling, but also the risk of pushing too far.',
-		hasTier: false,
+		helpText: `Each team's turn draws a fresh streak of ${streakLevelCount} problems, one randomly picked from each tier, so difficulty always rises tier by tier as they push their luck. Stock at least one question per tier (extras per tier just add variety between turns) — tier 1 is worth 1 pt, doubling each tier after.`,
+		hasTier: true,
+		tierLabel: 'Tier (1 = easiest, 5 = hardest)',
+		tierPlaceholder: 'e.g. 3',
 		hasTime: true,
 		timeLabel: 'Time limit in seconds (optional, defaults to standard timer)',
 	});
 	streakImageFields.reset();
+	const list = document.getElementById('customStreakList');
+	if (list && !document.getElementById('streakTierSummary')) {
+		list.insertAdjacentHTML(
+			'beforebegin',
+			'<div id="streakTierSummary" class="pyramid-tier-summary"></div>',
+		);
+	}
 	renderCustomStreakList();
 }
 
 function addCustomStreak() {
+	const tier = Math.max(
+		1,
+		Math.min(
+			streakLevelCount,
+			parseInt(document.getElementById('newStreakTier').value, 10) || 1,
+		),
+	);
 	const timeInput = document.getElementById('newStreakTime').value.trim();
 	const parsedTime = parseInt(timeInput, 10);
 	const time =
@@ -274,6 +329,7 @@ function addCustomStreak() {
 		return;
 	}
 	customStreak.push({
+		tier: tier,
 		time: time,
 		q: question,
 		qImg: streakImageFields.state.q || undefined,
@@ -281,6 +337,7 @@ function addCustomStreak() {
 		e: explanation,
 		aImg: streakImageFields.state.a || undefined,
 	});
+	document.getElementById('newStreakTier').value = '';
 	document.getElementById('newStreakTime').value = '';
 	document.getElementById('newStreakQ').value = '';
 	document.getElementById('newStreakA').value = '';
@@ -294,17 +351,42 @@ function deleteCustomStreak(i) {
 	deleteCustomItem(customStreak, i, renderCustomStreakList);
 }
 
+function streakTierCounts() {
+	const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+	customStreak.forEach((problem) => {
+		if (counts[problem.tier] !== undefined) counts[problem.tier]++;
+	});
+	return counts;
+}
+
+function renderStreakTierSummary() {
+	const summary = document.getElementById('streakTierSummary');
+	if (!summary) return;
+	const counts = streakTierCounts();
+	summary.innerHTML = [1, 2, 3, 4, 5]
+		.map((tier) => {
+			const have = counts[tier];
+			const ok = have >= 1;
+			return `<span class="pyramid-tier-chip t${tier} ${ok ? 'ok' : 'short'}">${streakTierNames[tier]}: ${have}</span>`;
+		})
+		.join('');
+}
+
 function renderCustomStreakList() {
+	renderStreakTierSummary();
+	const sorted = customStreak
+		.map((problem, i) => ({ ...problem, _i: i }))
+		.sort((a, b) => a.tier - b.tier);
 	renderCustomList(
 		'customStreakList',
-		customStreak,
-		(problem, i) => `
+		sorted,
+		(problem) => `
 		<div class="custom-list-item">
 			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
 			<div class="txt">
-				<b>Level ${i + 1} · worth ${pointsForStreakLevel(i)} pt${pointsForStreakLevel(i) === 1 ? '' : 's'}</b>${problem.time ? ` · ${problem.time}s` : ''} — ${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}
+				<b>Tier ${problem.tier} · worth ${pointsForStreakLevel(problem.tier - 1)} pt${pointsForStreakLevel(problem.tier - 1) === 1 ? '' : 's'}</b>${problem.time ? ` · ${problem.time}s` : ''} — ${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}
 			</div>
-			<button class="btn small ghost" onclick="deleteCustomStreak(${i})">Delete</button>
+			<button class="btn small ghost" onclick="deleteCustomStreak(${problem._i})">Delete</button>
 		</div>
 	`,
 	);
