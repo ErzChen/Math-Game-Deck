@@ -5,6 +5,7 @@ let wagerIndex = 0;
 const wagerTimer = createCountdownTimer({
 	seconds: 90,
 	displayId: 'wagerTimerDisplay',
+	toggleBtnId: 'wagerTimerToggle',
 });
 const defaultWagerSeconds = 90;
 

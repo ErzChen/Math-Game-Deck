@@ -35,7 +35,6 @@ function newPyramidRound() {
 	pyramidProgress = {};
 	pyramidRevealed = {};
 	pyramidWinnerId = null;
-	pyramidTimerSeconds = 300;
 	renderPyramidScreen();
 }
 
@@ -132,7 +131,6 @@ function advancePyramidTeam(teamId) {
 
 function renderPyramidScreen() {
 	const startBtn = document.getElementById('pyramidStartBtn');
-	const pauseBtn = document.getElementById('pyramidPauseToggle');
 	const endBtn = document.getElementById('pyramidEndBtn');
 	const board = document.getElementById('pyramidBoard');
 	const summary = document.getElementById('pyramidSummary');
@@ -140,7 +138,6 @@ function renderPyramidScreen() {
 
 	if (pyramidState === 'idle') {
 		if (startBtn) startBtn.style.display = '';
-		if (pauseBtn) pauseBtn.style.display = 'none';
 		if (endBtn) endBtn.style.display = 'none';
 		if (board) board.style.display = 'none';
 		if (summary) summary.style.display = 'none';
@@ -165,7 +162,6 @@ function renderPyramidScreen() {
 	}
 
 	if (startBtn) startBtn.style.display = 'none';
-	if (pauseBtn) pauseBtn.style.display = 'none';
 	if (endBtn) endBtn.style.display = 'none';
 	if (progress) progress.textContent = '';
 	if (summary) {

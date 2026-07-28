@@ -1269,6 +1269,143 @@ h1 {
 	border: 1px solid var(--line-strong);
 }
 
+/* ---------- Curse Card ---------- */
+.curse-flip-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(6, 14, 11, 0.82);
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 24px;
+	z-index: 400;
+}
+.curse-flip-overlay.open {
+	display: flex;
+}
+.curse-flip-scene {
+	width: 230px;
+	height: 300px;
+	perspective: 1200px;
+}
+.curse-flip-card {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	transform-style: preserve-3d;
+	transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+	animation: curseFlipDrop 0.4s ease;
+}
+.curse-flip-card.flipped {
+	transform: rotateY(180deg);
+}
+@keyframes curseFlipDrop {
+	0% {
+		transform: translateY(-40px) scale(0.85);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0) scale(1);
+		opacity: 1;
+	}
+}
+.curse-flip-face {
+	position: absolute;
+	inset: 0;
+	backface-visibility: hidden;
+	border-radius: var(--radius);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 24px 20px;
+	text-align: center;
+	box-shadow: var(--shadow);
+}
+.curse-flip-front {
+	background:
+		repeating-linear-gradient(
+			45deg,
+			rgba(217, 140, 0, 0.06) 0 10px,
+			transparent 10px 20px
+		),
+		linear-gradient(160deg, #241a12, #16100b);
+	border: 2px solid var(--chalk-yellow);
+	color: var(--chalk-yellow);
+}
+.curse-flip-front-icon {
+	font-size: 54px;
+	font-weight: 800;
+	margin-bottom: 10px;
+	opacity: 0.85;
+}
+.curse-flip-front-label {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.18em;
+	font-weight: 700;
+}
+.curse-flip-back {
+	background: linear-gradient(160deg, #2a1420, #1a0e16);
+	border: 2px solid var(--chalk-pink);
+	color: #f7f4ec;
+	transform: rotateY(180deg);
+}
+.curse-flip-back .curse-card-icon {
+	font-size: 40px;
+	margin-bottom: 8px;
+	filter: drop-shadow(0 0 10px rgba(209, 67, 106, 0.65));
+}
+.curse-flip-back .curse-card-title {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.18em;
+	color: var(--chalk-pink);
+	font-weight: 700;
+	margin-bottom: 12px;
+}
+.curse-flip-back .curse-card-text {
+	font-size: 15px;
+	line-height: 1.55;
+	font-weight: 600;
+}
+.curse-flip-continue {
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity var(--transition-medium);
+}
+.curse-flip-continue.show {
+	opacity: 1;
+	pointer-events: auto;
+}
+.curse-timers-wrap {
+	display: flex;
+	gap: 28px;
+	align-items: flex-end;
+	justify-content: center;
+	margin: 6px 0 4px;
+}
+.curse-timer-block {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+}
+.curse-timer-label {
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--chalk-muted);
+	font-weight: 700;
+}
+#curseNormalTimerWrap .timer {
+	color: var(--chalk-muted);
+	opacity: 0.75;
+}
+
 /* ---------- Point Heist ---------- */
 .vault-wrap {
 	display: flex;

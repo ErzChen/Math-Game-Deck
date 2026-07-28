@@ -15,12 +15,16 @@ let curseSkipped = false;
 let activeCurse = null;
 let pendingCurse = null;
 
+const defaultCurseSeconds = 90;
 const curseTimer = createCountdownTimer({
-	seconds: 90,
+	seconds: defaultCurseSeconds,
 	displayId: 'curseTimerDisplay',
 	toggleBtnId: 'curseTimerToggle',
 });
-const defaultCurseSeconds = 90;
+const curseNormalTimer = createCountdownTimer({
+	seconds: defaultCurseSeconds,
+	displayId: 'curseNormalTimerDisplay',
+});
 
 const curseImageFields = createQAImageState({
 	qWrap: 'newCurseQImgWrap',
@@ -58,10 +62,14 @@ function nextCurseProblem() {
 
 function toggleCurseTimer() {
 	curseTimer.toggle();
+	if (isTimeCutCurse(activeCurse && activeCurse.curse)) {
+		curseNormalTimer.toggle();
+	}
 }
 
 function resetCurseTimer() {
 	curseTimer.reset();
+	curseNormalTimer.reset();
 }
 
 function isTimeCutCurse(curse) {
@@ -81,6 +89,7 @@ function renderCurseScreen() {
 		setPromptImage('curseQuestionImg', null);
 		if (badgeWrap) badgeWrap.innerHTML = '';
 		curseTimer.stop();
+		curseNormalTimer.stop();
 		renderCurseTeamPanel();
 		return;
 	}
@@ -104,10 +113,19 @@ function renderCurseScreen() {
 	}
 
 	const base = problem.time || defaultCurseSeconds;
-	const duration = isTimeCutCurse(activeCurse && activeCurse.curse)
-		? Math.max(1, Math.round(base * 0.75))
-		: base;
+	const isCut = isTimeCutCurse(activeCurse && activeCurse.curse);
+	const duration = isCut ? Math.max(1, Math.round(base * 0.75)) : base;
 	curseTimer.setDuration(duration);
+
+	const normalWrap = document.getElementById('curseNormalTimerWrap');
+	const label = document.getElementById('curseTimerLabel');
+	if (normalWrap) normalWrap.style.display = isCut ? '' : 'none';
+	if (label) label.textContent = isCut ? 'Cursed time (−25%)' : 'Time';
+	if (isCut) {
+		curseNormalTimer.setDuration(base);
+	} else {
+		curseNormalTimer.reset();
+	}
 
 	renderCurseTeamPanel();
 }
@@ -186,7 +204,8 @@ function renderCurseDrawPanel() {
 			? `<b style="color: ${target.color};">${escapeHtml(target.name)}</b>`
 			: 'the chosen team';
 		return `
-			<div class="summary-line middle">${solverLabel} got it and drew: <b>${escapeHtml(pendingCurse.curse)}</b></div>
+			<div class="summary-line middle">${solverLabel} got it and drew:</div>
+			${renderCurseCardHtml(pendingCurse.curse)}
 			<div class="summary-line middle">Curse assigned to ${targetLabel}, takes effect next round. Hit "Next Problem" to continue.</div>
 		`;
 	}
@@ -207,7 +226,7 @@ function renderCurseDrawPanel() {
 		.join('');
 
 	return `
-		<div class="summary-line middle">Drew: <b>${escapeHtml(curseDrawnCard)}</b></div>
+		${renderCurseCardHtml(curseDrawnCard)}
 		<div class="duel-picker middle">
 			<select id="curseTargetSelect">${options}</select>
 			<button class="btn primary" onclick="assignCurseCard()">Assign Curse</button>
@@ -215,10 +234,50 @@ function renderCurseDrawPanel() {
 	`;
 }
 
+function renderCurseCardHtml(curseText) {
+	return `
+		<div class="curse-card-wrap">
+			<div class="curse-card">
+				<div class="curse-card-icon">☠</div>
+				<div class="curse-card-title">Curse Card</div>
+				<div class="curse-card-text">${escapeHtml(curseText)}</div>
+			</div>
+		</div>
+	`;
+}
 function drawCurseCard() {
 	if (customCurses.length === 0) return;
 	curseDrawnCard = customCurses[Math.floor(Math.random() * customCurses.length)];
 	renderCurseTeamPanel();
+	openCurseFlipModal(curseDrawnCard);
+}
+
+function openCurseFlipModal(curseText) {
+	const overlay = document.getElementById('curseFlipOverlay');
+	const card = document.getElementById('curseFlipCard');
+	const textEl = document.getElementById('curseFlipText');
+	const continueBtn = document.getElementById('curseFlipContinueBtn');
+	if (!overlay || !card || !textEl) return;
+
+	textEl.textContent = curseText;
+	card.classList.remove('flipped');
+	if (continueBtn) continueBtn.classList.remove('show');
+	overlay.classList.add('open');
+
+	// restart the drop-in animation
+	card.style.animation = 'none';
+	void card.offsetWidth;
+	card.style.animation = '';
+
+	setTimeout(() => card.classList.add('flipped'), 450);
+	setTimeout(() => {
+		if (continueBtn) continueBtn.classList.add('show');
+	}, 450 + 700);
+}
+
+function closeCurseFlipModal() {
+	const overlay = document.getElementById('curseFlipOverlay');
+	if (overlay) overlay.classList.remove('open');
 }
 
 function assignCurseCard() {

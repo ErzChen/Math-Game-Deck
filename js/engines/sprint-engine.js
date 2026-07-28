@@ -8,6 +8,7 @@ let sprintTimerSeconds = 420;
 let sprintTimerInterval = null;
 let sprintState = 'idle';
 let sprintTeamId = null;
+let sprintKeyRevealed = false;
 
 const sprintImageFields = createQAImageState(
 	{ qWrap: 'newSprintQImgWrap', qFile: 'newSprintQImgFile' },
@@ -28,6 +29,7 @@ function newSprint() {
 	sprintTimerSeconds = 180;
 	sprintTeamId = null;
 	sprintOrder = [];
+	sprintKeyRevealed = false;
 	renderSprintScreen();
 }
 
@@ -181,6 +183,10 @@ function renderSprintProblem() {
 	questionEl.textContent = problem.q;
 	setPromptImage('sprintQuestionImg', problem.qImg);
 	typeset(questionEl);
+	const keyEl = document.getElementById('sprintAnswerKey');
+	if (keyEl) keyEl.textContent = problem.a;
+	sprintKeyRevealed = false;
+	renderSprintKeyVisibility();
 }
 
 function renderSprintScreen() {
@@ -235,17 +241,6 @@ function renderSprintScreen() {
 	if (summary) {
 		summary.style.display = '';
 		summary.innerHTML = renderSprintSummaryHtml();
-	}
-}
-
-function renderSprintKeyVisibility() {
-	const keyBox = document.getElementById('sprintKeyBox');
-	const btn = document.getElementById('sprintKeyToggle');
-	if (keyBox) keyBox.classList.toggle('show', sprintKeyRevealed);
-	if (btn) {
-		btn.textContent = sprintKeyRevealed
-			? 'Hide Answer'
-			: 'Show Answer (host only)';
 	}
 }
 

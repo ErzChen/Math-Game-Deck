@@ -7,8 +7,6 @@ let vaultStart = 20;
 let vaultTotal = 20;
 let pullAmount = 2;
 let raidAmount = 2;
-let allowPull = true;
-let allowRaid = true;
 
 const pointHeistTimer = createCountdownTimer({
 	seconds: 90,
@@ -100,13 +98,6 @@ function renderVaultDisplay() {
 	if (el) el.textContent = vaultTotal;
 }
 
-function setPointHeistToggle(kind, checked) {
-	if (kind === 'pull') allowPull = checked;
-	if (kind === 'raid') allowRaid = checked;
-	renderPointHeistRoster();
-	autosave();
-}
-
 function setPointHeistNumber(kind, val) {
 	const floor = kind === 'vaultStart' ? 0 : 1;
 	const n = Math.max(floor, parseInt(val, 10) || floor);
@@ -136,7 +127,6 @@ function markPointHeistResult(teamId, result) {
 function pointHeistTakeVault(teamId, event) {
 	if (pointHeistResults[teamId] !== 'correct' || pointHeistActioned[teamId])
 		return;
-	if (!allowPull) return;
 	if (vaultTotal < pullAmount) {
 		alert('Not enough left in the vault for that.');
 		return;
@@ -152,7 +142,7 @@ function pointHeistTakeVault(teamId, event) {
 function pointHeistRaid(teamId, targetId, event) {
 	if (pointHeistResults[teamId] !== 'correct' || pointHeistActioned[teamId])
 		return;
-	if (!allowRaid || !targetId || targetId === teamId) return;
+	if (!targetId || targetId === teamId) return;
 	addScore(teamId, raidAmount, event);
 	addScore(targetId, -raidAmount);
 	pointHeistActioned[teamId] = { type: 'raid', targetId, amount: raidAmount };
@@ -193,21 +183,15 @@ function renderPointHeistTeamRow(team) {
 			<div class="team-group" style="border-left-color: ${team.color};">
 				<span class="team-name">${escapeHtml(team.name)}</span>
 				<div class="team-btns">
+					<button
+						class="btn small award-btn"
+						style="border-color: ${team.color};"
+						onclick="pointHeistTakeVault('${team.id}', event)"
+					>
+						Pull ${pullAmount} from Vault
+					</button>
 					${
-						allowPull
-							? `
-								<button
-									class="btn small award-btn"
-									style="border-color: ${team.color};"
-									onclick="pointHeistTakeVault('${team.id}', event)"
-								>
-									Pull ${pullAmount} from Vault
-								</button>
-							`
-							: ''
-					}
-					${
-						allowRaid && otherTeams.length
+						otherTeams.length
 							? `
 								<select class="target-select mono" id="pointHeistRaidSelect-${team.id}">
 									${raidOptions}

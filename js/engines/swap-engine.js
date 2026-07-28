@@ -13,7 +13,16 @@ const defaultSwapSeconds = 90;
 const swapTimer = createCountdownTimer({
 	seconds: 90,
 	displayId: 'swapTimerDisplay',
+	toggleBtnId: 'swapTimerToggle',
 });
+
+function toggleSwapTimer() {
+	swapTimer.toggle();
+}
+
+function resetSwapTimer() {
+	swapTimer.reset();
+}
 
 const swapHardImageFields = createQAImageState({
 	qWrap: 'newSwapHardQImgWrap',
@@ -243,6 +252,10 @@ function renderSwapScreen() {
 	renderSwapRoster();
 	const lockBtn = document.getElementById('swapLockBtn');
 	if (lockBtn) lockBtn.style.display = swapLocked ? 'none' : '';
+	const timerToggleBtn = document.getElementById('swapTimerToggle');
+	if (timerToggleBtn) timerToggleBtn.style.display = swapLocked ? '' : 'none';
+	const timerResetBtn = document.getElementById('swapTimerResetBtn');
+	if (timerResetBtn) timerResetBtn.style.display = swapLocked ? '' : 'none';
 	swapTimer.render();
 }
 

@@ -561,7 +561,7 @@ function renderAwardButtons() {
 	if (document.getElementById('streakTeamSelect')) populateStreakTeamSelector();
 	if (document.getElementById('swapRoster')) renderSwapRoster();
 	if (document.getElementById('wagerRoster')) renderWagerRoster();
-	if (document.getElementById('curseTeamPanel')) renderCurseTeamPanel();
+	if (document.getElementById('curseTeamButtons')) renderCurseTeamPanel();
 	if (document.getElementById('scapegoatRoster')) renderScapegoatRoster();
 	if (document.getElementById('pointHeistRoster')) renderPointHeistRoster();
 	if (document.getElementById('hotPotatoTeamSelect'))
