@@ -407,7 +407,7 @@
 					</div>
 				</div>
 				<div class="panel flex middle column">
-					<div class="duel-picker">
+					<div class="team-picker">
 						<select id="duelTeamA" onchange="renderDuelAwardButtons()"></select>
 						<span class="duel-vs">VS</span>
 						<select id="duelTeamB" onchange="renderDuelAwardButtons()"></select>
@@ -1023,7 +1023,7 @@
 					</div>
 				</div>
 				<div class="panel flex middle column">
-					<div class="duel-picker">
+					<div class="team-picker">
 						<select id="sprintTeamSelect"></select>
 					</div>
 					<div class="progress-line" id="sprintProgress"></div>
@@ -1211,7 +1211,7 @@
 					</div>
 				</div>
 				<div class="panel flex middle column">
-					<div class="duel-picker" id="streakTeamPicker">
+					<div class="team-picker" id="streakTeamPicker">
 						<select id="streakTeamSelect"></select>
 						<button
 							class="btn primary"
@@ -1234,11 +1234,7 @@
 						/>
 						<div class="timer mono" id="streakTimerDisplay"></div>
 						<div class="btn-wrap" style="justify-content: center">
-							<button
-								class="btn"
-								id="streakTimerToggle"
-								onclick="toggleStreakTimer()"
-							>
+							<button class="btn" id="streakTimerToggle" onclick="toggleStreakTimer()">
 								Start
 							</button>
 							<button class="btn primary" onclick="revealStreakAnswer()">
@@ -1523,11 +1519,7 @@
 						alt="Question figure"
 					/>
 					<div class="btn-wrap">
-						<button
-							class="btn"
-							id="wagerTimerToggle"
-							onclick="toggleWagerTimer()"
-						>
+						<button class="btn" id="wagerTimerToggle" onclick="toggleWagerTimer()">
 							Start
 						</button>
 						<button class="btn primary" onclick="revealWagerAnswer()">
@@ -1893,7 +1885,7 @@
 						<button class="btn ghost" onclick="newHeist()">New Heist</button>
 					</div>
 
-					<div class="vault-wrap">
+					<div class="stat-display">
 						<svg class="vault-graphic" viewBox="0 0 220 210" width="180" height="172">
 							<rect
 								x="25"
@@ -1953,11 +1945,11 @@
 								fill="var(--chalk-muted)"
 							/>
 						</svg>
-						<div class="vault-amount mono" id="vaultAmountDisplay">20</div>
-						<div class="vault-label">Points in the vault</div>
+						<div class="stat-value mono" id="vaultAmountDisplay">20</div>
+						<div class="stat-label">Points in the vault</div>
 					</div>
 
-					<div class="vault-settings">
+					<div class="settings-row">
 						<label
 							>Vault start
 							<input
@@ -2053,7 +2045,7 @@
 					<div class="progress-line" id="hotPotatoProgress"></div>
 
 					<div id="hotPotatoIdleWrap">
-						<div class="duel-picker">
+						<div class="team-picker">
 							<select id="hotPotatoTeamSelect"></select>
 							<button class="btn primary" onclick="startHotPotatoRound()">
 								Hand Over the Potato
@@ -2062,9 +2054,9 @@
 					</div>
 
 					<div id="hotPotatoActiveWrap" style="display: none">
-						<div class="vault-wrap" style="margin: 4px 0 18px">
-							<div class="vault-amount mono" id="hotPotatoValueDisplay"></div>
-							<div class="vault-label">Points riding on the potato</div>
+						<div class="stat-display" style="margin: 4px 0 18px">
+							<div class="stat-value mono" id="hotPotatoValueDisplay"></div>
+							<div class="stat-label">Points riding on the potato</div>
 						</div>
 						<div class="t-badge" id="hotPotatoHolderBadge"></div>
 						<div class="question" id="hotPotatoQuestionText"></div>
@@ -2116,7 +2108,7 @@
 
 					<div id="hotPotatoEndedWrap" style="display: none"></div>
 
-					<div class="vault-settings" style="margin-top: 22px">
+					<div class="settings-row" style="margin-top: 22px">
 						<label>
 							Auto cutoff min secs
 							<input
@@ -2237,7 +2229,7 @@
 						<button class="btn ghost" onclick="resetBounty()">Restart Bounty</button>
 					</div>
 
-					<div class="vault-settings" style="margin-top: 22px">
+					<div class="settings-row" style="margin-top: 22px">
 						<label>
 							Bounty cut %
 							<input
@@ -2456,7 +2448,7 @@
 					</div>
 					<div class="siege-battlefield" id="siegeBattlefield"></div>
 
-					<div class="vault-settings" style="margin-top: 22px">
+					<div class="settings-row" style="margin-top: 22px">
 						<label
 							>Conversion rate
 							<input

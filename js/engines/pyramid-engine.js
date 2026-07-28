@@ -328,7 +328,7 @@ function openPyramidModal() {
 	if (list && !document.getElementById('pyramidTierSummary')) {
 		list.insertAdjacentHTML(
 			'beforebegin',
-			'<div id="pyramidTierSummary" class="pyramid-tier-summary"></div>',
+			'<div id="pyramidTierSummary" class="tier-summary"></div>',
 		);
 	}
 	renderCustomPyramidList();
@@ -376,7 +376,7 @@ function renderPyramidTierSummary() {
 			const tier = idx + 1;
 			const have = counts[tier];
 			const ok = have >= need;
-			return `<span class="pyramid-tier-chip t${tier} ${ok ? 'ok' : 'short'}">${pyramidTierNames[tier]}: ${have}/${need}</span>`;
+			return `<span class="tier-chip t${tier} ${ok ? 'ok' : 'short'}">${pyramidTierNames[tier]}: ${have}/${need}</span>`;
 		})
 		.join('');
 }

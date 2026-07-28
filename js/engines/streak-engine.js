@@ -31,7 +31,6 @@ const streakImageFields = createQAImageState({
 });
 
 function initStreak() {
-	// migrate any pre-existing questions (no tier) into Tier 1 so nothing is lost
 	customStreak = customStreak.map((problem) =>
 		problem && !problem.tier ? { ...problem, tier: 1 } : problem,
 	);
@@ -42,8 +41,6 @@ function pointsForStreakLevel(i) {
 	return Math.pow(2, i);
 }
 
-// Builds one 5-question streak: a single random question from each tier 1-5.
-// Returns null if any tier has zero questions stocked.
 function buildStreakPool() {
 	const byTier = { 1: [], 2: [], 3: [], 4: [], 5: [] };
 	customStreak.forEach((problem) => {
@@ -303,7 +300,7 @@ function openStreakModal() {
 	if (list && !document.getElementById('streakTierSummary')) {
 		list.insertAdjacentHTML(
 			'beforebegin',
-			'<div id="streakTierSummary" class="pyramid-tier-summary"></div>',
+			'<div id="streakTierSummary" class="tier-summary"></div>',
 		);
 	}
 	renderCustomStreakList();
@@ -367,7 +364,7 @@ function renderStreakTierSummary() {
 		.map((tier) => {
 			const have = counts[tier];
 			const ok = have >= 1;
-			return `<span class="pyramid-tier-chip t${tier} ${ok ? 'ok' : 'short'}">${streakTierNames[tier]}: ${have}</span>`;
+			return `<span class="tier-chip t${tier} ${ok ? 'ok' : 'short'}">${streakTierNames[tier]}: ${have}</span>`;
 		})
 		.join('');
 }

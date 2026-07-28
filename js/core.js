@@ -17,11 +17,41 @@ function closeModal() {
 }
 
 function iconCheck() {
-	return `<svg class="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><path d="M20 6 9 17l-5-5"/></svg>`;
+	return `
+		<svg 
+			class="icon" 
+			viewBox="0 0 24 24" 
+			width="14" height="14" 
+			fill="none" 
+			stroke="currentColor" 
+			stroke-width="2.5" 
+			stroke-linecap="round" 
+			stroke-linejoin="round" 
+			style="vertical-align: -2px; margin-right: 4px;"
+		>
+			<path d="M20 6 9 17l-5-5"/>
+		</svg>
+	`;
 }
 
 function iconCross() {
-	return `<svg class="icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+	return `
+		<svg 
+			class="icon" 
+			viewBox="0 0 24 24" 
+			width="14" 
+			height="14" 
+			fill="none" 
+			stroke="currentColor" 
+			stroke-width="2.5" 
+			stroke-linecap="round" 
+			stroke-linejoin="round" 
+			style="vertical-align: -2px; margin-right: 4px;"
+		>
+			<line x1="18" y1="6" x2="6" y2="18"/>
+			<line x1="6" y1="6" x2="18" y2="18"/>
+		</svg>
+	`;
 }
 
 function escapeAttr(string) {
@@ -92,18 +122,18 @@ function renderImgUploadField(wrapId, inputId, dataUrl, onChange) {
 			<div class="img-upload-row">
 				<div class="img-preview-wrap">
 				<img src="${dataUrl}" alt="" />
-				<button type="button" class="img-remove" title="Remove image">×</button>
+				<button type="button" class="img-remove" title="Remove image">${iconCross()}</button>
 				</div>
 				<span style="font-size: 12px; color: var(--chalk-muted);">Image attached</span>
 			</div>
-			`;
+		`;
 		wrap.querySelector('.img-remove').onclick = () => onChange(null);
 	} else {
 		wrap.innerHTML = `
 			<div class="img-upload-row">
 				<input type="file" id="${inputId}" accept="image/*" />
 			</div>
-			`;
+		`;
 		wrap.querySelector('input[type=file]').onchange = (event) => {
 			const file = event.target.files[0];
 			if (!file) return;

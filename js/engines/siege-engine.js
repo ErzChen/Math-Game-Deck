@@ -314,15 +314,19 @@ function renderSiegeBattlefield() {
 function fireSiegeProjectile(fromId, toId, hit) {
 	const fromEl = document.getElementById('siegeCastle-' + fromId);
 	const toEl = document.getElementById('siegeCastle-' + toId);
-	if (!fromEl || !toEl) return;
+	const stage = document.getElementById('stage');
+	if (!fromEl || !toEl || !stage) return;
+	const stageRect = stage.getBoundingClientRect();
 	const fromRect = fromEl.getBoundingClientRect();
 	const toRect = toEl.getBoundingClientRect();
 
 	const proj = document.createElement('div');
 	proj.className = 'siege-projectile';
-	proj.style.left = fromRect.left + fromRect.width / 2 - 7 + 'px';
-	proj.style.top = fromRect.top + fromRect.height / 2 - 7 + 'px';
-	document.body.appendChild(proj);
+	proj.style.left =
+		fromRect.left - stageRect.left + stage.scrollLeft + fromRect.width / 2 - 7 + 'px';
+	proj.style.top =
+		fromRect.top - stageRect.top + stage.scrollTop + fromRect.height / 2 - 7 + 'px';
+	stage.appendChild(proj);
 
 	requestAnimationFrame(() => {
 		const dx =

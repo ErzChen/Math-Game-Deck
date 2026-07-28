@@ -783,14 +783,51 @@ h1 {
 	color: var(--chalk-muted);
 	margin-bottom: 4px;
 }
-.duel-picker {
+.tier-summary {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+	margin: 4px 0 18px;
+}
+.tier-chip {
+	font-family: var(--font-mono);
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	padding: 4px 9px;
+	border-radius: var(--radius-pill);
+	font-weight: 700;
+	border: 1px solid var(--line-strong);
+	color: var(--chalk-muted);
+}
+.tier-chip.t1.ok {
+	color: var(--chalk-teal);
+	border-color: rgba(15, 143, 125, 0.4);
+}
+.tier-chip.t2.ok {
+	color: var(--chalk-yellow);
+	border-color: rgba(217, 140, 0, 0.4);
+}
+.tier-chip.t3.ok {
+	color: var(--chalk-pink);
+	border-color: rgba(209, 67, 106, 0.4);
+}
+.tier-chip.t4.ok {
+	color: var(--chalk-purple);
+	border-color: rgba(107, 79, 187, 0.4);
+}
+.tier-chip.short {
+	color: var(--chalk-muted);
+	border-style: dashed;
+}
+.team-picker {
 	display: flex;
 	gap: 14px;
 	align-items: center;
 	flex-wrap: wrap;
 	margin: 6px 0 20px;
 }
-.duel-picker select {
+.team-picker select {
 	background: var(--surface-2);
 	border: 1px solid var(--line-strong);
 	color: var(--chalk-white);
@@ -798,6 +835,70 @@ h1 {
 	padding: 8px 10px;
 	font-family: inherit;
 	font-size: 14px;
+}
+.settings-row {
+	display: flex;
+	gap: 14px;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	background: var(--surface-2);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	padding: 14px 18px;
+	margin-bottom: 18px;
+}
+.settings-row label {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12.5px;
+	color: var(--chalk-muted);
+}
+.settings-row input[type='number'] {
+	width: 64px;
+	background: var(--surface);
+	border: 1px solid var(--line-strong);
+	color: var(--chalk-white);
+	border-radius: var(--radius-small);
+	padding: 6px 8px;
+	font-family: var(--font-mono);
+	font-size: 13px;
+	text-align: center;
+}
+.settings-row input[type='checkbox'] {
+	accent-color: var(--chalk-yellow);
+	width: 15px;
+	height: 15px;
+}
+.settings-row select {
+	background: var(--surface);
+	border: 1px solid var(--line-strong);
+	color: var(--chalk-white);
+	border-radius: var(--radius-small);
+	padding: 6px 8px;
+	font-family: inherit;
+	font-size: 13px;
+}
+.stat-display {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	margin: 10px 0 22px;
+}
+.stat-value {
+	font-size: var(--font-size-session);
+	font-weight: 800;
+	color: var(--chalk-yellow);
+	text-shadow: 0 0 16px color-mix(in srgb, var(--chalk-yellow) 45%, transparent);
+	line-height: 1;
+}
+.stat-label {
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.14em;
+	color: var(--chalk-muted);
 }
 .team-group {
 	display: flex;
@@ -905,7 +1006,7 @@ h1 {
 .award-btn span {
 	opacity: 0.9;
 }
-.sprint-summary-line {
+.summary-line {
 	font-size: 17px;
 	margin-bottom: 4px;
 }
@@ -1046,12 +1147,6 @@ h1 {
 }
 
 /* ---------- Elimination Gauntlet ---------- */
-.elimination-chip {
-	transition: opacity var(--transition-fast);
-}
-.elimination-chip.out {
-	opacity: 0.4;
-}
 .elim-champion {
 	width: 100%;
 	text-align: center;
@@ -1074,17 +1169,6 @@ h1 {
 }
 .elim-champion .btn {
 	margin: 0 6px;
-}
-
-/* ---------- Hands-Up Steal ---------- */
-.hands-up-team-row.tried {
-	opacity: 0.45;
-}
-.hands-up-tried-tag {
-	font-family: var(--font-mono);
-	font-size: 11px;
-	letter-spacing: 0.06em;
-	color: var(--chalk-muted);
 }
 
 /* ---------- Pyramid Race ---------- */
@@ -1178,44 +1262,6 @@ h1 {
 	flex-direction: column;
 	align-items: center;
 }
-.pyramid-tier-summary {
-	display: flex;
-	gap: 6px;
-	flex-wrap: wrap;
-	margin: 4px 0 18px;
-}
-.pyramid-tier-chip {
-	font-family: var(--font-mono);
-	font-size: 11px;
-	text-transform: uppercase;
-	letter-spacing: 0.06em;
-	padding: 4px 9px;
-	border-radius: var(--radius-pill);
-	font-weight: 700;
-	border: 1px solid var(--line-strong);
-	color: var(--chalk-muted);
-}
-.pyramid-tier-chip.t1.ok {
-	color: var(--chalk-teal);
-	border-color: rgba(15, 143, 125, 0.4);
-}
-.pyramid-tier-chip.t2.ok {
-	color: var(--chalk-yellow);
-	border-color: rgba(217, 140, 0, 0.4);
-}
-.pyramid-tier-chip.t3.ok {
-	color: var(--chalk-pink);
-	border-color: rgba(209, 67, 106, 0.4);
-}
-.pyramid-tier-chip.t4.ok {
-	color: var(--chalk-purple);
-	border-color: rgba(107, 79, 187, 0.4);
-}
-.pyramid-tier-chip.short {
-	color: var(--chalk-muted);
-	border-style: dashed;
-}
-
 /* ---------- Streak Vault ---------- */
 .vault-total {
 	font-size: 15px;
@@ -1407,75 +1453,10 @@ h1 {
 }
 
 /* ---------- Point Heist ---------- */
-.vault-wrap {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 6px;
-	margin: 10px 0 22px;
-}
 .vault-graphic {
 	filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
 }
-.vault-amount {
-	font-size: var(--font-size-session);
-	font-weight: 800;
-	color: var(--chalk-yellow);
-	text-shadow: 0 0 16px color-mix(in srgb, var(--chalk-yellow) 45%, transparent);
-	line-height: 1;
-}
-.vault-label {
-	font-size: 11px;
-	text-transform: uppercase;
-	letter-spacing: 0.14em;
-	color: var(--chalk-muted);
-}
-.vault-settings {
-	display: flex;
-	gap: 14px;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
-	background: var(--surface-2);
-	border: 1px solid var(--line);
-	border-radius: var(--radius);
-	padding: 14px 18px;
-	margin-bottom: 18px;
-}
-.vault-settings label {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	font-size: 12.5px;
-	color: var(--chalk-muted);
-}
-.vault-settings input[type='number'] {
-	width: 64px;
-	background: var(--surface);
-	border: 1px solid var(--line-strong);
-	color: var(--chalk-white);
-	border-radius: var(--radius-small);
-	padding: 6px 8px;
-	font-family: var(--font-mono);
-	font-size: 13px;
-	text-align: center;
-}
-.vault-settings input[type='checkbox'] {
-	accent-color: var(--chalk-yellow);
-	width: 15px;
-	height: 15px;
-}
-.vault-settings select {
-	background: var(--surface);
-	border: 1px solid var(--line-strong);
-	color: var(--chalk-white);
-	border-radius: var(--radius-small);
-	padding: 6px 8px;
-	font-family: inherit;
-	font-size: 13px;
-}
-
-/* ---------- Timeline Sort ---------- */
+/* ---------- Standings List (The Pool) ---------- */
 .timeline-item-list {
 	display: flex;
 	flex-direction: column;
@@ -1614,7 +1595,7 @@ h1 {
 
 /* Flying catapult projectile */
 .siege-projectile {
-	position: fixed;
+	position: absolute;
 	width: 14px;
 	height: 14px;
 	border-radius: 50%;
