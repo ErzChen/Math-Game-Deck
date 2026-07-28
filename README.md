@@ -2,7 +2,13 @@
 
 A single-page, chalkboard-themed app for running math club/contest-prep game
 sessions with a projector. Pick a game, keep score for however many teams
-you've got, and go. No build step, no backend, just static files.
+you've got, and go.
+
+## Play it now
+
+**[erzchen.github.io/Math-Game-Deck](https://erzchen.github.io/Math-Game-Deck/)**
+
+Open the link on the projector's browser to run a session.
 
 ## Games
 
@@ -11,7 +17,7 @@ you've got, and go. No build step, no backend, just static files.
   more points.
 - **Countdown Duel**: two teams face off on the same problem, first correct
   answer wins the round.
-- **Chain Relay**: Contest-style relay. Every team solves the same 3-link chain
+- **Chain Relay**: contest-style relay. Every team solves the same 3-link chain
   at once, and each answer becomes `T`, plugged into the next, harder link.
 - **Speed Relay Board**: Jeopardy-style 4x4 board of categories and point
   values, fully editable.
@@ -41,7 +47,7 @@ you've got, and go. No build step, no backend, just static files.
 - **Scapegoat**: every team secretly nominates another team as their
   scapegoat each round; if the scapegoat gets the problem wrong, the
   nominating team steals half their current points.
-- **Point Heist**: A shared vault sits center stage, correct answers 
+- **Point Heist**: a shared vault sits center stage, correct answers
   let you draw from it or raid whoever's winning outright.
 - **Hot Potato**: a single potato holding a growing point value gets
   passed between teams. Answer right and pass it on to anyone else,
@@ -66,17 +72,16 @@ Each game has a "How to Play" button (rules) and a "Manage Questions" /
 "Edit Board" button (content), plus a shared scoreboard bar and session
 timer that persist across games.
 
-## Running it
+## Playing offline
 
-No build step, just serve the folder and open `index.html`:
+Clone the repo and serve the folder locally:
 
 ```
 python3 -m http.server 8000
 ```
 
-Then visit `http://localhost:8000`. Opening `index.html` directly via
-`file://` mostly works too, but a local server avoids script-loading
-quirks in some browsers.
+Then visit `http://localhost:8000`. `file://` mostly works too, but a
+local server avoids script-loading quirks in some browsers.
 
 ## Project structure
 
@@ -112,21 +117,19 @@ js/
     pool-engine.js
 ```
 
-Each game is a data file plus an engine. The data file just exports a pool
-of questions (or a blank board), and the engine reads that pool and wires
-up the actual screen. Data files need to load before their engine, and
-`init.js` needs to load last since it calls functions the other files
-define.
+Each game is a data file plus an engine. The data file exports a pool of
+questions (or a blank board); the engine reads that pool and wires up the
+screen. Data files load before their engine, and `init.js` loads last
+since it calls functions the other files define.
 
 ## Data
 
-- **Export/Import**: the "Manage" panel (bottom right, or press `S`) can
-  export everything to a JSON file, or import one back in. Useful for
-  moving a session between machines or keeping a backup.
+**Export/Import**: the "Manage" panel (bottom right, or press `S`) exports
+everything to a JSON file, or imports one back in — useful for moving a
+session between machines or keeping a backup.
 
 ## Notes
 
-- Math in questions/answers/explanations can use `$...$` (inline) or
-  `$$...$$` (display) LaTeX. [KaTeX](https://katex.org/) typesets it
-  automatically wherever it's inserted.
-- Everything is client-side. There's no server component and no analytics.
+Math in questions/answers/explanations can use `$...$` (inline) or
+`$$...$$` (display) LaTeX. [KaTeX](https://katex.org/) typesets it
+automatically wherever it's inserted.
