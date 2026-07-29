@@ -764,15 +764,6 @@ function restoreState(data) {
 	if (typeof data.poolCheckpointCount === 'number')
 		poolCheckpointCount = data.poolCheckpointCount;
 
-	if (data.sessionMinutes) {
-		sessionTotalMinutes = data.sessionMinutes;
-		const input = document.getElementById('sessionMinInput');
-		if (input) input.value = data.sessionMinutes;
-		if (!sessionInterval) {
-			sessionSeconds = data.sessionMinutes * 60;
-			renderSession();
-		}
-	}
 	renderTeamsList();
 	renderAwardButtons();
 	initRelay();
