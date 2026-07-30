@@ -192,7 +192,7 @@ function renderCustomWagerList() {
 		customWager,
 		(problem, i) => `
 		<div class="custom-list-item">
-			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
+			${problem.qImg || problem.aImg ? `<img class="thumb" src="${imgSrc(problem.qImg || problem.aImg)}" alt="" />` : ''}
 			<div class="txt"><b>Difficulty ${problem.tier}</b>${problem.time ? ` · ${problem.time}s` : ''} — ${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}</div>
 			<button class="btn small ghost" onclick="deleteCustomWager(${i})">Delete</button>
 		</div>

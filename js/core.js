@@ -77,6 +77,44 @@ function typeset(element) {
 	}
 }
 
+function normalizeImgData(imgData) {
+	if (!imgData) return null;
+	if (typeof imgData === 'string')
+		return { src: imgData, width: null, height: null, natW: null, natH: null };
+	if (!imgData.src) return null;
+	return {
+		src: imgData.src,
+		width: imgData.width || null,
+		height: imgData.height || null,
+		natW: imgData.natW || imgData.width || null,
+		natH: imgData.natH || imgData.height || null,
+	};
+}
+
+function imgSrc(imgData) {
+	const norm = normalizeImgData(imgData);
+	return norm ? norm.src : '';
+}
+
+function imgWidth(imgData) {
+	const norm = normalizeImgData(imgData);
+	return norm ? norm.width : null;
+}
+
+function imgHeight(imgData) {
+	const norm = normalizeImgData(imgData);
+	return norm ? norm.height : null;
+}
+
+function imgStyleAttr(imgData) {
+	const norm = normalizeImgData(imgData);
+	if (!norm) return '';
+	let style = '';
+	if (norm.width) style += `width: ${norm.width}px; `;
+	if (norm.height) style += `height: ${norm.height}px; `;
+	return style;
+}
+
 function fileToCompressedDataURL(file, callback, maxDim = 900, quality = 0.82) {
 	if (!file || !file.type.startsWith('image/')) {
 		callback(null);
@@ -102,7 +140,7 @@ function fileToCompressedDataURL(file, callback, maxDim = 900, quality = 0.82) {
 			context.fillStyle = '#ffffff';
 			context.fillRect(0, 0, width, height);
 			context.drawImage(img, 0, 0, width, height);
-			callback(canvas.toDataURL('image/jpeg', quality));
+			callback(canvas.toDataURL('image/jpeg', quality), width, height);
 		};
 
 		img.onerror = () => callback(null);
@@ -116,18 +154,82 @@ function fileToCompressedDataURL(file, callback, maxDim = 900, quality = 0.82) {
 function renderImgUploadField(wrapId, inputId, dataUrl, onChange) {
 	const wrap = document.getElementById(wrapId);
 	if (!wrap) return;
+	const norm = normalizeImgData(dataUrl);
 
-	if (dataUrl) {
+	if (norm) {
 		wrap.innerHTML = `
 			<div class="img-upload-row">
 				<div class="img-preview-wrap">
-				<img src="${dataUrl}" alt="" />
+				<img src="${norm.src}" alt="" />
 				<button type="button" class="img-remove" title="Remove image">${iconCross()}</button>
 				</div>
-				<span style="font-size: 12px; color: var(--chalk-muted);">Image attached</span>
+				<div class="img-size-control">
+					<label class="img-size-label">
+						W
+						<input
+							type="number"
+							class="img-size-input mono"
+							data-dim="width"
+							min="10"
+							max="4000"
+							step="1"
+							value="${norm.width || ''}"
+							placeholder="auto"
+						/>
+					</label>
+					<label class="img-size-label">
+						H
+						<input
+							type="number"
+							class="img-size-input mono"
+							data-dim="height"
+							min="10"
+							max="4000"
+							step="1"
+							value="${norm.height || ''}"
+							placeholder="auto"
+						/>
+					</label>
+					<span class="img-size-unit">px</span>
+					<label class="img-lock-label">
+						<input type="checkbox" class="img-lock-ratio" checked />
+						lock ratio
+					</label>
+				</div>
 			</div>
 		`;
 		wrap.querySelector('.img-remove').onclick = () => onChange(null);
+
+		const widthInput = wrap.querySelector('input[data-dim="width"]');
+		const heightInput = wrap.querySelector('input[data-dim="height"]');
+		const lockBox = wrap.querySelector('.img-lock-ratio');
+		const natW = norm.natW;
+		const natH = norm.natH;
+
+		widthInput.addEventListener('input', () => {
+			if (!lockBox.checked || !natW || !natH) return;
+			const w = parseInt(widthInput.value, 10);
+			if (w > 0) heightInput.value = Math.round((w * natH) / natW);
+		});
+		heightInput.addEventListener('input', () => {
+			if (!lockBox.checked || !natW || !natH) return;
+			const h = parseInt(heightInput.value, 10);
+			if (h > 0) widthInput.value = Math.round((h * natW) / natH);
+		});
+
+		const commit = () => {
+			const w = parseInt(widthInput.value, 10);
+			const h = parseInt(heightInput.value, 10);
+			onChange({
+				src: norm.src,
+				width: w > 0 ? w : null,
+				height: h > 0 ? h : null,
+				natW,
+				natH,
+			});
+		};
+		widthInput.addEventListener('change', commit);
+		heightInput.addEventListener('change', commit);
 	} else {
 		wrap.innerHTML = `
 			<div class="img-upload-row">
@@ -138,9 +240,18 @@ function renderImgUploadField(wrapId, inputId, dataUrl, onChange) {
 			const file = event.target.files[0];
 			if (!file) return;
 
-			fileToCompressedDataURL(file, (result) => {
-				if (result) onChange(result);
-				else alert('Could not read that image file.');
+			fileToCompressedDataURL(file, (result, width, height) => {
+				if (result) {
+					onChange({
+						src: result,
+						width: width || null,
+						height: height || null,
+						natW: width || null,
+						natH: height || null,
+					});
+				} else {
+					alert('Could not read that image file.');
+				}
 			});
 		};
 	}
@@ -171,15 +282,20 @@ function createQAImageState(ids, { hasAnswerImage = true } = {}) {
 	return { state, render, reset };
 }
 
-function setPromptImage(elementId, url) {
+function setPromptImage(elementId, imgData) {
 	const img = document.getElementById(elementId);
 	if (!img) return;
+	const norm = normalizeImgData(imgData);
 
-	if (url) {
-		img.src = url;
+	if (norm) {
+		img.src = norm.src;
+		img.style.width = norm.width ? norm.width + 'px' : '';
+		img.style.height = norm.height ? norm.height + 'px' : '';
 		img.classList.remove('hidden');
 	} else {
 		img.removeAttribute('src');
+		img.style.width = '';
+		img.style.height = '';
 		img.classList.add('hidden');
 	}
 }

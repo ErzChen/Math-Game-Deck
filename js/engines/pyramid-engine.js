@@ -231,13 +231,13 @@ function renderPyramidBoard() {
 					${shapeBlock}
 					<span class="tier-badge t${problem.tier}">${pyramidTierNames[problem.tier] || `Tier ${problem.tier}`}</span>
 					<div class="question">${escapeHtml(problem.q)}</div>
-					${problem.qImg ? `<img class="prompt-img thumb-img" src="${problem.qImg}" alt="Question figure" />` : ''}
+					${problem.qImg ? `<img class="prompt-img thumb-img" src="${imgSrc(problem.qImg)}" alt="Question figure" style="${imgStyleAttr(problem.qImg)}" />` : ''}
 					${
 						revealed
 							? `
 								<div class="answer-box show">
 									<div class="figure">${escapeHtml(problem.a)}</div>
-									${problem.aImg ? `<img class="prompt-img thumb-img" src="${problem.aImg}" alt="Answer figure" />` : ''}
+									${problem.aImg ? `<img class="prompt-img thumb-img" src="${imgSrc(problem.aImg)}" alt="Answer figure" style="${imgStyleAttr(problem.aImg)}" />` : ''}
 									${problem.e ? `<div class="reasoning">${escapeHtml(problem.e)}</div>` : ''}
 								</div>
 							`
@@ -391,7 +391,7 @@ function renderCustomPyramidList() {
 		sorted,
 		(problem) => `
 			<div class="custom-list-item">
-				${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
+				${problem.qImg || problem.aImg ? `<img class="thumb" src="${imgSrc(problem.qImg || problem.aImg)}" alt="" />` : ''}
 				<div class="txt"><b>Tier ${problem.tier}</b> — ${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}</div>
 				<button class="btn small ghost" onclick="deleteCustomPyramid(${problem._i})">Delete</button>
 			</div>

@@ -634,6 +634,53 @@ h1 {
 .img-preview-wrap .img-remove:hover {
 	transform: scale(1.12);
 }
+.img-size-control {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex: 1;
+	min-width: 220px;
+	flex-wrap: wrap;
+}
+.img-size-label {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	font-size: 12px;
+	color: var(--chalk-muted);
+	font-weight: 600;
+}
+.img-size-input {
+	width: 62px;
+	background: var(--surface);
+	border: 1px solid var(--line-strong);
+	color: var(--chalk-white);
+	border-radius: var(--radius-small);
+	padding: 5px 7px;
+	font-size: 13px;
+	text-align: center;
+}
+.img-size-input:focus {
+	outline: none;
+	border-color: var(--chalk-teal);
+}
+.img-size-unit {
+	font-size: 11px;
+	color: var(--chalk-muted);
+}
+.img-lock-label {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	font-size: 12px;
+	color: var(--chalk-muted);
+	white-space: nowrap;
+}
+.img-lock-label input[type='checkbox'] {
+	accent-color: var(--chalk-teal);
+	width: 14px;
+	height: 14px;
+}
 
 .custom-list-item .thumb {
 	width: 40px;
@@ -654,10 +701,14 @@ h1 {
 	justify-content: space-between;
 	gap: 10px;
 	align-items: flex-start;
+	width: 100%;
 }
 .custom-list-item .txt {
 	flex: 1;
 	line-height: 1.5;
+	white-space: normal;
+	overflow-wrap: break-word;
+	width: 89%;
 }
 .custom-list-item .txt b {
 	color: var(--chalk-yellow);
@@ -699,6 +750,8 @@ h1 {
 	line-height: 1.4;
 	max-width: 720px;
 	margin: 6px 0 20px;
+	white-space: normal;
+	overflow-wrap: break-word;
 }
 .prompt-img {
 	display: block;
@@ -733,11 +786,15 @@ h1 {
 	font-weight: 800;
 	color: var(--chalk-yellow);
 	margin-bottom: 8px;
+	white-space: normal;
+	overflow-wrap: break-word;
 }
 .answer-box .reasoning {
 	color: var(--chalk-muted);
 	font-size: 14px;
 	line-height: 1.6;
+	white-space: normal;
+	overflow-wrap: break-word;
 }
 @keyframes pop {
 	from {

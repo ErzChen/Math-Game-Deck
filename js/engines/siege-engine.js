@@ -323,9 +323,19 @@ function fireSiegeProjectile(fromId, toId, hit) {
 	const proj = document.createElement('div');
 	proj.className = 'siege-projectile';
 	proj.style.left =
-		fromRect.left - stageRect.left + stage.scrollLeft + fromRect.width / 2 - 7 + 'px';
+		fromRect.left -
+		stageRect.left +
+		stage.scrollLeft +
+		fromRect.width / 2 -
+		7 +
+		'px';
 	proj.style.top =
-		fromRect.top - stageRect.top + stage.scrollTop + fromRect.height / 2 - 7 + 'px';
+		fromRect.top -
+		stageRect.top +
+		stage.scrollTop +
+		fromRect.height / 2 -
+		7 +
+		'px';
 	stage.appendChild(proj);
 
 	requestAnimationFrame(() => {
@@ -487,7 +497,7 @@ function renderCustomSiegeList() {
 		customSiege,
 		(problem, i) => `
 		<div class="custom-list-item">
-			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
+			${problem.qImg || problem.aImg ? `<img class="thumb" src="${imgSrc(problem.qImg || problem.aImg)}" alt="" />` : ''}
 			<div class="txt">${problem.time ? `<b>${problem.time}s</b> — ` : ''}${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}</div>
 			<button class="btn small ghost" onclick="deleteCustomSiege(${i})">Delete</button>
 		</div>

@@ -367,7 +367,7 @@ function renderCustomSwapList() {
 		customSwapPairs,
 		(pair, i) => `
 		<div class="custom-list-item">
-			${pair.hardQImg || pair.backQImg ? `<img class="thumb" src="${pair.hardQImg || pair.backQImg}" alt="" />` : ''}
+			${pair.hardQImg || pair.backQImg ? `<img class="thumb" src="${imgSrc(pair.hardQImg || pair.backQImg)}" alt="" />` : ''}
 			<div class="txt">
 				${pair.time ? `<b>${pair.time}s</b><br>` : ''}
 				<b>Hard:</b> ${escapeHtml(pair.hardQ)} → ${escapeHtml(pair.hardA)}<br>

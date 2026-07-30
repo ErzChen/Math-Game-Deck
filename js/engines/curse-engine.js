@@ -264,7 +264,6 @@ function openCurseFlipModal(curseText) {
 	if (continueBtn) continueBtn.classList.remove('show');
 	overlay.classList.add('open');
 
-	// restart the drop-in animation
 	card.style.animation = 'none';
 	void card.offsetWidth;
 	card.style.animation = '';
@@ -346,7 +345,7 @@ function renderCustomCurseList() {
 		customCurse,
 		(problem, i) => `
 		<div class="custom-list-item">
-			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
+			${problem.qImg || problem.aImg ? `<img class="thumb" src="${imgSrc(problem.qImg || problem.aImg)}" alt="" />` : ''}
 			<div class="txt">${problem.time ? `<b>${problem.time}s</b> — ` : ''}${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}</div>
 			<button class="btn small ghost" onclick="deleteCustomCurse(${i})">Delete</button>
 		</div>

@@ -379,7 +379,7 @@ function renderCustomStreakList() {
 		sorted,
 		(problem) => `
 		<div class="custom-list-item">
-			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
+			${problem.qImg || problem.aImg ? `<img class="thumb" src="${imgSrc(problem.qImg || problem.aImg)}" alt="" />` : ''}
 			<div class="txt">
 				<b>Tier ${problem.tier} · worth ${pointsForStreakLevel(problem.tier - 1)} pt${pointsForStreakLevel(problem.tier - 1) === 1 ? '' : 's'}</b>${problem.time ? ` · ${problem.time}s` : ''} — ${escapeHtml(problem.q)}<br>${escapeHtml(problem.a)}
 			</div>

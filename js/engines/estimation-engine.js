@@ -131,7 +131,7 @@ function renderCustomEstimationList() {
 		customEstimation,
 		(problem, i) => `
 		<div class="custom-list-item">
-			${problem.qImg || problem.aImg ? `<img class="thumb" src="${problem.qImg || problem.aImg}" alt="" />` : ''}
+			${problem.qImg || problem.aImg ? `<img class="thumb" src="${imgSrc(problem.qImg || problem.aImg)}" alt="" />` : ''}
 			<div class="txt"><b>${escapeHtml(problem.q)}</b><br>${escapeHtml(problem.a)}</div>
 			<button class="btn small ghost" onclick="deleteCustomEstimation(${i})">Delete</button>
 		</div>

@@ -313,7 +313,7 @@ function renderCustomSprintList() {
 		customSprint,
 		(problem, i) => `
 		<div class="custom-list-item">
-			${problem.qImg ? `<img class="thumb" src="${problem.qImg}" alt="" />` : ''}
+			${problem.qImg ? `<img class="thumb" src="${imgSrc(problem.qImg)}" alt="" />` : ''}
 			<div class="txt"><b>${escapeHtml(problem.q)}</b><br>${escapeHtml(problem.a)}</div>
 			<button class="btn small ghost" onclick="deleteCustomSprint(${i})">Delete</button>
 		</div>
