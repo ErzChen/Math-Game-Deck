@@ -845,8 +845,6 @@ function restoreState(data) {
 	if (typeof data.vaultStart === 'number') vaultStart = data.vaultStart;
 	if (typeof data.pullAmount === 'number') pullAmount = data.pullAmount;
 	if (typeof data.raidAmount === 'number') raidAmount = data.raidAmount;
-	if (typeof data.allowPull === 'boolean') allowPull = data.allowPull;
-	if (typeof data.allowRaid === 'boolean') allowRaid = data.allowRaid;
 	if (Array.isArray(data.customHotPotato))
 		customHotPotato = data.customHotPotato;
 	if (typeof data.hotPotatoAutoMin === 'number')
