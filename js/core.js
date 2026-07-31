@@ -749,8 +749,6 @@ function gatherState() {
 		vaultStart: vaultStart,
 		pullAmount: pullAmount,
 		raidAmount: raidAmount,
-		allowPull: allowPull,
-		allowRaid: allowRaid,
 		customHotPotato: customHotPotato,
 		hotPotatoAutoMin: hotPotatoAutoMin,
 		hotPotatoAutoMax: hotPotatoAutoMax,
