@@ -741,7 +741,6 @@ function gatherState() {
 		customSwapPairs: customSwapPairs,
 		swapTokens: swapTokens,
 		customWager: customWager,
-		sessionMinutes: sessionTotalMinutes,
 		customCurse: customCurse,
 		customCurses: customCurses,
 		customScapegoat: customScapegoat,
