@@ -227,7 +227,7 @@ function renderCurseDrawPanel() {
 
 	return `
 		${renderCurseCardHtml(curseDrawnCard)}
-		<div class="duel-picker middle">
+		<div class="team-picker middle">
 			<select id="curseTargetSelect">${options}</select>
 			<button class="btn primary" onclick="assignCurseCard()">Assign Curse</button>
 		</div>
