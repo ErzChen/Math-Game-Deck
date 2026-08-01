@@ -193,7 +193,7 @@ function renderPyramidBoard() {
 	const board = document.getElementById('pyramidBoard');
 	if (!board) return;
 
-	if (pyramidPool.length === 0) {
+	if (!pyramidPool || pyramidPool.length === 0) {
 		board.innerHTML =
 			'<div style="color: var(--chalk-muted); font-size: 13px;">No questions yet, use "Manage Questions" above to add some.</div>';
 		return;
