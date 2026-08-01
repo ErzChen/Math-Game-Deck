@@ -835,6 +835,7 @@ function restoreState(data) {
 		swapTokens = data.swapTokens;
 	if (Array.isArray(data.customWager)) customWager = data.customWager;
 	if (Array.isArray(data.customCurse)) customCurse = data.customCurse;
+	if (Array.isArray(data.customCurses)) customCurses = data.customCurses;
 	if (Array.isArray(data.customScapegoat))
 		customScapegoat = data.customScapegoat;
 	if (Array.isArray(data.customPointHeist))
