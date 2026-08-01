@@ -792,6 +792,7 @@ function handleImportFile(event) {
 			restoreState(data);
 			alert('Data loaded successfully.');
 		} catch (error) {
+			console.error('Import failed:', error);
 			alert("Could not read that file, make sure it's a Math Club Deck export.");
 		}
 	};
