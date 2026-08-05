@@ -29,7 +29,7 @@
 	--transition-medium: 0.15s ease;
 	--transition-panel: 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
 
-	--grid-size: 42px;
+	--grid-size: 24px;
 }
 
 /* ---------- Base Reset ---------- */
