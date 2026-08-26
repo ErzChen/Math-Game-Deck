@@ -155,7 +155,7 @@ function renderRelayEditRowHtml(key, category, val) {
 		<div class="pts-label">${escapeHtml(category)} · ${val} pts</div>
 		<div class="field-label">Question</div>
 		<textarea
-			oninput="updateRelayCell('${key}', 'question', this.value)"
+			oninput="updateRelayCell('${key}', 'q', this.value)"
 			placeholder="e.g. What is $\\binom{6}{2}$?"
 		>${escapeHtml(cell.q)}</textarea>
 		<div class="field-label">Question image (optional)</div>
@@ -164,12 +164,12 @@ function renderRelayEditRowHtml(key, category, val) {
 		<input
 			type="text"
 			value="${escapeAttr(cell.a)}"
-			oninput="updateRelayCell('${key}', 'answer', this.value)"
+			oninput="updateRelayCell('${key}', 'a', this.value)"
 			placeholder="e.g. 15"
 		/>
 		<div class="field-label">Explanation</div>
 		<textarea
-			oninput="updateRelayCell('${key}', 'explanation', this.value)"
+			oninput="updateRelayCell('${key}', 'e', this.value)"
 			placeholder="Show the reasoning."
 		>${escapeHtml(cell.e)}</textarea>
 		<div class="field-label">Answer image (optional)</div>
