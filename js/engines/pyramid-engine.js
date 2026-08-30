@@ -151,7 +151,6 @@ function renderPyramidScreen() {
 	if (pyramidState === 'running') {
 		if (startBtn) startBtn.style.display = 'none';
 		if (endBtn) endBtn.style.display = '';
-		if (endBtn) endBtn.style.marginBottom = '28px';
 		if (board) board.style.display = '';
 		if (summary) summary.style.display = 'none';
 		if (progress) {
@@ -307,7 +306,9 @@ function renderPyramidSummaryHtml() {
 		.join('');
 	return `
 		<div class="summary-line">Time's up! Here's how far each team climbed.</div>
-		${rows}
+		<div style="display: flex; gap: 10px; flex-wrap: wrap"> 
+			${rows}
+		</div>
 		<div class="row-actions">
 			<button class="btn ghost" onclick="newPyramidRound()">New Pyramid Round</button>
 		</div>

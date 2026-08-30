@@ -41,6 +41,7 @@
 			defer
 			src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
 		></script>
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 	</head>
 	<body>
 		<div id="stage">
@@ -67,13 +68,14 @@
 					<div class="marquee-lights" aria-hidden="true"></div>
 				</div>
 				<div class="arcade-grid">
-					<div class="arcade-tile t-teal" onclick="goTo('Ladder')">
+					<div class="arcade-tile tile-teal" onclick="goTo('Ladder')">
 						<div class="arcade-num mono">01</div>
 						<h3>Contest Ladder</h3>
 						<p>
 							Contest-style problems across four escalating tiers, harder tiers are
 							worth more points.
 						</p>
+						<i class="fa-solid fa-trophy"></i>
 					</div>
 					<div class="arcade-tile tile-yellow" onclick="goTo('Duel')">
 						<div class="arcade-num mono">02</div>
@@ -82,6 +84,7 @@
 							Head-to-head showdowns. Two teams, one problem, first correct answer wins
 							the round.
 						</p>
+						<i class="fa-solid fa-burst"></i>
 					</div>
 					<div class="arcade-tile tile-pink" onclick="goTo('ChainRelay')">
 						<div class="arcade-num mono">03</div>
@@ -90,6 +93,7 @@
 							Contest-style relay chains: each answer becomes T, a variable in the
 							next, harder link.
 						</p>
+						<i class="fa-solid fa-link" style="transform: rotate(90deg);"></i>
 					</div>
 					<div class="arcade-tile tile-purple" onclick="goTo('Relay')">
 						<div class="arcade-num mono">04</div>
@@ -98,6 +102,7 @@
 							A Jeopardy-style board: categories × point values. Write your own
 							questions and answers.
 						</p>
+						<i class="fa-solid fa-chalkboard"></i>
 					</div>
 					<div class="arcade-tile tile-teal" onclick="goTo('Elimination')">
 						<div class="arcade-num mono">05</div>
@@ -106,6 +111,7 @@
 							Every team answers at once, get the wrong answer, and you're out. Last
 							team standing wins a bonus.
 						</p>
+						<i class="fa-solid fa-hand-fist"></i>
 					</div>
 					<div class="arcade-tile tile-yellow" onclick="goTo('Estimation')">
 						<div class="arcade-num mono">06</div>
@@ -114,6 +120,7 @@
 							No exact solving, just your best guess. Closest team scores, exact
 							answers earn a bonus.
 						</p>
+						<i class="fa-regular fa-lightbulb"></i>
 					</div>
 					<div class="arcade-tile tile-pink" onclick="goTo('HandsUp')">
 						<div class="arcade-num mono">07</div>
@@ -122,6 +129,7 @@
 							One question, whole room. First hand up gets it, miss it and it's open
 							for anyone to steal.
 						</p>
+						<i class="fa-regular fa-hand"></i>
 					</div>
 					<div class="arcade-tile tile-purple" onclick="goTo('Sprint')">
 						<div class="arcade-num mono">08</div>
@@ -130,6 +138,7 @@
 							One team, one 3-minute clock. Blast through as many problems as you can
 							before time runs out.
 						</p>
+						<i class="fa-solid fa-hourglass-start"></i>
 					</div>
 					<div class="arcade-tile tile-teal" onclick="goTo('Pyramid')">
 						<div class="arcade-num mono">09</div>
@@ -138,6 +147,7 @@
 							Same pyramid, one timer, teams race to the top, partial credit is awarded
 							if time runs out.
 						</p>
+						<i class="fa-solid fa-cubes-stacked"></i>
 					</div>
 					<div class="arcade-tile tile-yellow" onclick="goTo('Streak')">
 						<div class="arcade-num mono">10</div>
@@ -146,6 +156,7 @@
 							One team in the spotlight, points double each round, bank it or push your
 							luck for more.
 						</p>
+						<i class="fa-solid fa-fire"></i>
 					</div>
 					<div class="arcade-tile tile-pink" onclick="goTo('SwapMarket')">
 						<div class="arcade-num mono">11</div>
@@ -154,6 +165,7 @@
 							Teams bid swap tokens for the one shared easier backup problem, highest
 							bidder gets it.
 						</p>
+						<i class="fa-solid fa-arrows-rotate"></i>
 					</div>
 					<div class="arcade-tile tile-purple" onclick="goTo('Wager')">
 						<div class="arcade-num mono">12</div>
@@ -162,6 +174,7 @@
 							Teams secretly wager 1–5 points on their confidence, right answers pay
 							out, wrong ones cost you.
 						</p>
+						<i class="fa-solid fa-dice"></i>
 					</div>
 					<div class="arcade-tile tile-teal" onclick="goTo('Curse')">
 						<div class="arcade-num mono">13</div>
@@ -170,6 +183,7 @@
 							Answer first, then secretly saddle another team with a curse for their
 							next round. Survive it and score a bonus.
 						</p>
+						<i class="fa-solid fa-skull"></i>
 					</div>
 					<div class="arcade-tile tile-yellow" onclick="goTo('Scapegoat')">
 						<div class="arcade-num mono">14</div>
@@ -178,6 +192,7 @@
 							Every team secretly names another team as their scapegoat each round. If
 							your scapegoat misses the problem, you steal half their points.
 						</p>
+						<i class="fa-regular fa-hand-point-up"></i>
 					</div>
 					<div class="arcade-tile tile-pink" onclick="goTo('PointHeist')">
 						<div class="arcade-num mono">15</div>
@@ -186,6 +201,7 @@
 							A shared vault sits center stage. Correct answers let you draw from it or
 							raid whoever's winning outright.
 						</p>
+						<i class="fa-solid fa-vault"></i>
 					</div>
 					<div class="arcade-tile tile-purple" onclick="goTo('HotPotato')">
 						<div class="arcade-num mono">16</div>
@@ -194,6 +210,7 @@
 							A single potato grows in value as it's passed around. Answer right to
 							pass it on, just don't be holding it when the cutoff hits.
 						</p>
+						<i class="fa-solid fa-bomb"></i>
 					</div>
 					<div class="arcade-tile tile-teal" onclick="goTo('Bounty')">
 						<div class="arcade-num mono">17</div>
@@ -202,6 +219,7 @@
 							The current leader gets marked. Answer first to bank your own points, or
 							collect a cut straight from them instead.
 						</p>
+						<i class="fa-solid fa-crosshairs"></i>
 					</div>
 					<div class="arcade-tile tile-yellow" onclick="goTo('Sequence')">
 						<div class="arcade-num mono">18</div>
@@ -210,6 +228,7 @@
 							A sequence with the ending hidden. Teams have to spot the pattern and
 							guess what comes next.
 						</p>
+						<i class="fa-solid fa-magnifying-glass" style="transform: rotate(0deg);"></i>
 					</div>
 					<div class="arcade-tile tile-pink" onclick="goTo('Siege')">
 						<div class="arcade-num mono">19</div>
@@ -218,6 +237,7 @@
 							Every correct answer forks between Fortress and Army. Fortify to score,
 							Reinforce to shield up, or Attack to raid another team's Fortress.
 						</p>
+						<i class="fa-solid fa-crown"></i>
 					</div>
 					<div class="arcade-tile tile-purple" onclick="goTo('Pool')">
 						<div class="arcade-num mono">20</div>
@@ -226,6 +246,7 @@
 							Every team seals a prediction for the final standings up front. Periodic
 							checkpoints score matches against the live leaderboard.
 						</p>
+						<i class="fa-solid fa-award"></i>
 					</div>
 				</div>
 			</section>
@@ -1134,8 +1155,9 @@
 					</div>
 				</div>
 				<div class="panel flex middle column">
+					<div class="pyramid-roster" id="pyramidBoard"></div>
 					<div class="progress-line" id="pyramidProgress"></div>
-					<div class="timer-wrap" style="margin-bottom: 28px">
+					<div class="timer-wrap" style="margin: 0;">
 						<button
 							class="btn primary"
 							id="pyramidStartBtn"
@@ -1152,7 +1174,6 @@
 							End Round
 						</button>
 					</div>
-					<div class="pyramid-roster" id="pyramidBoard"></div>
 					<div class="award-row" id="pyramidSummary" style="display: none"></div>
 				</div>
 			</section>
