@@ -112,6 +112,20 @@ function runPoolCheckpoint(isFinal) {
 	renderPoolScreen();
 }
 
+function prevPoolProblem() {
+	poolQuestionPool = customPool;
+	if (poolQuestionPool.length === 0) return;
+	poolQuestionIndex = poolQuestionIndex > 0 ? poolQuestionIndex - 1 : poolQuestionPool.length - 1;
+	renderPoolProblem();
+	autosave();
+}
+
+function resetPool() {
+	poolQuestionIndex = 0;
+	renderPoolProblem();
+	autosave();
+}
+
 function nextPoolProblem() {
 	poolQuestionIndex++;
 	renderPoolProblem();
@@ -128,8 +142,7 @@ function resetPoolTimer() {
 
 function renderPoolProblem() {
 	poolQuestionPool = customPool;
-	const box = document.getElementById('poolAnswerBox');
-	if (box) box.classList.remove('show');
+	hideAnswerBox('pool');
 
 	if (poolQuestionPool.length === 0) {
 		const progress = document.getElementById('poolProgress');
@@ -145,16 +158,11 @@ function renderPoolProblem() {
 	}
 
 	const problem = poolQuestionPool[poolQuestionIndex % poolQuestionPool.length];
-	const progress = document.getElementById('poolProgress');
-	if (progress) {
-		progress.textContent = `Problem ${(poolQuestionIndex % poolQuestionPool.length) + 1} of ${poolQuestionPool.length}`;
-	}
-	const qEl = document.getElementById('poolQuestionText');
-	if (qEl) {
-		qEl.textContent = problem.q;
-		typeset(qEl);
-	}
-	setPromptImage('poolQuestionImg', problem.qImg);
+	renderQuestionText(
+		'pool',
+		problem,
+		`Problem ${(poolQuestionIndex % poolQuestionPool.length) + 1} of ${poolQuestionPool.length}`,
+	);
 	poolTimer.setDuration(problem.time || defaultPoolSeconds);
 	renderPoolAwardButtons();
 }
@@ -163,12 +171,7 @@ function revealPoolAnswer() {
 	if (poolQuestionPool.length === 0) return;
 	poolTimer.stop();
 	const problem = poolQuestionPool[poolQuestionIndex % poolQuestionPool.length];
-	document.getElementById('poolAnswerFigure').textContent = problem.a;
-	setPromptImage('poolAnswerImg', problem.aImg);
-	document.getElementById('poolAnswerReasoning').textContent = problem.e || '';
-	const box = document.getElementById('poolAnswerBox');
-	box.classList.add('show');
-	typeset(box);
+	revealAnswer('pool', problem);
 }
 
 function renderPoolAwardButtons() {
@@ -267,9 +270,9 @@ function renderPoolStandingsList() {
 			if (!team) return '';
 			return `
 				<div class="timeline-item" style="border-left: 3px solid ${team.color};">
-					<span class="letter mono">${i + 1}.</span>
+					<span class="letter">${i + 1}.</span>
 					<span class="team-name">${escapeHtml(team.name)}</span>
-					<span class="stat-count mono" style="margin-left: auto;">${team.score} pts</span>
+					<span class="stat-count" style="margin-left: auto;">${team.score} pts</span>
 				</div>
 			`;
 		})
@@ -299,7 +302,7 @@ function renderPoolPredictionPanel() {
 						.join('');
 					return `
 						<select
-							class="inline-select mono"
+							class="inline-select"
 							style="margin-right: 6px;"
 							onchange="setPoolPrediction('${predictor.id}', ${posIndex}, this.value)"
 						>
@@ -321,8 +324,9 @@ function renderPoolPredictionPanel() {
 function renderPoolCheckpointResults() {
 	const wrap = document.getElementById('poolCheckpointResults');
 	if (!wrap) return;
+	wrap.style.display = '';
 	if (!poolLastResults) {
-		wrap.innerHTML = '';
+		wrap.style.display = 'none';
 		return;
 	}
 	const { results, isFinal, count } = poolLastResults;
@@ -333,7 +337,7 @@ function renderPoolCheckpointResults() {
 			return `
 				<div class="team-group" style="border-left-color: ${team.color};">
 					<span class="team-name">${escapeHtml(team.name)}</span>
-					<span class="stat-count mono">
+					<span class="stat-count">
 						${result.matches} position${result.matches === 1 ? '' : 's'} matched
 						${result.fullMatch ? ' · full match!' : ''}
 						→ +${result.awarded} pt${result.awarded === 1 ? '' : 's'}

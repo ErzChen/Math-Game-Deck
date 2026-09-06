@@ -47,8 +47,7 @@ function nextEliminationRound() {
 function renderEliminationProblem() {
 	eliminationPool = customElimination;
 	pruneEliminationAlive();
-	const box = document.getElementById('eliminationAnswerBox');
-	if (box) box.classList.remove('show');
+	hideAnswerBox('elimination');
 	const badge = document.getElementById('eliminationTierBadge');
 
 	if (eliminationPool.length === 0) {
@@ -66,17 +65,17 @@ function renderEliminationProblem() {
 	}
 
 	const problem = eliminationPool[eliminationIndex % eliminationPool.length];
-	document.getElementById('eliminationProgress').textContent =
-		`Round ${eliminationIndex + 1} · ${eliminationAliveIds.length} team${eliminationAliveIds.length === 1 ? '' : 's'} still in it`;
+	renderQuestionText(
+		'elimination',
+		problem,
+		`Round ${eliminationIndex + 1} · ${eliminationAliveIds.length} team${eliminationAliveIds.length === 1 ? '' : 's'}`,
+	);
 	if (badge) {
 		badge.textContent = problem.tier
 			? tierNames[problem.tier] || `Tier ${problem.tier}`
 			: '';
 		badge.className = 'tier-badge' + (problem.tier ? ' t' + problem.tier : '');
 	}
-	document.getElementById('eliminationQuestionText').textContent = problem.q;
-	setPromptImage('eliminationQuestionImg', problem.qImg);
-	typeset(document.getElementById('eliminationQuestionText'));
 	eliminationRoundMarks = {};
 	renderEliminationRoster();
 }
@@ -84,12 +83,7 @@ function renderEliminationProblem() {
 function revealEliminationAnswer() {
 	if (eliminationPool.length === 0) return;
 	const problem = eliminationPool[eliminationIndex % eliminationPool.length];
-	document.getElementById('eliminationAnswerFigure').textContent = problem.a;
-	setPromptImage('eliminationAnswerImg', problem.aImg);
-	document.getElementById('eliminationAnswerReasoning').textContent = problem.e;
-	const box = document.getElementById('eliminationAnswerBox');
-	box.classList.add('show');
-	typeset(box);
+	revealAnswer('elimination', problem);
 }
 
 function renderEliminationRoster() {
@@ -138,18 +132,20 @@ function renderEliminationTeamRow(team) {
 			<span class="team-name">${escapeHtml(team.name)}</span>
 			<div class="team-btns">
 				<button
-					class="btn small award-btn ${mark === 'wrong' ? 'wrong-active' : ''}"
+					class="btn small award-btn ${resultActiveClass(mark, 'wrong')}"
 					style="border-color: ${team.color};"
 					onclick="markElimination('${team.id}', 'wrong')"
 				>
-					${iconCross()}Out
+					<i class="fa-solid fa-xmark"></i>
+					Out
 				</button>
 				<button
-					class="btn small award-btn"
+					class="btn small award-btn ${resultActiveClass(mark, 'correct')}"
 					style="border-color: ${team.color};"
 					onclick="markElimination('${team.id}', 'correct')"
 				>
-					${iconCheck()}Survived +1
+					<i class="fa-solid fa-check"></i>
+					Survived +1
 				</button>
 			</div>
 		</div>

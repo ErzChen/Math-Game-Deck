@@ -20,6 +20,13 @@ function resetHandsUp() {
 	renderHandsUpProblem();
 }
 
+function prevHandsUpProblem() {
+	handsUpPool = customHandsUp;
+	if (handsUpPool.length === 0) return;
+	handsUpIndex = handsUpIndex > 0 ? handsUpIndex - 1 : handsUpPool.length - 1;
+	renderHandsUpProblem();
+}
+
 function nextHandsUpProblem() {
 	handsUpIndex++;
 	renderHandsUpProblem();
@@ -68,7 +75,10 @@ function renderHandsUpTeamButtons() {
 	if (handsUpSolvedBy) {
 		const winner = teams.find((team) => team.id === handsUpSolvedBy);
 		element.innerHTML = winner
-			? `<div class="solved-banner" style="color: ${winner.color};">${iconCheck()}${escapeHtml(winner.name)} got it! Hit "Next Problem" to continue.</div>`
+			? `<div class="solved-banner" style="color: ${winner.color};">
+				<i class="fa-solid fa-check"></i>
+				${escapeHtml(winner.name)} got it! Hit "Next Problem" to continue.
+			</div>`
 			: '';
 		return;
 	}
@@ -101,14 +111,16 @@ function renderHandsUpTeamRow(team) {
 					style="border-color: ${team.color};"
 					onclick="markHandsUpResult('${team.id}', false)"
 				>
-					${iconCross()}Wrong
+					<i class="fa-solid fa-xmark"></i>
+					Wrong
 				</button>
 				<button
 					class="btn small award-btn"
 					style="border-color: ${team.color};"
 					onclick="markHandsUpResult('${team.id}', true)"
 				>
-					${iconCheck()}Correct +${pts}
+					<i class="fa-solid fa-check"></i>
+					Correct +${pts}
 				</button>
 			</div>
 		</div>

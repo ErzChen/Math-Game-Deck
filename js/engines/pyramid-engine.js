@@ -9,10 +9,10 @@ const pyramidTierSizes = [4, 3, 2, 1];
 const pyramidTotalSlots = pyramidTierSizes.reduce((sum, n) => sum + n, 0);
 
 const pyramidTierNames = {
-	1: 'Tier 1 · Base',
-	2: 'Tier 2 · Rise',
-	3: 'Tier 3 · Push',
-	4: 'Tier 4 · Peak',
+	1: 'Tier 1',
+	2: 'Tier 2',
+	3: 'Tier 3',
+	4: 'Tier 4',
 };
 
 const pyramidImageFields = createQAImageState({
@@ -94,7 +94,7 @@ function startPyramidRound() {
 	const pool = buildPyramidPool();
 	if (!pool) {
 		alert(
-			'Every tier needs enough questions first (4 in Tier 1, 3 in Tier 2, 2 in Tier 3, 1 in Tier 4) via "Manage Questions".',
+			'Every tier needs enough questions first (4 in tier 1, 3 in tier 2, 2 in tier 3, 1 in tier 4) via "Manage Questions".',
 		);
 		return;
 	}
@@ -111,6 +111,16 @@ function endPyramidRound() {
 
 function togglePyramidReveal(teamId) {
 	pyramidRevealed[teamId] = !pyramidRevealed[teamId];
+	renderPyramidBoard();
+}
+
+function retreatPyramidTeam(teamId) {
+	if (pyramidState !== 'running') return;
+	const progress = pyramidProgress[teamId] || 0;
+	if (progress <= 0) return;
+	pyramidProgress[teamId] = progress - 1;
+	pyramidRevealed[teamId] = false;
+	if (pyramidWinnerId === teamId) pyramidWinnerId = null;
 	renderPyramidBoard();
 }
 
@@ -154,7 +164,7 @@ function renderPyramidScreen() {
 		if (board) board.style.display = '';
 		if (summary) summary.style.display = 'none';
 		if (progress) {
-			progress.textContent = `${pyramidTotalSlots} problems, base to peak — every team climbs at their own pace`;
+			progress.textContent = `${pyramidTotalSlots} problems, tier 1 to tier 4, every team climbs at their own pace`;
 		}
 		renderPyramidBoard();
 		return;
@@ -180,7 +190,7 @@ function renderPyramidShape(solved) {
 			let state = 'locked';
 			if (pos < solved) state = 'solved';
 			else if (pos === solved) state = 'current';
-			blocks += `<span class="pyramid-block ${state}" title="Tier ${tier} · Q${j + 1}"></span>`;
+			blocks += `<span class="pyramid-block ${state}" title="tier ${tier} · Q${j + 1}"></span>`;
 		}
 		rows += `<div class="pyramid-row">${blocks}</div>`;
 	}
@@ -242,22 +252,47 @@ function renderPyramidBoard() {
 							`
 							: ''
 					}
-					<div class="team-group" style="border-left-color: ${team.color};">
+					<div 
+						class="team-group" 
+						style="
+							margin-top: 16px;
+							border-top-color: ${team.color}; 
+							border-top-width: 4px;
+							border-left-width: 1px;
+							flex-direction: column;
+						"
+					>
 						<span class="team-name">${escapeHtml(team.name)}</span>
+						<button
+							class="btn small award-btn"
+							style="border-color: ${team.color};"
+							onclick="togglePyramidReveal('${team.id}')"
+						>
+							${revealed ? 'Hide Answer' : 'Reveal Answer'}
+						</button>
 						<div class="team-btns">
 							<button
 								class="btn small award-btn"
 								style="border-color: ${team.color};"
-								onclick="togglePyramidReveal('${team.id}')"
+								onclick="retreatPyramidTeam('${team.id}')"
+								${solved === 0 ? 'disabled' : ''}
 							>
-								${revealed ? 'Hide Answer' : 'Reveal Answer'}
+								<i class="fa-solid fa-arrow-left"></i>
+							</button>
+							<button 
+								class="btn ghost" 
+								id="pyramidResetBtn" 
+								style="border-color: ${team.color};" 
+								onclick="newPyramidRound()"
+							>
+								<i class="fa-solid fa-arrow-rotate-left"></i>
 							</button>
 							<button
 								class="btn small award-btn"
 								style="border-color: ${team.color};"
 								onclick="advancePyramidTeam('${team.id}')"
 							>
-								${iconCheck()}Solved, next level
+								<i class="fa-solid fa-arrow-right"></i>
 							</button>
 						</div>
 					</div>
@@ -321,7 +356,7 @@ function openPyramidModal() {
 		listId: 'customPyramidList',
 		addFnName: 'addCustomPyramid',
 		helpText:
-			'Every pyramid has 4 tiers, base to peak: Tier 1 needs 4 questions, Tier 2 needs 3, Tier 3 needs 2, Tier 4 needs 1. Stock extras in a tier and each new round shuffles in a fresh set.',
+			'Every pyramid has 4 tiers, tier 1 to tier 4: tier 1 needs 4 questions, tier 2 needs 3, tier 3 needs 2, tier 4 needs 1. Stock extras in a tier and each new round shuffles in a fresh set.',
 		hasTier: true,
 	});
 	pyramidImageFields.reset();
@@ -348,7 +383,7 @@ function addCustomPyramid() {
 		return;
 	}
 	customPyramid.push({
-		tier: tier,
+		tier,
 		q: question,
 		qImg: pyramidImageFields.state.q || undefined,
 		a: answer,

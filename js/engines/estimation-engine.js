@@ -43,26 +43,24 @@ function resetEstimationTimer() {
 
 function renderEstimationProblem() {
 	estimationPool = customEstimation;
-	const box = document.getElementById('estimationAnswerBox');
-	if (box) box.classList.remove('show');
+	hideAnswerBox('estimation');
 
 	if (estimationPool.length === 0) {
-		document.getElementById('estimationProgress').textContent =
-			'No questions yet';
-		document.getElementById('estimationQuestionText').textContent =
-			'No questions yet, use "Manage Questions" above to add some.';
-		setPromptImage('estimationQuestionImg', null);
-		estimationTimer.stop();
+		renderEmptyPoolState(
+			'estimation',
+			'No questions yet, use "Manage Questions" above to add some.',
+			estimationTimer,
+		);
 		renderEstimationAwardButtons();
 		return;
 	}
 
 	const problem = estimationPool[estimationIndex % estimationPool.length];
-	document.getElementById('estimationProgress').textContent =
-		`Problem ${(estimationIndex % estimationPool.length) + 1} of ${estimationPool.length}`;
-	document.getElementById('estimationQuestionText').textContent = problem.q;
-	setPromptImage('estimationQuestionImg', problem.qImg);
-	typeset(document.getElementById('estimationQuestionText'));
+	renderQuestionText(
+		'estimation',
+		problem,
+		`Problem ${(estimationIndex % estimationPool.length) + 1} of ${estimationPool.length}`,
+	);
 	renderEstimationAwardButtons();
 	estimationTimer.reset();
 }
@@ -70,12 +68,7 @@ function renderEstimationProblem() {
 function revealEstimationAnswer() {
 	if (estimationPool.length === 0) return;
 	const problem = estimationPool[estimationIndex % estimationPool.length];
-	document.getElementById('estimationAnswerFigure').textContent = problem.a;
-	setPromptImage('estimationAnswerImg', problem.aImg);
-	document.getElementById('estimationAnswerReasoning').textContent = problem.e;
-	const box = document.getElementById('estimationAnswerBox');
-	box.classList.add('show');
-	typeset(box);
+	revealAnswer('estimation', problem);
 }
 
 function renderEstimationAwardButtons() {

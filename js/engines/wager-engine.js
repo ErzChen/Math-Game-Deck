@@ -26,6 +26,13 @@ function resetWager() {
 	renderWagerProblem();
 }
 
+function prevWagerProblem() {
+	wagerPool = customWager;
+	if (wagerPool.length === 0) return;
+	wagerIndex = wagerIndex > 0 ? wagerIndex - 1 : wagerPool.length - 1;
+	renderWagerProblem();
+}
+
 function nextWagerProblem() {
 	wagerIndex++;
 	renderWagerProblem();
@@ -42,29 +49,28 @@ function resetWagerTimer() {
 function renderWagerProblem() {
 	wagerPool = customWager;
 	const badge = document.getElementById('wagerDifficultyBadge');
-	const box = document.getElementById('wagerAnswerBox');
-	box.classList.remove('show');
+	hideAnswerBox('wager');
 
 	if (wagerPool.length === 0) {
-		document.getElementById('wagerProgress').textContent = 'No questions yet';
+		renderEmptyPoolState(
+			'wager',
+			'No questions yet, use "Manage Questions" above to add some.',
+			wagerTimer,
+		);
 		badge.textContent = '';
 		badge.className = 'tier-badge';
-		document.getElementById('wagerQuestionText').textContent =
-			'No questions yet, use "Manage Questions" above to add some.';
-		setPromptImage('wagerQuestionImg', null);
 		renderWagerRoster();
-		wagerTimer.stop();
 		return;
 	}
 
 	const problem = wagerPool[wagerIndex % wagerPool.length];
-	document.getElementById('wagerProgress').textContent =
-		`Round ${(wagerIndex % wagerPool.length) + 1} of ${wagerPool.length}`;
+	renderQuestionText(
+		'wager',
+		problem,
+		`Round ${(wagerIndex % wagerPool.length) + 1} of ${wagerPool.length}`,
+	);
 	badge.textContent = `Difficulty ${problem.tier} of 5`;
 	badge.className = 'tier-badge t' + problem.tier;
-	document.getElementById('wagerQuestionText').textContent = problem.q;
-	setPromptImage('wagerQuestionImg', problem.qImg);
-	typeset(document.getElementById('wagerQuestionText'));
 	renderWagerRoster();
 	wagerTimer.setDuration(problem.time || defaultWagerSeconds);
 }
@@ -73,12 +79,7 @@ function revealWagerAnswer() {
 	if (wagerPool.length === 0) return;
 	wagerTimer.stop();
 	const problem = wagerPool[wagerIndex % wagerPool.length];
-	document.getElementById('wagerAnswerFigure').textContent = problem.a;
-	setPromptImage('wagerAnswerImg', problem.aImg);
-	document.getElementById('wagerAnswerReasoning').textContent = problem.e || '';
-	const box = document.getElementById('wagerAnswerBox');
-	box.classList.add('show');
-	typeset(box);
+	revealAnswer('wager', problem);
 }
 
 function renderWagerRoster() {
@@ -93,7 +94,7 @@ function renderWagerRoster() {
 					<div class="team-btns">
 						<input
 							type="number"
-							class="num-input mono"
+							class="num-input"
 							id="wagerInput-${team.id}"
 							min="1"
 							max="5"
@@ -105,14 +106,16 @@ function renderWagerRoster() {
 							style="border-color: ${team.color};"
 							onclick="applyWagerResult('${team.id}', true, event)"
 						>
-							${iconCheck()}Correct
+							<i class="fa-solid fa-check"></i>
+							Correct
 						</button>
 						<button
 							class="btn small award-btn"
 							style="border-color: ${team.color};"
 							onclick="applyWagerResult('${team.id}', false, event)"
 						>
-							${iconCross()}Wrong
+							<i class="fa-solid fa-xmark"></i>
+							Wrong
 						</button>
 					</div>
 				</div>

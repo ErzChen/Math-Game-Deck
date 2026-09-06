@@ -19,6 +19,14 @@ function resetSequence() {
 	renderSequenceProblem();
 }
 
+function prevSequenceProblem() {
+	sequencePool = customSequence;
+	if (sequencePool.length === 0) return;
+	sequenceIndex = sequenceIndex > 0 ? sequenceIndex - 1 : sequencePool.length - 1;
+	renderSequenceProblem();
+	autosave();
+}
+
 function nextSequenceProblem() {
 	sequenceIndex++;
 	renderSequenceProblem();

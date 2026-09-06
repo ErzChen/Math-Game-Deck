@@ -37,6 +37,18 @@ function populateDuelTeamSelectors() {
 	}
 }
 
+function resetDuel() {
+	duelIndex = 0;
+	renderDuelProblem();
+}
+
+function prevDuelProblem() {
+	duelPool = customDuel;
+	if (duelPool.length === 0) return;
+	duelIndex = duelIndex > 0 ? duelIndex - 1 : duelPool.length - 1;
+	renderDuelProblem();
+}
+
 function nextDuelProblem() {
 	duelIndex++;
 	renderDuelProblem();
@@ -44,8 +56,7 @@ function nextDuelProblem() {
 
 function renderDuelProblem() {
 	duelPool = customDuel;
-	const box = document.getElementById('duelAnswerBox');
-	box.classList.remove('show');
+	hideAnswerBox('duel');
 	if (duelPool.length === 0) {
 		document.getElementById('duelProgress').textContent = 'No questions yet';
 		document.getElementById('duelQuestionText').textContent =
@@ -53,22 +64,17 @@ function renderDuelProblem() {
 		return;
 	}
 	const problem = duelPool[duelIndex % duelPool.length];
-	document.getElementById('duelProgress').textContent =
-		`Problem ${(duelIndex % duelPool.length) + 1} of ${duelPool.length}`;
-	document.getElementById('duelQuestionText').textContent = problem.q;
-	setPromptImage('duelQuestionImg', problem.qImg);
-	typeset(document.getElementById('duelQuestionText'));
+	renderQuestionText(
+		'duel',
+		problem,
+		`Problem ${(duelIndex % duelPool.length) + 1} of ${duelPool.length}`,
+	);
 }
 
 function revealDuelAnswer() {
 	if (duelPool.length === 0) return;
 	const problem = duelPool[duelIndex % duelPool.length];
-	document.getElementById('duelAnswerFigure').textContent = problem.a;
-	setPromptImage('duelAnswerImg', problem.aImg);
-	document.getElementById('duelAnswerReasoning').textContent = problem.e;
-	const box = document.getElementById('duelAnswerBox');
-	box.classList.add('show');
-	typeset(box);
+	revealAnswer('duel', problem);
 }
 
 function renderDuelAwardButtons() {

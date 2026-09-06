@@ -3,10 +3,10 @@ let ladderPool = [];
 let ladderIndex = 0;
 
 const tierNames = {
-	1: 'Tier 1 · Warm-up · 1 pt',
-	2: 'Tier 2 · Building · 2 pt',
-	3: 'Tier 3 · Push · 3 pt',
-	4: 'Tier 4 · Frontier · 4 pt',
+	1: 'Tier 1 · Novice · 1 pt',
+	2: 'Tier 2 · Intermediate · 2 pt',
+	3: 'Tier 3 · Advanced · 3 pt',
+	4: 'Tier 4 · Expert · 4 pt',
 };
 
 const ladderTimer = createCountdownTimer({
@@ -30,6 +30,11 @@ function initLadder() {
 function resetLadder() {
 	ladderPool = customLadder;
 	ladderIndex = 0;
+	renderLadderProblem();
+}
+
+function prevLadderProblem() {
+	ladderIndex--;
 	renderLadderProblem();
 }
 
@@ -68,32 +73,31 @@ function resetLadderTimer() {
 function renderLadderProblem() {
 	ladderPool = customLadder;
 	const badge = document.getElementById('ladderTierBadge');
-	const box = document.getElementById('ladderAnswerBox');
-	box.classList.remove('show');
+	hideAnswerBox('ladder');
 
 	if (ladderPool.length === 0) {
-		document.getElementById('ladderProgress').textContent = 'No questions yet';
+		renderEmptyPoolState(
+			'ladder',
+			'No questions yet, use "Manage Questions" above to add some.',
+			ladderTimer,
+		);
 		badge.textContent = '';
 		badge.className = 'tier-badge';
-		document.getElementById('ladderQuestionText').textContent =
-			'No questions yet, use "Manage Questions" above to add some.';
-		setPromptImage('ladderQuestionImg', null);
 		document.getElementById('ladderAwardLabel').textContent = 'Award the point';
-		ladderTimer.stop();
 		renderLadderAwardButtons();
 		return;
 	}
 
 	const problem = ladderPool[ladderIndex % ladderPool.length];
-	document.getElementById('ladderProgress').textContent =
-		`Problem ${(ladderIndex % ladderPool.length) + 1} of ${ladderPool.length}`;
+	renderQuestionText(
+		'ladder',
+		problem,
+		`Problem ${(ladderIndex % ladderPool.length) + 1} of ${ladderPool.length}`,
+	);
 	badge.textContent = tierNames[problem.tier] || `Tier ${problem.tier}`;
 	badge.className = 'tier-badge t' + problem.tier;
-	document.getElementById('ladderQuestionText').textContent = problem.q;
-	setPromptImage('ladderQuestionImg', problem.qImg);
 	document.getElementById('ladderAwardLabel').textContent =
 		`Award the point (worth ${problem.tier})`;
-	typeset(document.getElementById('ladderQuestionText'));
 	renderLadderAwardButtons();
 	ladderTimer.setDuration(problem.time || defaultLadderSeconds);
 }
@@ -101,12 +105,7 @@ function renderLadderProblem() {
 function revealLadderAnswer() {
 	if (ladderPool.length === 0) return;
 	const problem = ladderPool[ladderIndex % ladderPool.length];
-	document.getElementById('ladderAnswerFigure').textContent = problem.a;
-	setPromptImage('ladderAnswerImg', problem.aImg);
-	document.getElementById('ladderAnswerReasoning').textContent = problem.e;
-	const box = document.getElementById('ladderAnswerBox');
-	box.classList.add('show');
-	typeset(box);
+	revealAnswer('ladder', problem);
 }
 
 function renderLadderAwardButtons() {

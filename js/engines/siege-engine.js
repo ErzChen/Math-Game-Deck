@@ -25,10 +25,34 @@ const siegeImageFields = createQAImageState({
 });
 
 const siegeTierInfo = [
-	{ label: 'Rubble Camp', wall: '#9c9186', towerH: 20, wallH: 12, crenels: 2 },
-	{ label: 'Wooden Fort', wall: '#a9793f', towerH: 34, wallH: 18, crenels: 3 },
-	{ label: 'Stone Keep', wall: '#9aa1ab', towerH: 46, wallH: 24, crenels: 4 },
-	{ label: 'Grand Castle', wall: '#c6cdd6', towerH: 58, wallH: 28, crenels: 5 },
+	{
+		label: 'Rubble Camp',
+		wall: '#9c9186',
+		towerH: 20,
+		wallH: 12,
+		crenels: 2,
+	},
+	{
+		label: 'Wooden Fort',
+		wall: '#a9793f',
+		towerH: 34,
+		wallH: 18,
+		crenels: 3,
+	},
+	{
+		label: 'Stone Keep',
+		wall: '#9aa1ab',
+		towerH: 46,
+		wallH: 24,
+		crenels: 4,
+	},
+	{
+		label: 'Grand Castle',
+		wall: '#c6cdd6',
+		towerH: 58,
+		wallH: 28,
+		crenels: 5,
+	},
 ];
 
 function initSiege() {
@@ -54,6 +78,15 @@ function resetSiegeRound() {
 	siegeMoves = {};
 	siegeResults = {};
 	siegeResolved = false;
+}
+
+function prevSiegeProblem() {
+	siegePool = customSiege;
+	if (siegePool.length === 0) return;
+	siegeIndex = siegeIndex > 0 ? siegeIndex - 1 : siegePool.length - 1;
+	resetSiegeRound();
+	renderSiegeProblem();
+	autosave();
 }
 
 function nextSiegeProblem() {
@@ -102,25 +135,24 @@ function renderSiegeSettingsInputs() {
 function renderSiegeProblem() {
 	siegePool = customSiege;
 	ensureSiegeTeams();
-	const box = document.getElementById('siegeAnswerBox');
-	if (box) box.classList.remove('show');
+	hideAnswerBox('siege');
 
 	if (siegePool.length === 0) {
-		document.getElementById('siegeProgress').textContent = 'No questions yet';
-		document.getElementById('siegeQuestionText').textContent =
-			'No questions yet, use "Manage Questions" above to add some.';
-		setPromptImage('siegeQuestionImg', null);
-		siegeTimer.stop();
+		renderEmptyPoolState(
+			'siege',
+			'No questions yet, use "Manage Questions" above to add some.',
+			siegeTimer,
+		);
 		renderSiegeRoster();
 		return;
 	}
 
 	const problem = siegePool[siegeIndex % siegePool.length];
-	document.getElementById('siegeProgress').textContent =
-		`Round ${(siegeIndex % siegePool.length) + 1} of ${siegePool.length} · payout worth ${siegeConversionRate} pt${siegeConversionRate === 1 ? '' : 's'}`;
-	document.getElementById('siegeQuestionText').textContent = problem.q;
-	setPromptImage('siegeQuestionImg', problem.qImg);
-	typeset(document.getElementById('siegeQuestionText'));
+	renderQuestionText(
+		'siege',
+		problem,
+		`Round ${(siegeIndex % siegePool.length) + 1} of ${siegePool.length} · payout worth ${siegeConversionRate} pt${siegeConversionRate === 1 ? '' : 's'}`,
+	);
 	siegeTimer.setDuration(problem.time || defaultSiegeSeconds);
 	renderSiegeRoster();
 }
@@ -129,12 +161,7 @@ function revealSiegeAnswer() {
 	if (siegePool.length === 0) return;
 	siegeTimer.stop();
 	const problem = siegePool[siegeIndex % siegePool.length];
-	document.getElementById('siegeAnswerFigure').textContent = problem.a;
-	setPromptImage('siegeAnswerImg', problem.aImg);
-	document.getElementById('siegeAnswerReasoning').textContent = problem.e || '';
-	const box = document.getElementById('siegeAnswerBox');
-	box.classList.add('show');
-	typeset(box);
+	revealAnswer('siege', problem);
 }
 
 function setSiegeMove(teamId, type) {
@@ -229,9 +256,9 @@ function resolveSiegeRound() {
 }
 
 function siegeCastleTier(score) {
-	if (score >= 50) return 3;
-	if (score >= 25) return 2;
-	if (score >= 10) return 1;
+	if (score >= 10) return 3;
+	if (score >= 5) return 2;
+	if (score >= 3) return 1;
 	return 0;
 }
 
@@ -409,7 +436,7 @@ function renderSiegeTeamRow(team) {
 			<span class="team-name">${escapeHtml(team.name)} <span class="stat-count">(Army: ${army})</span> ${shieldTag}</span>
 			<div class="team-btns">
 				<select
-					class="inline-select mono"
+					class="inline-select"
 					onchange="setSiegeMove('${team.id}', this.value)"
 					${siegeResolved ? 'disabled' : ''}
 				>
@@ -420,24 +447,26 @@ function renderSiegeTeamRow(team) {
 				</select>
 				${
 					move && move.type === 'attack'
-						? `<select class="inline-select mono" onchange="setSiegeAttackTarget('${team.id}', this.value)">${targetOptions}</select>`
+						? `<select class="inline-select" onchange="setSiegeAttackTarget('${team.id}', this.value)">${targetOptions}</select>`
 						: ''
 				}
 				<button
-					class="btn small award-btn ${result === 'wrong' ? 'wrong-active' : ''}"
+					class="btn small award-btn ${resultActiveClass(result, 'wrong')}"
 					style="border-color: ${team.color};"
 					onclick="markSiegeResult('${team.id}', 'wrong')"
 					${siegeResolved ? 'disabled' : ''}
 				>
-					${iconCross()}Wrong
+					<i class="fa-solid fa-xmark"></i>
+					Wrong
 				</button>
 				<button
-					class="btn small award-btn"
+					class="btn small award-btn ${resultActiveClass(result, 'correct')}"
 					style="border-color: ${team.color};"
 					onclick="markSiegeResult('${team.id}', 'correct')"
 					${siegeResolved ? 'disabled' : ''}
 				>
-					${iconCheck()}Correct
+					<i class="fa-solid fa-check"></i>
+					Correct
 				</button>
 			</div>
 		</div>

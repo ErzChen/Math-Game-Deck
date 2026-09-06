@@ -59,6 +59,17 @@ function ensureSwapTeams(resetBids) {
 	});
 }
 
+function prevSwapProblem() {
+	swapPool = customSwapPairs;
+	if (swapPool.length === 0) return;
+	swapIndex = swapIndex > 0 ? swapIndex - 1 : swapPool.length - 1;
+	swapLocked = false;
+	swapWinnerId = null;
+	swapWinningBid = 0;
+	ensureSwapTeams(true);
+	renderSwapScreen();
+}
+
 function nextSwapProblem() {
 	swapPool = customSwapPairs;
 	swapIndex++;
@@ -129,27 +140,14 @@ function revealSwapAnswer() {
 	const pair = swapPool[swapIndex % swapPool.length];
 	swapTimer.stop();
 
-	document.getElementById('swapHardAnswerFigure').textContent = pair.hardA;
-	setPromptImage('swapHardAnswerImg', pair.hardAImg);
-	document.getElementById('swapHardAnswerReasoning').textContent =
-		pair.hardE || '';
-	const hardBox = document.getElementById('swapHardAnswerBox');
-	hardBox.classList.add('show');
-	typeset(hardBox);
-
-	document.getElementById('swapBackAnswerFigure').textContent = pair.backA;
-	setPromptImage('swapBackAnswerImg', pair.backAImg);
-	document.getElementById('swapBackAnswerReasoning').textContent =
-		pair.backE || '';
-	const backBox = document.getElementById('swapBackAnswerBox');
-	backBox.classList.add('show');
-	typeset(backBox);
+	revealAnswer('swapHard', { a: pair.hardA, aImg: pair.hardAImg, e: pair.hardE });
+	revealAnswer('swapBack', { a: pair.backA, aImg: pair.backAImg, e: pair.backE });
 }
 
 function renderSwapProblem() {
 	swapPool = customSwapPairs;
-	document.getElementById('swapHardAnswerBox').classList.remove('show');
-	document.getElementById('swapBackAnswerBox').classList.remove('show');
+	hideAnswerBox('swapHard');
+	hideAnswerBox('swapBack');
 
 	if (swapPool.length === 0) {
 		document.getElementById('swapProgress').textContent = 'No problem pairs yet';
@@ -165,15 +163,8 @@ function renderSwapProblem() {
 	document.getElementById('swapProgress').textContent =
 		`Round ${(swapIndex % swapPool.length) + 1} of ${swapPool.length}`;
 
-	const hardEl = document.getElementById('swapHardQuestionText');
-	hardEl.textContent = pair.hardQ;
-	setPromptImage('swapHardQuestionImg', pair.hardQImg);
-	typeset(hardEl);
-
-	const backEl = document.getElementById('swapBackQuestionText');
-	backEl.textContent = pair.backQ;
-	setPromptImage('swapBackQuestionImg', pair.backQImg);
-	typeset(backEl);
+	renderQuestionText('swapHard', { q: pair.hardQ, qImg: pair.hardQImg });
+	renderQuestionText('swapBack', { q: pair.backQ, qImg: pair.backQImg });
 	swapTimer.setDuration(pair.time || defaultSwapSeconds);
 }
 
@@ -219,7 +210,7 @@ function renderSwapTeamRow(team) {
 		: `
 			<input
 				type="number"
-				class="num-input mono"
+				class="num-input"
 				min="0"
 				max="${tokens}"
 				value="${swapBids[team.id] || 0}"

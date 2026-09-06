@@ -13,7 +13,7 @@ Open the link on the projector's browser to run a session.
 ## Games
 
 - **Contest Ladder**: solo climb through contest-style problems across four
-  escalating tiers (Warm-up, Building, Push, Frontier). Each tier is worth
+  escalating tiers (Novice, Intermediate, Advanced, Expert). Each tier is worth
   more points.
 - **Countdown Duel**: two teams face off on the same problem, first correct
   answer wins the round.

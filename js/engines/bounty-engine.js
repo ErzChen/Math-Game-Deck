@@ -51,6 +51,17 @@ function recomputeBountyTargets() {
 	}
 }
 
+function prevBountyProblem() {
+	bountyPool = customBounty;
+	if (bountyPool.length === 0) return;
+	bountyIndex = bountyIndex > 0 ? bountyIndex - 1 : bountyPool.length - 1;
+	bountySolvedBy = null;
+	bountyCollected = null;
+	recomputeBountyTargets();
+	renderBountyProblem();
+	autosave();
+}
+
 function nextBountyProblem() {
 	bountyIndex++;
 	bountySolvedBy = null;
@@ -91,25 +102,24 @@ function renderBountySettingsInputs() {
 
 function renderBountyProblem() {
 	bountyPool = customBounty;
-	const box = document.getElementById('bountyAnswerBox');
-	if (box) box.classList.remove('show');
+	hideAnswerBox('bounty');
 
 	if (bountyPool.length === 0) {
-		document.getElementById('bountyProgress').textContent = 'No questions yet';
-		document.getElementById('bountyQuestionText').textContent =
-			'No questions yet, use "Manage Questions" above to add some.';
-		setPromptImage('bountyQuestionImg', null);
-		bountyTimer.stop();
+		renderEmptyPoolState(
+			'bounty',
+			'No questions yet, use "Manage Questions" above to add some.',
+			bountyTimer,
+		);
 		renderBountyRoster();
 		return;
 	}
 
 	const problem = bountyPool[bountyIndex % bountyPool.length];
-	document.getElementById('bountyProgress').textContent =
-		`Problem ${(bountyIndex % bountyPool.length) + 1} of ${bountyPool.length}`;
-	document.getElementById('bountyQuestionText').textContent = problem.q;
-	setPromptImage('bountyQuestionImg', problem.qImg);
-	typeset(document.getElementById('bountyQuestionText'));
+	renderQuestionText(
+		'bounty',
+		problem,
+		`Problem ${(bountyIndex % bountyPool.length) + 1} of ${bountyPool.length}`,
+	);
 	bountyTimer.setDuration(problem.time || defaultBountySeconds);
 	renderBountyRoster();
 }
@@ -118,12 +128,7 @@ function revealBountyAnswer() {
 	if (bountyPool.length === 0) return;
 	bountyTimer.stop();
 	const problem = bountyPool[bountyIndex % bountyPool.length];
-	document.getElementById('bountyAnswerFigure').textContent = problem.a;
-	setPromptImage('bountyAnswerImg', problem.aImg);
-	document.getElementById('bountyAnswerReasoning').textContent = problem.e || '';
-	const box = document.getElementById('bountyAnswerBox');
-	box.classList.add('show');
-	typeset(box);
+	revealAnswer('bounty', problem);
 }
 
 function bountyAmountFor(targetId) {
@@ -178,7 +183,7 @@ function renderBountySolvedHtml() {
 		const target = teams.find((team) => team.id === bountyCollected.targetId);
 		line = `${label} collected the bounty, pulling <b>${bountyCollected.amount}</b> pt${bountyCollected.amount === 1 ? '' : 's'} from ${target ? escapeHtml(target.name) : 'the marked team'}.`;
 	}
-	return `<div class="solved-banner">${iconCheck()}${line} Hit "Next Problem" to continue.</div>`;
+	return `<div class="solved-banner"><i class="fa-solid fa-check"></i>${line} Hit "Next Problem" to continue.</div>`;
 }
 
 function renderBountyTeamRow(team) {
@@ -195,7 +200,8 @@ function renderBountyTeamRow(team) {
 						style="border-color: ${team.color};"
 						onclick="markBountyResult('${team.id}', 'bank', null, event)"
 					>
-						${iconCheck()}Correct +1
+						<i class="fa-solid fa-check"></i>
+						Correct +1
 					</button>
 				</div>
 			</div>
@@ -225,7 +231,7 @@ function renderBountyTeamRow(team) {
 			})
 			.join('');
 		collectControl = `
-			<select class="target-select mono" id="bountyTargetSelect-${team.id}">
+			<select class="target-select" id="bountyTargetSelect-${team.id}">
 				${options}
 			</select>
 			<button
@@ -247,7 +253,8 @@ function renderBountyTeamRow(team) {
 					style="border-color: ${team.color};"
 					onclick="markBountyResult('${team.id}', 'bank', null, event)"
 				>
-					${iconCheck()}Correct +1
+					<i class="fa-solid fa-check"></i>
+					Correct +1
 				</button>
 				${collectControl}
 			</div>

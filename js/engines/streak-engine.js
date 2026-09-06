@@ -9,11 +9,11 @@ let streakOutcome = null;
 const streakLevelCount = 5;
 
 const streakTierNames = {
-	1: 'Tier 1 · Warm-up',
-	2: 'Tier 2 · Building',
-	3: 'Tier 3 · Push',
-	4: 'Tier 4 · Frontier',
-	5: 'Tier 5 · Peak',
+	1: 'Tier 1 · Novice',
+	2: 'Tier 2 · Intermediate',
+	3: 'Tier 3 · Advanced',
+	4: 'Tier 4 · Expert',
+	5: 'Tier 5 · Master',
 };
 
 const streakTimer = createCountdownTimer({
@@ -103,15 +103,8 @@ function startStreakTurn() {
 function revealStreakAnswer() {
 	if (streakPool.length === 0) return;
 	const problem = streakPool[streakIndex];
-	document.getElementById('streakAnswerFigure').textContent = problem.a;
-	setPromptImage('streakAnswerImg', problem.aImg);
-	document.getElementById('streakAnswerReasoning').textContent = problem.e || '';
-	const box = document.getElementById('streakAnswerBox');
-	box.classList.add('show');
-	typeset(box);
 	streakTimer.stop();
-	const controls = document.getElementById('streakJudgeControls');
-	if (controls) controls.style.display = '';
+	revealAnswer('streak', problem);
 }
 
 function markStreakCorrect() {
@@ -125,6 +118,11 @@ function markStreakCorrect() {
 		streakState = 'decision';
 	}
 	renderStreakScreen();
+}
+
+function abortStreakTurn() {
+	if (streakState === 'idle') return;
+	newStreakTurn();
 }
 
 function markStreakWrong() {
@@ -161,16 +159,18 @@ function resetStreakTimer() {
 function renderStreakQuestion() {
 	const badge = document.getElementById('streakLevelBadge');
 	const box = document.getElementById('streakAnswerBox');
-	const controls = document.getElementById('streakJudgeControls');
 	if (box) box.classList.remove('show');
-	if (controls) controls.style.display = 'none';
 
 	if (streakPool.length === 0 || streakIndex >= streakPool.length) return;
 
+	const questionProgress = document.getElementById('streakQuestionProgress');
+	if (questionProgress) {
+		questionProgress.textContent = `Level ${streakIndex + 1} of ${streakPool.length}`;
+	}
 	const problem = streakPool[streakIndex];
 	const levelPts = pointsForStreakLevel(streakIndex);
 	if (badge) {
-		badge.textContent = `${streakTierNames[problem.tier] || 'Level ' + (streakIndex + 1)} · Level ${streakIndex + 1} of ${streakPool.length} · worth ${levelPts} pt${levelPts === 1 ? '' : 's'}`;
+		badge.textContent = `${streakTierNames[problem.tier] || 'Tier ' + (streakIndex + 1)} · ${levelPts} pt${levelPts === 1 ? '' : 's'}`;
 		badge.className = 'tier-badge t' + problem.tier;
 	}
 	const vaultEl = document.getElementById('streakVaultTotal');

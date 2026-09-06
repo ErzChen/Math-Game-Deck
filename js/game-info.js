@@ -4,7 +4,7 @@ const gameInfo = {
 		mechanic: 'Ladder',
 		format: 'Whole-group, first-to-answer',
 		howToPlay:
-			'Teams work through a single ladder of contest-style problems in four escalating tiers (Warm-up → Building → Push → Frontier), five problems per tier, always straight through with no branching. Each problem gets its own 90-second countdown timer, started manually by the host, followed by a "Reveal Answer" step showing the answer and worked explanation.',
+			'Teams work through a single ladder of contest-style problems in four escalating tiers (Novice → Intermediate → Advanced → Expert), five problems per tier, always straight through with no branching. Each problem gets its own 90-second countdown timer, started manually by the host, followed by a "Reveal Answer" step showing the answer and worked explanation.',
 		scoring:
 			'Points equal the tier number (1–4 pts). Whoever answers first gets the award tap. "Next Problem" advances; "Restart Ladder" resets to problem 1.',
 		customization:

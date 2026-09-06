@@ -88,13 +88,7 @@ function startHotPotatoRound() {
 function revealHotPotatoAnswer() {
 	if (hotPotatoState !== 'question' || hotPotatoPool.length === 0) return;
 	const problem = hotPotatoPool[hotPotatoIndex % hotPotatoPool.length];
-	document.getElementById('hotPotatoAnswerFigure').textContent = problem.a;
-	setPromptImage('hotPotatoAnswerImg', problem.aImg);
-	document.getElementById('hotPotatoAnswerReasoning').textContent =
-		problem.e || '';
-	const box = document.getElementById('hotPotatoAnswerBox');
-	box.classList.add('show');
-	typeset(box);
+	revealAnswer('hotPotato', problem);
 }
 
 function markHotPotatoCorrect(event) {
@@ -231,7 +225,6 @@ function renderHotPotatoScreen() {
 	const activeWrap = document.getElementById('hotPotatoActiveWrap');
 	const endedWrap = document.getElementById('hotPotatoEndedWrap');
 	const progress = document.getElementById('hotPotatoProgress');
-	const judgeControls = document.getElementById('hotPotatoJudgeControls');
 
 	if (hotPotatoPool.length === 0 && hotPotatoState === 'idle') {
 		if (progress)
@@ -265,10 +258,6 @@ function renderHotPotatoScreen() {
 	}
 	renderHotPotatoQuestion();
 	renderHotPotatoPassPanel();
-
-	if (judgeControls) {
-		judgeControls.style.display = hotPotatoState === 'question' ? '' : 'none';
-	}
 }
 
 function openHotPotatoModal() {

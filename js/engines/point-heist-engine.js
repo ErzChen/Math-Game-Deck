@@ -37,6 +37,15 @@ function newHeist() {
 	autosave();
 }
 
+function prevPointHeistProblem() {
+	pointHeistPool = customPointHeist;
+	if (pointHeistPool.length === 0) return;
+	pointHeistIndex = pointHeistIndex > 0 ? pointHeistIndex - 1 : pointHeistPool.length - 1;
+	pointHeistResults = {};
+	pointHeistActioned = {};
+	renderPointHeistProblem();
+}
+
 function nextPointHeistProblem() {
 	pointHeistIndex++;
 	pointHeistResults = {};
@@ -54,27 +63,25 @@ function resetPointHeistTimer() {
 
 function renderPointHeistProblem() {
 	pointHeistPool = customPointHeist;
-	const box = document.getElementById('pointHeistAnswerBox');
-	if (box) box.classList.remove('show');
+	hideAnswerBox('pointHeist');
 
 	if (pointHeistPool.length === 0) {
-		document.getElementById('pointHeistProgress').textContent =
-			'No questions yet';
-		document.getElementById('pointHeistQuestionText').textContent =
-			'No questions yet, use "Manage Questions" above to add some.';
-		setPromptImage('pointHeistQuestionImg', null);
-		pointHeistTimer.stop();
+		renderEmptyPoolState(
+			'pointHeist',
+			'No questions yet, use "Manage Questions" above to add some.',
+			pointHeistTimer,
+		);
 		renderPointHeistRoster();
 		renderVaultDisplay();
 		return;
 	}
 
 	const problem = pointHeistPool[pointHeistIndex % pointHeistPool.length];
-	document.getElementById('pointHeistProgress').textContent =
-		`Round ${(pointHeistIndex % pointHeistPool.length) + 1} of ${pointHeistPool.length}`;
-	document.getElementById('pointHeistQuestionText').textContent = problem.q;
-	setPromptImage('pointHeistQuestionImg', problem.qImg);
-	typeset(document.getElementById('pointHeistQuestionText'));
+	renderQuestionText(
+		'pointHeist',
+		problem,
+		`Round ${(pointHeistIndex % pointHeistPool.length) + 1} of ${pointHeistPool.length}`,
+	);
 	pointHeistTimer.setDuration(problem.time || defaultPointHeistSeconds);
 	renderPointHeistRoster();
 	renderVaultDisplay();
@@ -84,13 +91,7 @@ function revealPointHeistAnswer() {
 	if (pointHeistPool.length === 0) return;
 	pointHeistTimer.stop();
 	const problem = pointHeistPool[pointHeistIndex % pointHeistPool.length];
-	document.getElementById('pointHeistAnswerFigure').textContent = problem.a;
-	setPromptImage('pointHeistAnswerImg', problem.aImg);
-	document.getElementById('pointHeistAnswerReasoning').textContent =
-		problem.e || '';
-	const box = document.getElementById('pointHeistAnswerBox');
-	box.classList.add('show');
-	typeset(box);
+	revealAnswer('pointHeist', problem);
 }
 
 function renderVaultDisplay() {
@@ -193,7 +194,7 @@ function renderPointHeistTeamRow(team) {
 					${
 						otherTeams.length
 							? `
-								<select class="target-select mono" id="pointHeistRaidSelect-${team.id}">
+								<select class="target-select" id="pointHeistRaidSelect-${team.id}">
 									${raidOptions}
 								</select>
 								<button
@@ -230,14 +231,16 @@ function renderPointHeistTeamRow(team) {
 					style="border-color: ${team.color};"
 					onclick="markPointHeistResult('${team.id}', 'wrong')"
 				>
-					${iconCross()}Wrong
+					<i class="fa-solid fa-xmark"></i>
+					Wrong
 				</button>
 				<button
 					class="btn small award-btn"
 					style="border-color: ${team.color};"
 					onclick="markPointHeistResult('${team.id}', 'correct')"
 				>
-					${iconCheck()}Correct
+					<i class="fa-solid fa-check"></i>
+					Correct
 				</button>
 			</div>
 		</div>

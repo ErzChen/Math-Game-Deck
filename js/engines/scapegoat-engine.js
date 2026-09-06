@@ -32,6 +32,16 @@ function resetScapegoat() {
 	renderScapegoatProblem();
 }
 
+function prevScapegoatProblem() {
+	scapegoatPool = customScapegoat;
+	if (scapegoatPool.length === 0) return;
+	scapegoatIndex = scapegoatIndex > 0 ? scapegoatIndex - 1 : scapegoatPool.length - 1;
+	scapegoatNominations = {};
+	scapegoatResults = {};
+	scapegoatResolved = false;
+	renderScapegoatProblem();
+}
+
 function nextScapegoatProblem() {
 	scapegoatIndex++;
 	scapegoatNominations = {};
@@ -50,25 +60,24 @@ function resetScapegoatTimer() {
 
 function renderScapegoatProblem() {
 	scapegoatPool = customScapegoat;
-	const box = document.getElementById('scapegoatAnswerBox');
-	if (box) box.classList.remove('show');
+	hideAnswerBox('scapegoat');
 
 	if (scapegoatPool.length === 0) {
-		document.getElementById('scapegoatProgress').textContent = 'No questions yet';
-		document.getElementById('scapegoatQuestionText').textContent =
-			'No questions yet, use "Manage Questions" above to add some.';
-		setPromptImage('scapegoatQuestionImg', null);
-		scapegoatTimer.stop();
+		renderEmptyPoolState(
+			'scapegoat',
+			'No questions yet, use "Manage Questions" above to add some.',
+			scapegoatTimer,
+		);
 		renderScapegoatRoster();
 		return;
 	}
 
 	const problem = scapegoatPool[scapegoatIndex % scapegoatPool.length];
-	document.getElementById('scapegoatProgress').textContent =
-		`Round ${(scapegoatIndex % scapegoatPool.length) + 1} of ${scapegoatPool.length}`;
-	document.getElementById('scapegoatQuestionText').textContent = problem.q;
-	setPromptImage('scapegoatQuestionImg', problem.qImg);
-	typeset(document.getElementById('scapegoatQuestionText'));
+	renderQuestionText(
+		'scapegoat',
+		problem,
+		`Round ${(scapegoatIndex % scapegoatPool.length) + 1} of ${scapegoatPool.length}`,
+	);
 	scapegoatTimer.setDuration(problem.time || defaultScapegoatSeconds);
 	renderScapegoatRoster();
 }
@@ -77,13 +86,7 @@ function revealScapegoatAnswer() {
 	if (scapegoatPool.length === 0) return;
 	scapegoatTimer.stop();
 	const problem = scapegoatPool[scapegoatIndex % scapegoatPool.length];
-	document.getElementById('scapegoatAnswerFigure').textContent = problem.a;
-	setPromptImage('scapegoatAnswerImg', problem.aImg);
-	document.getElementById('scapegoatAnswerReasoning').textContent =
-		problem.e || '';
-	const box = document.getElementById('scapegoatAnswerBox');
-	box.classList.add('show');
-	typeset(box);
+	revealAnswer('scapegoat', problem);
 }
 
 function setScapegoatNomination(teamId, targetId) {
@@ -161,7 +164,7 @@ function renderScapegoatTeamRow(team) {
 			<span class="team-name">${escapeHtml(team.name)}</span>
 			<div class="team-btns">
 				<select
-					class="inline-select mono"
+					class="inline-select"
 					onchange="setScapegoatNomination('${team.id}', this.value)"
 					${scapegoatResolved ? 'disabled' : ''}
 				>
@@ -169,20 +172,22 @@ function renderScapegoatTeamRow(team) {
 					${nominationOptions}
 				</select>
 				<button
-					class="btn small award-btn ${result === 'wrong' ? 'wrong-active' : ''}"
+					class="btn small award-btn ${resultActiveClass(result, 'wrong')}"
 					style="border-color: ${team.color};"
 					onclick="markScapegoatResult('${team.id}', 'wrong')"
 					${scapegoatResolved ? 'disabled' : ''}
 				>
-					${iconCross()}Wrong
+					<i class="fa-solid fa-xmark"></i>
+					Wrong
 				</button>
 				<button
-					class="btn small award-btn"
+					class="btn small award-btn ${resultActiveClass(result, 'correct')}"
 					style="border-color: ${team.color};"
 					onclick="markScapegoatResult('${team.id}', 'correct')"
 					${scapegoatResolved ? 'disabled' : ''}
 				>
-					${iconCheck()}Correct
+					<i class="fa-solid fa-check"></i>
+					Correct
 				</button>
 			</div>
 		</div>

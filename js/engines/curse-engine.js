@@ -49,6 +49,17 @@ function resetCurse() {
 	renderCurseScreen();
 }
 
+function prevCurseProblem() {
+	cursePool = customCurse;
+	if (cursePool.length === 0) return;
+	curseIndex = curseIndex > 0 ? curseIndex - 1 : cursePool.length - 1;
+	curseSolvedBy = null;
+	curseStage = 'question';
+	curseDrawnCard = null;
+	curseSkipped = false;
+	renderCurseScreen();
+}
+
 function nextCurseProblem() {
 	activeCurse = pendingCurse;
 	pendingCurse = null;
@@ -134,12 +145,7 @@ function revealCurseAnswer() {
 	if (cursePool.length === 0) return;
 	curseTimer.stop();
 	const problem = cursePool[curseIndex % cursePool.length];
-	document.getElementById('curseAnswerFigure').textContent = problem.a;
-	setPromptImage('curseAnswerImg', problem.aImg);
-	document.getElementById('curseAnswerReasoning').textContent = problem.e || '';
-	const box = document.getElementById('curseAnswerBox');
-	box.classList.add('show');
-	typeset(box);
+	revealAnswer('curse', problem);
 }
 
 function renderCurseTeamPanel() {
@@ -162,7 +168,8 @@ function renderCurseTeamRow(team) {
 			<span class="team-name">${escapeHtml(team.name)} ${cursedTag}</span>
 			<div class="team-btns">
 				<button class="btn small award-btn" style="border-color: ${team.color};" onclick="markCurseCorrect('${team.id}')">
-					${iconCheck()}Correct +1
+					<i class="fa-solid fa-check"></i>
+					Correct +1
 				</button>
 			</div>
 		</div>

@@ -42,6 +42,20 @@ function newChain() {
 	renderChainScreen();
 }
 
+function resetChain() {
+	if (chainPool.length === 0) return;
+	linkIndex = 0;
+	renderChainScreen();
+}
+
+function prevChainLink() {
+	if (chainPool.length === 0) return;
+	if (linkIndex > 0) {
+		linkIndex--;
+		renderChainScreen();
+	}
+}
+
 function nextChainLink() {
 	if (chainPool.length === 0) {
 		newChain();

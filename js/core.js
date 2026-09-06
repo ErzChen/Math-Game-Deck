@@ -16,44 +16,6 @@ function closeModal() {
 	document.getElementById('modalOverlay').classList.remove('open');
 }
 
-function iconCheck() {
-	return `
-		<svg 
-			class="icon" 
-			viewBox="0 0 24 24" 
-			width="14" height="14" 
-			fill="none" 
-			stroke="currentColor" 
-			stroke-width="2.5" 
-			stroke-linecap="round" 
-			stroke-linejoin="round" 
-			style="vertical-align: -2px; margin-right: 4px;"
-		>
-			<path d="M20 6 9 17l-5-5"/>
-		</svg>
-	`;
-}
-
-function iconCross() {
-	return `
-		<svg 
-			class="icon" 
-			viewBox="0 0 24 24" 
-			width="14" 
-			height="14" 
-			fill="none" 
-			stroke="currentColor" 
-			stroke-width="2.5" 
-			stroke-linecap="round" 
-			stroke-linejoin="round" 
-			style="vertical-align: -2px; margin-right: 4px;"
-		>
-			<line x1="18" y1="6" x2="6" y2="18"/>
-			<line x1="6" y1="6" x2="18" y2="18"/>
-		</svg>
-	`;
-}
-
 function escapeAttr(string) {
 	return String(string).replace(/"/g, '&quot;');
 }
@@ -161,14 +123,16 @@ function renderImgUploadField(wrapId, inputId, dataUrl, onChange) {
 			<div class="img-upload-row">
 				<div class="img-preview-wrap">
 				<img src="${norm.src}" alt="" />
-				<button type="button" class="img-remove" title="Remove image">${iconCross()}</button>
+				<button type="button" class="img-remove" title="Remove image">
+					<i class="fa-solid fa-xmark"></i>
+				</button>
 				</div>
 				<div class="img-size-control">
 					<label class="img-size-label">
 						W
 						<input
 							type="number"
-							class="img-size-input mono"
+							class="img-size-input"
 							data-dim="width"
 							min="10"
 							max="4000"
@@ -181,7 +145,7 @@ function renderImgUploadField(wrapId, inputId, dataUrl, onChange) {
 						H
 						<input
 							type="number"
-							class="img-size-input mono"
+							class="img-size-input"
 							data-dim="height"
 							min="10"
 							max="4000"
@@ -366,6 +330,60 @@ function createCountdownTimer({
 	return timer;
 }
 
+// ---------- Shared question/answer rendering ----------
+// Most game screens follow the same id convention:
+// {prefix}Progress, {prefix}QuestionText, {prefix}QuestionImg,
+// {prefix}AnswerFigure, {prefix}AnswerImg, {prefix}AnswerReasoning, {prefix}AnswerBox
+// These helpers centralize that pattern so each engine doesn't repeat it.
+
+function renderQuestionText(prefix, problem, progressText) {
+	if (progressText !== undefined) {
+		const progressEl = document.getElementById(prefix + 'Progress');
+		if (progressEl) progressEl.textContent = progressText;
+	}
+	const qEl = document.getElementById(prefix + 'QuestionText');
+	if (qEl) {
+		qEl.textContent = problem.q;
+		typeset(qEl);
+	}
+	setPromptImage(prefix + 'QuestionImg', problem.qImg);
+}
+
+function revealAnswer(prefix, problem) {
+	const figureEl = document.getElementById(prefix + 'AnswerFigure');
+	if (figureEl) figureEl.textContent = problem.a;
+	setPromptImage(prefix + 'AnswerImg', problem.aImg);
+	const reasoningEl = document.getElementById(prefix + 'AnswerReasoning');
+	if (reasoningEl) reasoningEl.textContent = problem.e || '';
+	const box = document.getElementById(prefix + 'AnswerBox');
+	if (box) {
+		box.classList.add('show');
+		typeset(box);
+	}
+}
+
+function hideAnswerBox(prefix) {
+	const box = document.getElementById(prefix + 'AnswerBox');
+	if (box) box.classList.remove('show');
+}
+
+function renderEmptyPoolState(prefix, message, timer) {
+	const progressEl = document.getElementById(prefix + 'Progress');
+	if (progressEl) progressEl.textContent = 'No questions yet';
+	const qEl = document.getElementById(prefix + 'QuestionText');
+	if (qEl) qEl.textContent = message;
+	setPromptImage(prefix + 'QuestionImg', null);
+	if (timer) timer.stop();
+}
+
+// ---------- Shared Correct/Wrong active-button styling ----------
+// Used by screens where a host toggles a team's result and both buttons
+// stay visible, so whichever one is active should look active.
+function resultActiveClass(mark, type) {
+	if (mark !== type) return '';
+	return type === 'wrong' ? 'wrong-active' : 'correct-active';
+}
+
 function renderTeamAwardButtons(containerId, teamsList, buttonsFor) {
 	const element = document.getElementById(containerId);
 	if (!element) return;
@@ -518,44 +536,14 @@ function buildManageModalBody() {
 		<div class="showbar-title" style="margin-top: 0;">Save &amp; Load</div>
 		<div style="display: flex; gap: 8px; margin-bottom: 6px;">
 		<button class="btn small" onclick="exportData()">
-			<svg 
-				class="icon" 
-				viewBox="0 0 24 24" 
-				width="14" 
-				height="14" 
-				fill="none" 
-				stroke="currentColor" 
-				stroke-width="2" 
-				stroke-linecap="round" 
-				stroke-linejoin="round" 
-				style="vertical-align: -2px; margin-right: 4px;"
-			>
-				<path d="M12 3v12"/>
-				<path d="M7 10l5 5 5-5"/>
-				<path d="M5 21h14"/>
-			</svg>
+			<i class="fa-solid fa-file-export"></i>
 			Export Data
 		</button>
 		<button 
 			class="btn small ghost" 
 			onclick="document.getElementById('importFileInput').click()"
 		>
-			<svg 
-				class="icon" 
-				viewBox="0 0 24 24" 
-				width="14" 
-				height="14" 
-				fill="none" 
-				stroke="currentColor" 
-				stroke-width="2" 
-				stroke-linecap="round" 
-				stroke-linejoin="round" 
-				style="vertical-align: -2px; margin-right: 4px;"
-			>
-				<path d="M12 21V9"/>
-				<path d="M7 14l5-5 5 5"/>
-				<path d="M5 3h14"/>
-			</svg>
+			<i class="fa-solid fa-file-import"></i>
 			Import Data
 		</button>
 		</div>
@@ -591,7 +579,7 @@ function renderShowbarTeams() {
 			(team) => `
 				<div class="showbar-team" style="--team-color: ${team.color};">
 				<div class="showbar-name">${escapeHtml(team.name)}</div>
-				<div class="showbar-score mono" data-team-score="${team.id}">${team.score}</div>
+				<div class="showbar-score" data-team-score="${team.id}">${team.score}</div>
 				</div>
 			`,
 		)
@@ -608,7 +596,7 @@ function renderManageTeamsList() {
 				<div class="team" style="border-left-color: ${team.color};">
 				<input class="team-name" value="${escapeAttr(team.name)}" onchange="renameTeam('${team.id}', this.value)" />
 				<div class="score-row">
-					<div class="score-val mono" data-team-score="${team.id}" style="color: ${team.color};">${team.score}</div>
+					<div class="score-val" data-team-score="${team.id}" style="color: ${team.color};">${team.score}</div>
 					<div class="score-btns">
 					<button class="btn small" onclick="addScore('${team.id}', 1, event)">+1</button>
 					<button class="btn small" onclick="addScore('${team.id}', -1, event)">−1</button>

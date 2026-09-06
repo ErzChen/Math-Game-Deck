@@ -86,7 +86,7 @@ function renderSprintKeyVisibility() {
 	if (btn) {
 		btn.textContent = sprintKeyRevealed
 			? 'Hide Answer'
-			: 'Show Answer (host only)';
+			: 'Reveal Answer';
 	}
 }
 
@@ -110,6 +110,16 @@ function toggleSprintPause() {
 		if (btn) btn.textContent = 'Pause';
 		sprintTimerInterval = setInterval(tickSprintTimer, 1000);
 	}
+}
+
+function resetSprintTimer() {
+	if (sprintState !== 'running') return;
+	clearInterval(sprintTimerInterval);
+	sprintTimerSeconds = 180;
+	sprintTimerInterval = setInterval(tickSprintTimer, 1000);
+	const btn = document.getElementById('sprintPauseToggle');
+	if (btn) btn.textContent = 'Pause';
+	renderSprintTimer();
 }
 
 function endSprint() {
@@ -179,12 +189,12 @@ function renderSprintProblem() {
 	const lap = sprintIndex % sprintPool.length;
 	const problem = sprintPool[sprintOrder[lap]];
 	document.getElementById('sprintProgress').textContent =
-		`Question ${lap + 1} of ${sprintPool.length} · ${sprintCorrectCount} correct so far`;
+		`Question ${lap + 1} of ${sprintPool.length} · ${sprintCorrectCount} correct`;
 	questionEl.textContent = problem.q;
 	setPromptImage('sprintQuestionImg', problem.qImg);
 	typeset(questionEl);
-	const keyEl = document.getElementById('sprintAnswerKey');
-	if (keyEl) keyEl.textContent = problem.a;
+	const figureEl = document.getElementById('sprintAnswerFigure');
+	if (figureEl) figureEl.textContent = problem.a;
 	sprintKeyRevealed = false;
 	renderSprintKeyVisibility();
 }
@@ -199,6 +209,7 @@ function renderSprintScreen() {
 	const box = document.getElementById('sprintAnswerBox');
 	const controls = document.getElementById('sprintActiveControls');
 	const summary = document.getElementById('sprintSummary');
+	const questionWrap = document.getElementById('sprintQuestionWrap');
 	const questionEl = document.getElementById('sprintQuestionText');
 	const progress = document.getElementById('sprintProgress');
 
@@ -210,6 +221,7 @@ function renderSprintScreen() {
 		if (box) box.classList.remove('show');
 		if (controls) controls.style.display = 'none';
 		if (summary) summary.style.display = 'none';
+		if (questionWrap) questionWrap.style.display = 'none';
 		if (questionEl) questionEl.textContent = '';
 		setPromptImage('sprintQuestionImg', null);
 		if (progress) progress.textContent = 'Pick a team and hit Start Sprint';
@@ -226,6 +238,7 @@ function renderSprintScreen() {
 		if (revealBtn) revealBtn.style.display = '';
 		if (controls) controls.style.display = '';
 		if (summary) summary.style.display = 'none';
+		if (questionWrap) questionWrap.style.display = '';
 		renderSprintProblem();
 		return;
 	}
@@ -237,6 +250,7 @@ function renderSprintScreen() {
 	if (box) box.classList.remove('show');
 	if (controls) controls.style.display = 'none';
 	if (questionEl) questionEl.textContent = '';
+	if (questionWrap) questionWrap.style.display = 'none';
 	setPromptImage('sprintQuestionImg', null);
 	if (summary) {
 		summary.style.display = '';

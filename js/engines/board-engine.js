@@ -47,18 +47,13 @@ function renderRelayGrid() {
 function renderRelayCellHtml(i, val) {
 	const key = `${i}-${val}`;
 	const used = !!relayUsed[key];
-	const checkIcon = `
-		<svg class="icon" viewBox="0 0 24 24" width="16" height="16" fill="none"
-			stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-			<path d="M20 6 9 17l-5-5"/>
-		</svg>
-	`;
+	
 	return `
 		<div
 			class="relay-cell${used ? ' used' : ''}"
 			onclick="${used ? '' : `openRelayCell(${i},${val})`}"
 		>
-			${used ? checkIcon : '$' + val}
+			${used ? '<i class="fa-solid fa-check"></i>' : '$' + val}
 		</div>
 	`;
 }
@@ -114,7 +109,7 @@ function openRelayModal() {
 		.map(
 			(category, i) => `
 				<div class="relay-edit-cat">
-					<span class="mono" style="color: var(--chalk-muted); font-size: 12px;">Cat ${i + 1}</span>
+					<span style="color: var(--chalk-muted); font-size: 12px; font-family: var(--font-mono);">Cat ${i + 1}</span>
 					<input
 						type="text"
 						value="${escapeAttr(category)}"

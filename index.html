@@ -24,9 +24,12 @@
 		/>
 		<link rel="manifest" href="./favicon/site.webmanifest" />
 
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap"
+			rel="stylesheet"
+		/>
 
 		<link
 			rel="stylesheet"
@@ -41,35 +44,30 @@
 			defer
 			src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
 		></script>
-    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+		/>
 	</head>
 	<body>
 		<div id="stage">
 			<section class="screen active" id="screenHome">
-				<div class="marquee">
-					<div class="marquee-lights" aria-hidden="true"></div>
-					<div class="marquee-title">
-						<span class="marquee-star">
-							<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-								<path
-									d="M12 2l2.9 6.9 7.4.6-5.6 4.9 1.7 7.3L12 17.9 5.6 21.7l1.7-7.3-5.6-4.9 7.4-.6z"
-								/>
-							</svg>
+				<div class="title-bar">
+					<div class="title-lights" aria-hidden="true"></div>
+					<div class="title">
+						<span class="star">
+							<i class="fa-solid fa-star"></i>
 						</span>
 						MATH CLUB GAME DECK
-						<span class="marquee-star">
-							<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-								<path
-									d="M12 2l2.9 6.9 7.4.6-5.6 4.9 1.7 7.3L12 17.9 5.6 21.7l1.7-7.3-5.6-4.9 7.4-.6z"
-								/>
-							</svg>
+						<span class="star">
+							<i class="fa-solid fa-star"></i>
 						</span>
 					</div>
-					<div class="marquee-lights" aria-hidden="true"></div>
+					<div class="title-lights" aria-hidden="true"></div>
 				</div>
 				<div class="arcade-grid">
 					<div class="arcade-tile tile-teal" onclick="goTo('Ladder')">
-						<div class="arcade-num mono">01</div>
+						<div class="arcade-num">01</div>
 						<h3>Contest Ladder</h3>
 						<p>
 							Contest-style problems across four escalating tiers, harder tiers are
@@ -78,7 +76,7 @@
 						<i class="fa-solid fa-trophy"></i>
 					</div>
 					<div class="arcade-tile tile-yellow" onclick="goTo('Duel')">
-						<div class="arcade-num mono">02</div>
+						<div class="arcade-num">02</div>
 						<h3>Countdown Duel</h3>
 						<p>
 							Head-to-head showdowns. Two teams, one problem, first correct answer wins
@@ -87,16 +85,16 @@
 						<i class="fa-solid fa-burst"></i>
 					</div>
 					<div class="arcade-tile tile-pink" onclick="goTo('ChainRelay')">
-						<div class="arcade-num mono">03</div>
+						<div class="arcade-num">03</div>
 						<h3>Chain Relay</h3>
 						<p>
 							Contest-style relay chains: each answer becomes T, a variable in the
 							next, harder link.
 						</p>
-						<i class="fa-solid fa-link" style="transform: rotate(90deg);"></i>
+						<i class="fa-solid fa-link" style="transform: rotate(90deg)"></i>
 					</div>
 					<div class="arcade-tile tile-purple" onclick="goTo('Relay')">
-						<div class="arcade-num mono">04</div>
+						<div class="arcade-num">04</div>
 						<h3>Speed Relay Board</h3>
 						<p>
 							A Jeopardy-style board: categories × point values. Write your own
@@ -105,7 +103,7 @@
 						<i class="fa-solid fa-chalkboard"></i>
 					</div>
 					<div class="arcade-tile tile-teal" onclick="goTo('Elimination')">
-						<div class="arcade-num mono">05</div>
+						<div class="arcade-num">05</div>
 						<h3>Elimination Gauntlet</h3>
 						<p>
 							Every team answers at once, get the wrong answer, and you're out. Last
@@ -114,7 +112,7 @@
 						<i class="fa-solid fa-hand-fist"></i>
 					</div>
 					<div class="arcade-tile tile-yellow" onclick="goTo('Estimation')">
-						<div class="arcade-num mono">06</div>
+						<div class="arcade-num">06</div>
 						<h3>Estimation Auction</h3>
 						<p>
 							No exact solving, just your best guess. Closest team scores, exact
@@ -123,7 +121,7 @@
 						<i class="fa-regular fa-lightbulb"></i>
 					</div>
 					<div class="arcade-tile tile-pink" onclick="goTo('HandsUp')">
-						<div class="arcade-num mono">07</div>
+						<div class="arcade-num">07</div>
 						<h3>Hands-Up Steal</h3>
 						<p>
 							One question, whole room. First hand up gets it, miss it and it's open
@@ -132,7 +130,7 @@
 						<i class="fa-regular fa-hand"></i>
 					</div>
 					<div class="arcade-tile tile-purple" onclick="goTo('Sprint')">
-						<div class="arcade-num mono">08</div>
+						<div class="arcade-num">08</div>
 						<h3>Speed Sprint</h3>
 						<p>
 							One team, one 3-minute clock. Blast through as many problems as you can
@@ -141,7 +139,7 @@
 						<i class="fa-solid fa-hourglass-start"></i>
 					</div>
 					<div class="arcade-tile tile-teal" onclick="goTo('Pyramid')">
-						<div class="arcade-num mono">09</div>
+						<div class="arcade-num">09</div>
 						<h3>Pyramid Race</h3>
 						<p>
 							Same pyramid, one timer, teams race to the top, partial credit is awarded
@@ -150,7 +148,7 @@
 						<i class="fa-solid fa-cubes-stacked"></i>
 					</div>
 					<div class="arcade-tile tile-yellow" onclick="goTo('Streak')">
-						<div class="arcade-num mono">10</div>
+						<div class="arcade-num">10</div>
 						<h3>Streak Vault</h3>
 						<p>
 							One team in the spotlight, points double each round, bank it or push your
@@ -159,7 +157,7 @@
 						<i class="fa-solid fa-fire"></i>
 					</div>
 					<div class="arcade-tile tile-pink" onclick="goTo('SwapMarket')">
-						<div class="arcade-num mono">11</div>
+						<div class="arcade-num">11</div>
 						<h3>Swap Market</h3>
 						<p>
 							Teams bid swap tokens for the one shared easier backup problem, highest
@@ -168,7 +166,7 @@
 						<i class="fa-solid fa-arrows-rotate"></i>
 					</div>
 					<div class="arcade-tile tile-purple" onclick="goTo('Wager')">
-						<div class="arcade-num mono">12</div>
+						<div class="arcade-num">12</div>
 						<h3>All-In Wager</h3>
 						<p>
 							Teams secretly wager 1–5 points on their confidence, right answers pay
@@ -177,7 +175,7 @@
 						<i class="fa-solid fa-dice"></i>
 					</div>
 					<div class="arcade-tile tile-teal" onclick="goTo('Curse')">
-						<div class="arcade-num mono">13</div>
+						<div class="arcade-num">13</div>
 						<h3>Curse Card</h3>
 						<p>
 							Answer first, then secretly saddle another team with a curse for their
@@ -186,7 +184,7 @@
 						<i class="fa-solid fa-skull"></i>
 					</div>
 					<div class="arcade-tile tile-yellow" onclick="goTo('Scapegoat')">
-						<div class="arcade-num mono">14</div>
+						<div class="arcade-num">14</div>
 						<h3>Scapegoat</h3>
 						<p>
 							Every team secretly names another team as their scapegoat each round. If
@@ -195,7 +193,7 @@
 						<i class="fa-regular fa-hand-point-up"></i>
 					</div>
 					<div class="arcade-tile tile-pink" onclick="goTo('PointHeist')">
-						<div class="arcade-num mono">15</div>
+						<div class="arcade-num">15</div>
 						<h3>Point Heist</h3>
 						<p>
 							A shared vault sits center stage. Correct answers let you draw from it or
@@ -204,7 +202,7 @@
 						<i class="fa-solid fa-vault"></i>
 					</div>
 					<div class="arcade-tile tile-purple" onclick="goTo('HotPotato')">
-						<div class="arcade-num mono">16</div>
+						<div class="arcade-num">16</div>
 						<h3>Hot Potato</h3>
 						<p>
 							A single potato grows in value as it's passed around. Answer right to
@@ -213,7 +211,7 @@
 						<i class="fa-solid fa-bomb"></i>
 					</div>
 					<div class="arcade-tile tile-teal" onclick="goTo('Bounty')">
-						<div class="arcade-num mono">17</div>
+						<div class="arcade-num">17</div>
 						<h3>Bounty</h3>
 						<p>
 							The current leader gets marked. Answer first to bank your own points, or
@@ -222,16 +220,19 @@
 						<i class="fa-solid fa-crosshairs"></i>
 					</div>
 					<div class="arcade-tile tile-yellow" onclick="goTo('Sequence')">
-						<div class="arcade-num mono">18</div>
+						<div class="arcade-num">18</div>
 						<h3>Sequence Detective</h3>
 						<p>
 							A sequence with the ending hidden. Teams have to spot the pattern and
 							guess what comes next.
 						</p>
-						<i class="fa-solid fa-magnifying-glass" style="transform: rotate(0deg);"></i>
+						<i
+							class="fa-solid fa-magnifying-glass"
+							style="transform: rotate(0deg)"
+						></i>
 					</div>
 					<div class="arcade-tile tile-pink" onclick="goTo('Siege')">
-						<div class="arcade-num mono">19</div>
+						<div class="arcade-num">19</div>
 						<h3>Siege</h3>
 						<p>
 							Every correct answer forks between Fortress and Army. Fortify to score,
@@ -240,7 +241,7 @@
 						<i class="fa-solid fa-crown"></i>
 					</div>
 					<div class="arcade-tile tile-purple" onclick="goTo('Pool')">
-						<div class="arcade-num mono">20</div>
+						<div class="arcade-num">20</div>
 						<h3>The Pool</h3>
 						<p>
 							Every team seals a prediction for the final standings up front. Periodic
@@ -263,40 +264,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('ladder')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openLadderModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -310,8 +282,8 @@
 						id="ladderQuestionImg"
 						alt="Question figure"
 					/>
-					<div class="timer mono" id="ladderTimerDisplay"></div>
-					<div class="btn-wrap">
+					<div class="timer" id="ladderTimerDisplay"></div>
+					<div class="row-actions">
 						<button class="btn" id="ladderTimerToggle" onclick="toggleLadderTimer()">
 							Start
 						</button>
@@ -326,42 +298,15 @@
 						<img class="prompt-img hidden" id="ladderAnswerImg" alt="Answer figure" />
 						<div class="reasoning" id="ladderAnswerReasoning"></div>
 					</div>
-					<div class="btn-wrap">
-						<button class="btn ghost" onclick="nextLadderProblem()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M5 12h14" />
-								<path d="M13 6l6 6-6 6" />
-							</svg>
-							Next Problem
+					<div class="row-actions">
+						<button class="btn ghost" onclick="prevLadderProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
 						</button>
 						<button class="btn ghost" onclick="resetLadder()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M3 12a9 9 0 1 0 3-6.7" />
-								<path d="M3 4v5h5" />
-							</svg>
-							Restart Ladder
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
+						<button class="btn ghost" onclick="nextLadderProblem()">
+							<i class="fa-solid fa-arrow-right"></i>
 						</button>
 					</div>
 					<div class="award-row">
@@ -386,40 +331,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('duel')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openDuelModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -440,26 +356,14 @@
 						<div class="reasoning" id="duelAnswerReasoning"></div>
 					</div>
 					<div class="row-actions">
+						<button class="btn ghost" onclick="prevDuelProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
+						</button>
+						<button class="btn ghost" onclick="resetDuel()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
 						<button class="btn ghost" onclick="nextDuelProblem()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M16 3h5v5" />
-								<path d="M4 20 21 3" />
-								<path d="M21 16v5h-5" />
-								<path d="M15 15l6 6" />
-								<path d="M4 4l5 5" />
-							</svg>
-							Next Problem
+							<i class="fa-solid fa-arrow-right"></i>
 						</button>
 					</div>
 					<div class="award-row">
@@ -484,40 +388,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('chainrelay')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openChainModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Chains
 						</button>
 					</div>
@@ -527,52 +402,28 @@
 					<div class="chain-link-dots" id="chainLinkDots"></div>
 					<div id="chainTBadgeWrap"></div>
 					<div class="question" id="chainQuestionText"></div>
-					<button class="btn primary" onclick="revealChainAnswer()">
-						Reveal Answer (sets T)
-					</button>
+					<div class="row-actions">
+						<button class="btn primary" onclick="revealChainAnswer()">
+							Reveal Answer (sets T)
+						</button>
+						<button class="btn ghost" onclick="newChain()">
+							<i class="fa-solid fa-shuffle"></i>
+							New Chain
+						</button>
+					</div>
 					<div class="answer-box" id="chainAnswerBox">
 						<div class="figure" id="chainAnswerFigure"></div>
 						<div class="reasoning" id="chainAnswerReasoning"></div>
 					</div>
 					<div class="row-actions">
-						<button class="btn ghost" onclick="nextChainLink()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M5 12h14" />
-								<path d="M13 6l6 6-6 6" />
-							</svg>
-							Next Link
+						<button class="btn ghost" onclick="prevChainLink()">
+							<i class="fa-solid fa-arrow-left"></i>
 						</button>
-						<button class="btn ghost" onclick="newChain()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M16 3h5v5" />
-								<path d="M4 20 21 3" />
-								<path d="M21 16v5h-5" />
-								<path d="M15 15l6 6" />
-								<path d="M4 4l5 5" />
-							</svg>
-							New Chain
+						<button class="btn ghost" onclick="resetChain()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
+						<button class="btn ghost" onclick="nextChainLink()">
+							<i class="fa-solid fa-arrow-right"></i>
 						</button>
 					</div>
 					<div class="award-row">
@@ -597,59 +448,15 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('relay')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openRelayModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Edit Board
 						</button>
 						<button class="btn ghost" onclick="resetRelayBoard()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M3 12a9 9 0 1 0 3-6.7" />
-								<path d="M3 4v5h5" />
-							</svg>
-							Reset Board
+							<i class="fa-solid fa-arrow-rotate-left"></i>
 						</button>
 					</div>
 				</div>
@@ -677,21 +484,7 @@
 					</div>
 					<div class="row-actions">
 						<button class="btn ghost" onclick="closeRelayQuestion()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M19 12H5" />
-								<path d="M11 18l-6-6 6-6" />
-							</svg>
+							<i class="fa-solid fa-arrow-left"></i>
 							Back to Board
 						</button>
 					</div>
@@ -710,40 +503,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('elimination')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openEliminationModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -761,41 +525,14 @@
 						<div class="reasoning" id="eliminationAnswerReasoning"></div>
 					</div>
 					<div class="row-actions">
-						<button class="btn ghost" onclick="nextEliminationRound()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M5 12h14" />
-								<path d="M13 6l6 6-6 6" />
-							</svg>
-							Next Round
+						<button class="btn ghost" onclick="prevEliminationRound()">
+							<i class="fa-solid fa-arrow-left"></i>
 						</button>
 						<button class="btn ghost" onclick="resetElimination()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M3 12a9 9 0 1 0 3-6.7" />
-								<path d="M3 4v5h5" />
-							</svg>
-							New Gauntlet
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
+						<button class="btn ghost" onclick="nextEliminationRound()">
+							<i class="fa-solid fa-arrow-right"></i>
 						</button>
 					</div>
 					<div class="award-row">
@@ -817,40 +554,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('estimation')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openEstimationModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -858,7 +566,7 @@
 				<div class="panel flex middle column">
 					<div class="progress-line" id="estimationProgress"></div>
 					<div class="question" id="estimationQuestionText"></div>
-					<div class="timer mono" id="estimationTimerDisplay"></div>
+					<div class="timer" id="estimationTimerDisplay"></div>
 					<div class="timer-wrap">
 						<button
 							class="btn"
@@ -877,23 +585,14 @@
 						<div class="reasoning" id="estimationAnswerReasoning"></div>
 					</div>
 					<div class="row-actions">
+						<button class="btn ghost" onclick="prevEstimationProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
+						</button>
+						<button class="btn ghost" onclick="resetEstimation()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
 						<button class="btn ghost" onclick="nextEstimationProblem()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M5 12h14" />
-								<path d="M13 6l6 6-6 6" />
-							</svg>
-							Next Problem
+							<i class="fa-solid fa-arrow-right"></i>
 						</button>
 					</div>
 					<div class="award-row">
@@ -915,40 +614,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('handsup')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openHandsUpModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -964,23 +634,14 @@
 						<div class="reasoning" id="handsUpAnswerReasoning"></div>
 					</div>
 					<div class="row-actions">
+						<button class="btn ghost" onclick="prevHandsUpProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
+						</button>
+						<button class="btn ghost" onclick="resetHandsUp()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
 						<button class="btn ghost" onclick="nextHandsUpProblem()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M5 12h14" />
-								<path d="M13 6l6 6-6 6" />
-							</svg>
-							Next Problem
+							<i class="fa-solid fa-arrow-right"></i>
 						</button>
 					</div>
 					<div class="award-row">
@@ -1002,40 +663,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('sprint')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openSprintModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -1052,53 +684,42 @@
 							id="sprintQuestionImg"
 							alt="Question figure"
 						/>
-						<div class="sprint-key-wrap">
+						<div class="timer" id="sprintTimerDisplay">03:00</div>
+						<div class="row-actions">
 							<button
-								class="btn small ghost"
+								class="btn"
+								id="sprintPauseToggle"
+								style="display: none"
+								onclick="toggleSprintPause()"
+							>
+								Pause
+							</button>
+							<button
+								class="btn primary"
 								id="sprintKeyToggle"
 								onclick="toggleSprintKey()"
 							>
-								Show Answer (host only)
+								Reveal Answer
 							</button>
-							<div
-								class="progress-line mono sprint-answer-key"
-								id="sprintAnswerKey"
-							></div>
+							<button class="btn ghost" onclick="resetSprintTimer()">Reset</button>
+						</div>
+						<div class="answer-box" id="sprintAnswerKey">
+							<div class="figure" id="sprintAnswerFigure"></div>
 						</div>
 					</div>
-					<div class="timer-wrap">
-						<div class="timer mono" id="sprintTimerDisplay">03:00</div>
-						<button class="btn primary" id="sprintStartBtn" onclick="startSprint()">
-							Start Sprint
-						</button>
-						<button
-							class="btn"
-							id="sprintPauseToggle"
-							style="display: none"
-							onclick="toggleSprintPause()"
-						>
-							Pause
-						</button>
-					</div>
+					<button class="btn primary" style="margin-top: 8px;" id="sprintStartBtn" onclick="startSprint()">
+						Start Sprint
+					</button>
+					
 					<div class="row-actions" id="sprintActiveControls" style="display: none">
 						<button class="btn primary" onclick="markSprintCorrect()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2.5"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M20 6 9 17l-5-5" />
-							</svg>
+							<i class="fa-solid fa-check"></i>
 							Correct
 						</button>
 						<button class="btn ghost" onclick="markSprintSkip()">Skip</button>
+						<button class="btn ghost" id="sprintResetBtn" style="display: none;" onclick="newSprint()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
 					</div>
 					<div class="award-row" id="sprintSummary" style="display: none"></div>
 				</div>
@@ -1116,40 +737,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('pyramid')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openPyramidModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -1157,10 +749,11 @@
 				<div class="panel flex middle column">
 					<div class="pyramid-roster" id="pyramidBoard"></div>
 					<div class="progress-line" id="pyramidProgress"></div>
-					<div class="timer-wrap" style="margin: 0;">
+					<div class="timer-wrap" style="margin: 0">
 						<button
 							class="btn primary"
 							id="pyramidStartBtn"
+							style="margin-top: 8px"
 							onclick="startPyramidRound()"
 						>
 							Start Round
@@ -1168,7 +761,7 @@
 						<button
 							class="btn ghost"
 							id="pyramidEndBtn"
-							style="display: none"
+							style="display: none; margin-top: 8px"
 							onclick="endPyramidRound()"
 						>
 							End Round
@@ -1190,40 +783,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('streak')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openStreakModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Streak Set
 						</button>
 					</div>
@@ -1242,16 +806,17 @@
 					<div class="progress-line" id="streakProgress"></div>
 
 					<div id="streakQuestionWrap" style="display: none">
+						<div class="progress-line" id="streakQuestionProgress"></div>
 						<span class="tier-badge" id="streakLevelBadge"></span>
-						<div class="vault-total mono" id="streakVaultTotal"></div>
+						<div class="vault-total" id="streakVaultTotal"></div>
 						<div class="question" id="streakQuestionText"></div>
 						<img
 							class="prompt-img hidden"
 							id="streakQuestionImg"
 							alt="Question figure"
 						/>
-						<div class="timer mono" id="streakTimerDisplay"></div>
-						<div class="btn-wrap" style="justify-content: center">
+						<div class="timer" id="streakTimerDisplay"></div>
+						<div class="row-actions" style="justify-content: center">
 							<button class="btn" id="streakTimerToggle" onclick="toggleStreakTimer()">
 								Start
 							</button>
@@ -1269,47 +834,21 @@
 							/>
 							<div class="reasoning" id="streakAnswerReasoning"></div>
 						</div>
-						<div class="row-actions" id="streakJudgeControls" style="display: none">
+						<div class="row-actions">
 							<button class="btn primary" onclick="markStreakCorrect()">
-								<svg
-									class="icon"
-									viewBox="0 0 24 24"
-									width="14"
-									height="14"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2.5"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									style="vertical-align: -2px; margin-right: 4px"
-								>
-									<path d="M20 6 9 17l-5-5" />
-								</svg>
+								<i class="fa-solid fa-check"></i>
 								Correct
 							</button>
+							<button class="btn ghost" onclick="abortStreakTurn()">Abort Turn</button>
 							<button class="btn ghost" onclick="markStreakWrong()">
-								<svg
-									class="icon"
-									viewBox="0 0 24 24"
-									width="14"
-									height="14"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2.5"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									style="vertical-align: -2px; margin-right: 4px"
-								>
-									<line x1="18" y1="6" x2="6" y2="18" />
-									<line x1="6" y1="6" x2="18" y2="18" />
-								</svg>
+								<i class="fa-solid fa-xmark"></i>
 								Wrong
 							</button>
 						</div>
 					</div>
 
 					<div id="streakDecisionWrap" style="display: none">
-						<div class="vault-total mono" id="streakDecisionVault"></div>
+						<div class="vault-total" id="streakDecisionVault"></div>
 						<div class="progress-line" id="streakDecisionNote"></div>
 						<div class="row-actions">
 							<button class="btn primary" onclick="bankStreak()">Bank It</button>
@@ -1337,40 +876,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('swapmarket')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openSwapModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Problem Pairs
 						</button>
 					</div>
@@ -1415,8 +925,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="timer mono" id="swapTimerDisplay">01:30</div>
-					<div class="btn-wrap">
+					<div class="timer" id="swapTimerDisplay">01:30</div>
+					<div class="row-actions">
 						<button
 							class="btn"
 							id="swapTimerToggle"
@@ -1430,7 +940,7 @@
 							id="swapLockBtn"
 							onclick="lockSwapsAndStart()"
 						>
-							Lock Bids &amp; Start Timer
+							Lock Bids
 						</button>
 						<button class="btn primary" onclick="revealSwapAnswer()">
 							Reveal Answers
@@ -1441,35 +951,28 @@
 							style="display: none"
 							onclick="resetSwapTimer()"
 						>
-							Reset Timer
+							Reset
 						</button>
 					</div>
-					<div class="btn-wrap">
-						<button class="btn ghost" onclick="nextSwapProblem()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M5 12h14" />
-								<path d="M13 6l6 6-6 6" />
-							</svg>
-							Next Problem
+					<div class="row-actions">
+						<button class="btn ghost" onclick="prevSwapProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
 						</button>
+						<button class="btn ghost" onclick="resetSwapMarket()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
+						<button class="btn ghost" onclick="nextSwapProblem()">
+							<i class="fa-solid fa-arrow-right"></i>
+						</button>
+					</div>
+					<div class="row-actions">
 						<button class="btn ghost" onclick="resetSwapTokens()">
-							Restock Tokens
+							Restock
 						</button>
 					</div>
 					<div class="award-row">
 						<div class="label">
-							Teams &amp; bids (tokens left, enter a bid for the backup)
+							Teams & bids (tokens left, enter a bid for the backup)
 						</div>
 						<div class="roster-list" id="swapRoster"></div>
 					</div>
@@ -1488,40 +991,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('wager')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openWagerModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -1530,13 +1004,13 @@
 					<div class="progress-line" id="wagerProgress"></div>
 					<span class="tier-badge" id="wagerDifficultyBadge"></span>
 					<div class="question" id="wagerQuestionText"></div>
-					<div class="timer mono" id="wagerTimerDisplay"></div>
+					<div class="timer" id="wagerTimerDisplay"></div>
 					<img
 						class="prompt-img hidden"
 						id="wagerQuestionImg"
 						alt="Question figure"
 					/>
-					<div class="btn-wrap">
+					<div class="row-actions">
 						<button class="btn" id="wagerTimerToggle" onclick="toggleWagerTimer()">
 							Start
 						</button>
@@ -1545,24 +1019,17 @@
 						</button>
 						<button class="btn ghost" onclick="resetWagerTimer()">Reset</button>
 					</div>
-					<button class="btn ghost" onclick="nextWagerProblem()">
-						<svg
-							class="icon"
-							viewBox="0 0 24 24"
-							width="14"
-							height="14"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							style="vertical-align: -2px; margin-right: 4px"
-						>
-							<path d="M5 12h14" />
-							<path d="M13 6l6 6-6 6" />
-						</svg>
-						Next Problem
-					</button>
+					<div class="row-actions">
+						<button class="btn ghost" onclick="prevWagerProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
+						</button>
+						<button class="btn ghost" onclick="resetWager()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
+						<button class="btn ghost" onclick="nextWagerProblem()">
+							<i class="fa-solid fa-arrow-right"></i>
+						</button>
+					</div>
 					<div class="answer-box" id="wagerAnswerBox">
 						<div class="figure" id="wagerAnswerFigure"></div>
 						<img class="prompt-img hidden" id="wagerAnswerImg" alt="Answer figure" />
@@ -1587,58 +1054,15 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('curse')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openCurseModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 						<button class="btn ghost" onclick="openCursesModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Curses
 						</button>
 					</div>
@@ -1649,7 +1073,7 @@
 					<div class="curse-timers-wrap" id="curseTimerWrap">
 						<div class="curse-timer-block">
 							<div class="curse-timer-label" id="curseTimerLabel">Time</div>
-							<div class="timer mono" id="curseTimerDisplay"></div>
+							<div class="timer" id="curseTimerDisplay"></div>
 						</div>
 						<div
 							class="curse-timer-block"
@@ -1657,7 +1081,7 @@
 							style="display: none"
 						>
 							<div class="curse-timer-label">Normal</div>
-							<div class="timer mono" id="curseNormalTimerDisplay"></div>
+							<div class="timer" id="curseNormalTimerDisplay"></div>
 						</div>
 					</div>
 					<div class="question" id="curseQuestionText"></div>
@@ -1666,7 +1090,7 @@
 						id="curseQuestionImg"
 						alt="Question figure"
 					/>
-					<div class="btn-wrap">
+					<div class="row-actions">
 						<button class="btn" id="curseTimerToggle" onclick="toggleCurseTimer()">
 							Start
 						</button>
@@ -1681,30 +1105,18 @@
 						<div class="reasoning" id="curseAnswerReasoning"></div>
 					</div>
 					<div class="row-actions">
-						<button class="btn ghost" onclick="nextCurseProblem()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M5 12h14" />
-								<path d="M13 6l6 6-6 6" />
-							</svg>
-							Next Problem
+						<button class="btn ghost" onclick="prevCurseProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
 						</button>
 						<button class="btn ghost" onclick="resetCurse()">
-							Restart Curse Card
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
+						<button class="btn ghost" onclick="nextCurseProblem()">
+							<i class="fa-solid fa-arrow-right"></i>
 						</button>
 					</div>
 					<div class="award-row">
-						<div class="label">First correct answer (host calls it)</div>
+						<div class="label">First correct answer</div>
 						<div id="curseTeamButtons" class="caller-list"></div>
 					</div>
 				</div>
@@ -1723,40 +1135,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('scapegoat')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openScapegoatModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -1764,13 +1147,13 @@
 				<div class="panel flex middle column">
 					<div class="progress-line" id="scapegoatProgress"></div>
 					<div class="question" id="scapegoatQuestionText"></div>
-					<div class="timer mono" id="scapegoatTimerDisplay"></div>
+					<div class="timer" id="scapegoatTimerDisplay"></div>
 					<img
 						class="prompt-img hidden"
 						id="scapegoatQuestionImg"
 						alt="Question figure"
 					/>
-					<div class="btn-wrap">
+					<div class="row-actions">
 						<button
 							class="btn"
 							id="scapegoatTimerToggle"
@@ -1792,25 +1175,31 @@
 						/>
 						<div class="reasoning" id="scapegoatAnswerReasoning"></div>
 					</div>
+					<div
+						class="row-actions"
+						style="justify-content: center; margin-top: 14px"
+					>
+						<button class="btn ghost" onclick="prevScapegoatProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
+						</button>
+						<button class="btn ghost" onclick="resetScapegoat()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
+						<button
+							class="btn primary"
+							onclick="
+								resolveScapegoatRound();
+								nextScapegoatProblem();
+							"
+						>
+							Resolve Round
+						</button>
+					</div>
 					<div class="award-row" style="flex-direction: column">
 						<div class="label">
 							Secret scapegoat picks, then mark each team's result
 						</div>
 						<div id="scapegoatRoster" class="roster-list"></div>
-						<div
-							class="row-actions"
-							style="justify-content: center; margin-top: 14px"
-						>
-							<button
-								class="btn primary"
-								onclick="
-									resolveScapegoatRound();
-									nextScapegoatProblem();
-								"
-							>
-								Resolve Round
-							</button>
-						</div>
 					</div>
 				</div>
 			</section>
@@ -1827,40 +1216,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('pointheist')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openPointHeistModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -1873,8 +1233,8 @@
 						id="pointHeistQuestionImg"
 						alt="Question figure"
 					/>
-					<div class="timer mono" id="pointHeistTimerDisplay"></div>
-					<div class="btn-wrap">
+					<div class="timer" id="pointHeistTimerDisplay"></div>
+					<div class="row-actions">
 						<button
 							class="btn"
 							id="pointHeistTimerToggle"
@@ -1897,10 +1257,15 @@
 						<div class="reasoning" id="pointHeistAnswerReasoning"></div>
 					</div>
 					<div class="row-actions">
-						<button class="btn ghost" onclick="nextPointHeistProblem()">
-							Next Problem
+						<button class="btn ghost" onclick="prevPointHeistProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
 						</button>
-						<button class="btn ghost" onclick="newHeist()">New Heist</button>
+						<button class="btn ghost" onclick="newHeist()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
+						<button class="btn ghost" onclick="nextPointHeistProblem()">
+							<i class="fa-solid fa-arrow-right"></i>
+						</button>
 					</div>
 
 					<div class="stat-display">
@@ -1963,7 +1328,7 @@
 								fill="var(--chalk-muted)"
 							/>
 						</svg>
-						<div class="stat-value mono" id="vaultAmountDisplay">20</div>
+						<div class="stat-value" id="vaultAmountDisplay">20</div>
 						<div class="stat-label">Points in the vault</div>
 					</div>
 
@@ -2021,40 +1386,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('hotpotato')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openHotPotatoModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -2073,7 +1409,7 @@
 
 					<div id="hotPotatoActiveWrap" style="display: none">
 						<div class="stat-display" style="margin: 4px 0 18px">
-							<div class="stat-value mono" id="hotPotatoValueDisplay"></div>
+							<div class="stat-value" id="hotPotatoValueDisplay"></div>
 							<div class="stat-label">Points riding on the potato</div>
 						</div>
 						<div class="t-badge" id="hotPotatoHolderBadge"></div>
@@ -2083,7 +1419,7 @@
 							id="hotPotatoQuestionImg"
 							alt="Question figure"
 						/>
-						<div class="btn-wrap middle">
+						<div class="row-actions middle">
 							<button class="btn primary" onclick="revealHotPotatoAnswer()">
 								Reveal Answer
 							</button>
@@ -2097,30 +1433,21 @@
 							/>
 							<div class="reasoning" id="hotPotatoAnswerReasoning"></div>
 						</div>
-						<div class="row-actions middle" id="hotPotatoJudgeControls">
+						<div class="row-actions middle" style="margin-top: 18px">
 							<button class="btn primary" onclick="markHotPotatoCorrect(event)">
-								<svg
-									class="icon"
-									viewBox="0 0 24 24"
-									width="14"
-									height="14"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2.5"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									style="vertical-align: -2px; margin-right: 4px"
-								>
-									<path d="M20 6 9 17l-5-5" />
-								</svg>
+								<i class="fa-solid fa-check"></i>
 								Correct, pass it on
 							</button>
-						</div>
-						<div id="hotPotatoPassWrap" style="display: none"></div>
-						<div class="row-actions middle" style="margin-top: 18px">
+							<button class="btn ghost" onclick="newHotPotato()">
+								<i class="fa-solid fa-arrow-rotate-left"></i>
+							</button>
 							<button class="btn ghost" onclick="cutOffHotPotato()">
 								Cut It Off!
 							</button>
+						</div>
+						<div class="team-picker" id="hotPotatoPassWrap" style="display: none; flex-direction: column; margin-bottom: 0; margin-top: 18px;"></div>
+						<div  id="hotPotatoJudgeControls">
+							
 						</div>
 					</div>
 
@@ -2164,40 +1491,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('bounty')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openBountyModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -2210,8 +1508,8 @@
 						id="bountyQuestionImg"
 						alt="Question figure"
 					/>
-					<div class="timer mono" id="bountyTimerDisplay"></div>
-					<div class="btn-wrap">
+					<div class="timer" id="bountyTimerDisplay"></div>
+					<div class="row-actions">
 						<button class="btn" id="bountyTimerToggle" onclick="toggleBountyTimer()">
 							Start
 						</button>
@@ -2226,25 +1524,15 @@
 						<div class="reasoning" id="bountyAnswerReasoning"></div>
 					</div>
 					<div class="row-actions">
-						<button class="btn ghost" onclick="nextBountyProblem()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M5 12h14" />
-								<path d="M13 6l6 6-6 6" />
-							</svg>
-							Next Problem
+						<button class="btn ghost" onclick="prevBountyProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
 						</button>
-						<button class="btn ghost" onclick="resetBounty()">Restart Bounty</button>
+						<button class="btn ghost" onclick="resetBounty()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
+						<button class="btn ghost" onclick="nextBountyProblem()">
+							<i class="fa-solid fa-arrow-right"></i>
+						</button>
 					</div>
 
 					<div class="settings-row" style="margin-top: 22px">
@@ -2293,49 +1581,20 @@
 							class="btn ghost"
 							onclick="openGameInfoModal('sequencedetective')"
 						>
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openSequenceModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Sequences
 						</button>
 					</div>
 				</div>
 				<div class="panel flex middle column">
 					<div class="progress-line" id="sequenceProgress"></div>
-					<div class="question mono" id="sequenceQuestionText"></div>
-					<div class="timer mono" id="sequenceTimerDisplay"></div>
-					<div class="btn-wrap">
+					<div class="question" id="sequenceQuestionText"></div>
+					<div class="timer" id="sequenceTimerDisplay"></div>
+					<div class="row-actions">
 						<button
 							class="btn"
 							id="sequenceTimerToggle"
@@ -2353,23 +1612,14 @@
 						<div class="reasoning" id="sequenceAnswerReasoning"></div>
 					</div>
 					<div class="row-actions">
+						<button class="btn ghost" onclick="prevSequenceProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
+						</button>
+						<button class="btn ghost" onclick="resetSequence()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
 						<button class="btn ghost" onclick="nextSequenceProblem()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M5 12h14" />
-								<path d="M13 6l6 6-6 6" />
-							</svg>
-							Next Sequence
+							<i class="fa-solid fa-arrow-right"></i>
 						</button>
 					</div>
 					<div class="award-row">
@@ -2395,40 +1645,11 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('siege')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openSiegeModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 					</div>
@@ -2441,8 +1662,8 @@
 						id="siegeQuestionImg"
 						alt="Question figure"
 					/>
-					<div class="timer mono" id="siegeTimerDisplay"></div>
-					<div class="btn-wrap">
+					<div class="timer" id="siegeTimerDisplay"></div>
+					<div class="row-actions">
 						<button class="btn" id="siegeTimerToggle" onclick="toggleSiegeTimer()">
 							Start
 						</button>
@@ -2457,11 +1678,22 @@
 						<div class="reasoning" id="siegeAnswerReasoning"></div>
 					</div>
 					<div class="row-actions">
-						<button class="btn ghost" onclick="nextSiegeProblem()">
-							Next Problem
+						<button class="btn ghost" onclick="prevSiegeProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
 						</button>
+						<button class="btn ghost" onclick="resetSiege()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
+						<button class="btn ghost" onclick="nextSiegeProblem()">
+							<i class="fa-solid fa-arrow-right"></i>
+						</button>
+					</div>
+					<div class="row-actions">
 						<button class="btn ghost" onclick="resetSiegeArmies()">
 							Reset Armies
+						</button>
+						<button class="btn primary" onclick="resolveSiegeRound()">
+							Resolve Round
 						</button>
 					</div>
 					<div class="siege-battlefield" id="siegeBattlefield"></div>
@@ -2505,14 +1737,6 @@
 							Each team's private move, then mark this round's result
 						</div>
 						<div id="siegeRoster" class="roster-list"></div>
-						<div
-							class="row-actions"
-							style="justify-content: center; margin-top: 14px"
-						>
-							<button class="btn primary" onclick="resolveSiegeRound()">
-								Resolve Round
-							</button>
-						</div>
 					</div>
 				</div>
 			</section>
@@ -2530,60 +1754,15 @@
 					</div>
 					<div style="display: flex; gap: 10px">
 						<button class="btn ghost" onclick="openGameInfoModal('pool')">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="9" />
-								<line x1="12" y1="11" x2="12" y2="16" />
-								<circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
-							</svg>
+							<i class="fa-solid fa-circle-info"></i>
 							How to Play
 						</button>
 						<button class="btn ghost" onclick="openPoolModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<path d="M12 20h9" />
-								<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
-							</svg>
+							<i class="fa-solid fa-pen-to-square"></i>
 							Manage Questions
 						</button>
 						<button class="btn ghost" onclick="openPoolSettingsModal()">
-							<svg
-								class="icon"
-								viewBox="0 0 24 24"
-								width="14"
-								height="14"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								style="vertical-align: -2px; margin-right: 4px"
-							>
-								<circle cx="12" cy="12" r="3" />
-								<path
-									d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"
-								/>
-							</svg>
+							<i class="fa-solid fa-gear"></i>
 							Pool Settings
 						</button>
 					</div>
@@ -2596,8 +1775,8 @@
 						id="poolQuestionImg"
 						alt="Question figure"
 					/>
-					<div class="timer mono" id="poolTimerDisplay"></div>
-					<div class="btn-wrap">
+					<div class="timer" id="poolTimerDisplay"></div>
+					<div class="row-actions">
 						<button class="btn" id="poolTimerToggle" onclick="togglePoolTimer()">
 							Start
 						</button>
@@ -2611,24 +1790,25 @@
 						<img class="prompt-img hidden" id="poolAnswerImg" alt="Answer figure" />
 						<div class="reasoning" id="poolAnswerReasoning"></div>
 					</div>
-					<button class="btn ghost" onclick="nextPoolProblem()">
-						<svg
-							class="icon"
-							viewBox="0 0 24 24"
-							width="14"
-							height="14"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							style="vertical-align: -2px; margin-right: 4px"
-						>
-							<path d="M5 12h14" />
-							<path d="M13 6l6 6-6 6" />
-						</svg>
-						Next Problem
-					</button>
+					<div class="row-actions">
+						<button class="btn ghost" onclick="prevPoolProblem()">
+							<i class="fa-solid fa-arrow-left"></i>
+						</button>
+						<button class="btn ghost" onclick="resetPool()">
+							<i class="fa-solid fa-arrow-rotate-left"></i>
+						</button>
+						<button class="btn ghost" onclick="nextPoolProblem()">
+							<i class="fa-solid fa-arrow-right"></i>
+						</button>
+					</div>
+					<div class="row-actions" style="margin-top: 10px;">
+						<button class="btn primary" onclick="runPoolCheckpoint(false)">
+							Run Checkpoint
+						</button>
+						<button class="btn ghost" onclick="runPoolCheckpoint(true)">
+							Run Final Checkpoint
+						</button>
+					</div>
 					<div class="award-row">
 						<div class="label">Award each correct team</div>
 						<div
@@ -2639,17 +1819,9 @@
 
 					<div class="progress-line" style="margin-top: 22px">Live standings</div>
 					<div class="timeline-item-list" id="poolStandingsList"></div>
-					<div class="row-actions middle" style="margin-top: 10px">
-						<button class="btn primary" onclick="runPoolCheckpoint(false)">
-							Run Checkpoint
-						</button>
-						<button class="btn ghost" onclick="runPoolCheckpoint(true)">
-							Run Final Checkpoint
-						</button>
-					</div>
 					<div
 						class="award-row"
-						style="flex-direction: column"
+						style="flex-direction: column; display: none;"
 						id="poolCheckpointResults"
 					></div>
 
@@ -2663,19 +1835,7 @@
 
 		<div id="showbar">
 			<button class="showbar-home" onclick="goTo('Home')" title="Home (H)">
-				<svg
-					viewBox="0 0 24 24"
-					width="16"
-					height="16"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-				>
-					<path d="M3 10.5 12 3l9 7.5" />
-					<path d="M5 9.5V21h14V9.5" />
-				</svg>
+				<i class="fa-solid fa-house"></i>
 			</button>
 			<div id="showbarTeams"></div>
 			<div class="showbar-right">
@@ -2684,23 +1844,7 @@
 					onclick="openManageModal()"
 					title="Manage teams & session"
 				>
-					<svg
-						class="icon"
-						viewBox="0 0 24 24"
-						width="14"
-						height="14"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						style="vertical-align: -2px; margin-right: 4px"
-					>
-						<circle cx="12" cy="12" r="3" />
-						<path
-							d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"
-						/>
-					</svg>
+					<i class="fa-solid fa-gear"></i>
 					Manage
 				</button>
 			</div>
@@ -2711,21 +1855,7 @@
 				<div class="modal-head">
 					<h2 id="modalTitle"></h2>
 					<button class="btn small ghost" onclick="closeModal()">
-						<svg
-							class="icon"
-							viewBox="0 0 24 24"
-							width="14"
-							height="14"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							style="vertical-align: -2px; margin-right: 4px"
-						>
-							<line x1="18" y1="6" x2="6" y2="18" />
-							<line x1="6" y1="6" x2="18" y2="18" />
-						</svg>
+						<i class="fa-solid fa-xmark"></i>
 						Close
 					</button>
 				</div>
