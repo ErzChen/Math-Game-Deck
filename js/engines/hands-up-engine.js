@@ -77,7 +77,7 @@ function renderHandsUpTeamButtons() {
 		element.innerHTML = winner
 			? `<div class="solved-banner" style="color: ${winner.color};">
 				<i class="fa-solid fa-check"></i>
-				${escapeHtml(winner.name)} got it! Hit "Next Problem" to continue.
+				${escapeHtml(winner.name)} got it! Hit the right arrow to continue.
 			</div>`
 			: '';
 		return;

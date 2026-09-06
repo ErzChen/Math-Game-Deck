@@ -6,7 +6,7 @@ const gameInfo = {
 		howToPlay:
 			'Teams work through a single ladder of contest-style problems in four escalating tiers (Novice → Intermediate → Advanced → Expert), five problems per tier, always straight through with no branching. Each problem gets its own 90-second countdown timer, started manually by the host, followed by a "Reveal Answer" step showing the answer and worked explanation.',
 		scoring:
-			'Points equal the tier number (1–4 pts). Whoever answers first gets the award tap. "Next Problem" advances; "Restart Ladder" resets to problem 1.',
+			'Points equal the tier number (1–4 pts). Whoever answers first gets the award tap. Right arrow advances; "Restart Ladder" resets to problem 1.',
 		customization:
 			'"Manage Questions" lets the host add unlimited custom questions at any tier (1–4); they\'re appended to the built-in pool and persist across sessions (autosaved + exportable).',
 	},
@@ -15,7 +15,7 @@ const gameInfo = {
 		mechanic: 'Duel',
 		format: 'Two-team head-to-head',
 		howToPlay:
-			'Host picks two teams from dropdowns to face off. One mixed-difficulty problem is shown to both at once; "Reveal Answer" shows the solution, "Next Problem" cycles the pool (15 built-in problems, repeating once exhausted). The matchup can be swapped anytime, mid-round or between.',
+			'Host picks two teams from dropdowns to face off. One mixed-difficulty problem is shown to both at once; "Reveal Answer" shows the solution, the right arrow cycles the pool (15 built-in problems, repeating once exhausted). The matchup can be swapped anytime, mid-round or between.',
 		scoring:
 			'Flat 1 pt per round, no tiering. Award buttons only show for the two currently-selected teams, so scoring stays scoped to the active duel.',
 		customization:
@@ -70,7 +70,7 @@ const gameInfo = {
 		mechanic: 'Steal',
 		format: 'Whole-group, steal-eligible',
 		howToPlay:
-			'One question is shown to the whole room. Teams work it on whiteboards and raise a hand when ready; the host calls on whoever raised first and marks them Correct or Wrong. A wrong answer keeps the question live, any other team can raise a hand and steal it. Once someone answers correctly (or everyone has had a turn), "Next Problem" moves on.',
+			'One question is shown to the whole room. Teams work it on whiteboards and raise a hand when ready; the host calls on whoever raised first and marks them Correct or Wrong. A wrong answer keeps the question live, any other team can raise a hand and steal it. Once someone answers correctly (or everyone has had a turn), pressing the right arrow moves to the next question.',
 		scoring:
 			'The first team to answer correctly earns 2 pts; a steal after someone else missed is worth 1 pt.',
 		customization:

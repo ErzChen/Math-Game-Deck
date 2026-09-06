@@ -183,7 +183,7 @@ function renderBountySolvedHtml() {
 		const target = teams.find((team) => team.id === bountyCollected.targetId);
 		line = `${label} collected the bounty, pulling <b>${bountyCollected.amount}</b> pt${bountyCollected.amount === 1 ? '' : 's'} from ${target ? escapeHtml(target.name) : 'the marked team'}.`;
 	}
-	return `<div class="solved-banner"><i class="fa-solid fa-check"></i>${line} Hit "Next Problem" to continue.</div>`;
+	return `<div class="solved-banner"><i class="fa-solid fa-check"></i>${line} Hit the right arrow to continue.</div>`;
 }
 
 function renderBountyTeamRow(team) {

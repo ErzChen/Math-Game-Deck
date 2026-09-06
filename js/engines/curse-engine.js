@@ -198,11 +198,11 @@ function renderCurseDrawPanel() {
 		: 'The winning team';
 
 	if (customCurses.length === 0 || teams.length < 2) {
-		return `<div class="summary-line middle">Hit "Next Problem" to continue.</div>`;
+		return `<div class="summary-line middle">Hit the right arrow to continue.</div>`;
 	}
 
 	if (curseSkipped) {
-		return `<div class="summary-line middle">No curse assigned this round. Hit "Next Problem" to continue.</div>`;
+		return `<div class="summary-line middle">No curse assigned this round. Hit the right arrow to continue.</div>`;
 	}
 
 	if (pendingCurse) {
@@ -213,7 +213,7 @@ function renderCurseDrawPanel() {
 		return `
 			<div class="summary-line middle">${solverLabel} got it and drew:</div>
 			${renderCurseCardHtml(pendingCurse.curse)}
-			<div class="summary-line middle">Curse assigned to ${targetLabel}, takes effect next round. Hit "Next Problem" to continue.</div>
+			<div class="summary-line middle">Curse assigned to ${targetLabel}, takes effect next round. Hit the right arrow to continue.</div>
 		`;
 	}
 
