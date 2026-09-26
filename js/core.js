@@ -330,12 +330,6 @@ function createCountdownTimer({
 	return timer;
 }
 
-// ---------- Shared question/answer rendering ----------
-// Most game screens follow the same id convention:
-// {prefix}Progress, {prefix}QuestionText, {prefix}QuestionImg,
-// {prefix}AnswerFigure, {prefix}AnswerImg, {prefix}AnswerReasoning, {prefix}AnswerBox
-// These helpers centralize that pattern so each engine doesn't repeat it.
-
 function renderQuestionText(prefix, problem, progressText) {
 	if (progressText !== undefined) {
 		const progressEl = document.getElementById(prefix + 'Progress');
@@ -376,9 +370,6 @@ function renderEmptyPoolState(prefix, message, timer) {
 	if (timer) timer.stop();
 }
 
-// ---------- Shared Correct/Wrong active-button styling ----------
-// Used by screens where a host toggles a team's result and both buttons
-// stay visible, so whichever one is active should look active.
 function resultActiveClass(mark, type) {
 	if (mark !== type) return '';
 	return type === 'wrong' ? 'wrong-active' : 'correct-active';
