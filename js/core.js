@@ -641,8 +641,8 @@ function addScore(id, delta, event) {
 	document
 		.querySelectorAll(`[data-team-score="${id}"]`)
 		.forEach((element) => (element.textContent = team.score));
-	if (event) spawnDust(event.clientX, event.clientY, team.color);
 	autosave();
+	if (event) spawnDust(event.clientX, event.clientY, team.color);
 }
 
 function resetScores() {
