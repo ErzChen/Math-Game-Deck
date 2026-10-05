@@ -1,7 +1,6 @@
 const gameInfo = {
 	ladder: {
 		title: 'Contest Ladder: How to Play',
-		mechanic: 'Ladder',
 		format: 'Whole-group, first-to-answer',
 		howToPlay:
 			'Teams work through a single ladder of contest-style problems in four escalating tiers (Novice → Intermediate → Advanced → Expert), five problems per tier, always straight through with no branching. Each problem gets its own 90-second countdown timer, started manually by the host, followed by a "Reveal Answer" step showing the answer and worked explanation.',
@@ -12,7 +11,6 @@ const gameInfo = {
 	},
 	duel: {
 		title: 'Countdown Duel: How to Play',
-		mechanic: 'Duel',
 		format: 'Two-team head-to-head',
 		howToPlay:
 			'Host picks two teams from dropdowns to face off. One mixed-difficulty problem is shown to both at once; "Reveal Answer" shows the solution, the right arrow cycles the pool (15 built-in problems, repeating once exhausted). The matchup can be swapped anytime, mid-round or between.',
@@ -23,7 +21,6 @@ const gameInfo = {
 	},
 	chainrelay: {
 		title: 'Chain Relay: How to Play',
-		mechanic: 'Chain',
 		format: 'Whole-group, first-to-answer',
 		howToPlay:
 			'Contest-style relay: every team solves the same link at the same time. Each chain has exactly 3 links of increasing difficulty. The numeric answer to one link becomes a variable T, plugged directly into the next link\'s question, so an early mistake propagates forward. Progress dots show which link is active; "New Chain" jumps to a fresh chain (from a shuffled pool of 4 built-ins) once all 3 links are done.',
@@ -34,7 +31,6 @@ const gameInfo = {
 	},
 	relay: {
 		title: 'Speed Relay Board: How to Play',
-		mechanic: 'Board',
 		format: 'Open board, free-pick',
 		howToPlay:
 			'A Jeopardy-style 4×4 grid: 4 categories × 4 point values ($100–$400). Any team/host clicks an unused cell to reveal its question; once answered and scored, the cell is marked used and can\'t reopen. "Reset Board" clears all used marks.',
@@ -45,7 +41,6 @@ const gameInfo = {
 	},
 	elimination: {
 		title: 'Elimination Gauntlet: How to Play',
-		mechanic: 'Elimination',
 		format: 'Whole-group, last team standing',
 		howToPlay:
 			'Every team works the same problem at once on whiteboards. After "Reveal Answer", the host marks each team Survived or Out. A round where every remaining team would be marked wrong doesn\'t eliminate anyone, at least one team always survives to keep the gauntlet moving. Play continues, round after round, until one team is left.',
@@ -56,7 +51,6 @@ const gameInfo = {
 	},
 	estimation: {
 		title: 'Estimation Auction: How to Play',
-		mechanic: 'Estimation',
 		format: 'All teams, simultaneous',
 		howToPlay:
 			'Host reveals a question with a single numeric answer (e.g. "how many diagonals does a pentadecagon have?"). Teams write down their best guess on whiteboards within the countdown, no full derivation needed. "Reveal Answer" shows the real number and reasoning; the host judges whose guess was closest.',
@@ -67,7 +61,6 @@ const gameInfo = {
 	},
 	handsup: {
 		title: 'Hands-Up Steal: How to Play',
-		mechanic: 'Steal',
 		format: 'Whole-group, steal-eligible',
 		howToPlay:
 			'One question is shown to the whole room. Teams work it on whiteboards and raise a hand when ready; the host calls on whoever raised first and marks them Correct or Wrong. A wrong answer keeps the question live, any other team can raise a hand and steal it. Once someone answers correctly (or everyone has had a turn), pressing the right arrow moves to the next question.',
@@ -78,7 +71,6 @@ const gameInfo = {
 	},
 	sprint: {
 		title: 'Speed Sprint: How to Play',
-		mechanic: 'Volume',
 		format: 'Solo team, rotating turns',
 		howToPlay:
 			'Pick one team and hit "Start Sprint" to begin a single 7-minute countdown. The team races through as many short problems as they can, calling out answers as they go, the host just checks each one against the on-screen answer key and taps "Correct" or "Skip" to advance. No per-problem timer or reveal step; it\'s all about pace. Rotate teams through their own timed turn.',
@@ -89,7 +81,6 @@ const gameInfo = {
 	},
 	pyramid: {
 		title: 'Pyramid Race: How to Play',
-		mechanic: 'Race',
 		format: 'All teams, simultaneous race',
 		howToPlay:
 			'Every team gets the same pyramid of problems (easy at the base, hardest at the top), and races through it on their own pace, all at once, unlike the shared single-file climb of Contest Ladder. Host starts one countdown for the whole pyramid. The first team to correctly finish every problem calls it out and wins the round outright; when time runs out, other teams still earn credit for how far up the pyramid they got.',
@@ -100,7 +91,6 @@ const gameInfo = {
 	},
 	streak: {
 		title: 'Streak Vault: How to Play',
-		mechanic: 'Push Your Luck',
 		format: 'Solo team, rotating turns',
 		howToPlay:
 			'One team takes the spotlight while the rest of the room watches. They face a sequence of problems that get progressively harder. After each correct answer, the team makes a live call: "Bank" to lock in their points so far and end their turn safely, or "Push" to attempt the next, harder problem for a bigger prize. A single wrong answer while pushing wipes out everything unbanked that turn. The turn then passes to the next team either way, so everyone gets a spotlight run before the session ends.',
@@ -111,7 +101,6 @@ const gameInfo = {
 	},
 	swapmarket: {
 		title: 'Swap Market: How to Play',
-		mechanic: 'Auction',
 		format: 'All teams, simultaneous',
 		howToPlay:
 			"Every team starts with a stash of 10 swap tokens. When a hard problem is revealed, there's only one easier backup problem up for grabs, worth exactly the same points, teams secretly bid however many tokens they're willing to spend on it before the timer starts. The highest bidder wins the backup and answers that instead; every other team is stuck with the harder problem, whether they wanted to swap or not. Ties for the high bid are broken at random. Unlike All-In Wager, which bets points on confidence in the same problem, this is a real market: only one team can buy their way to an easier problem for free, so it pays to guess what the rest of the room is willing to spend.",
@@ -122,7 +111,6 @@ const gameInfo = {
 	},
 	wager: {
 		title: 'All-In Wager: How to Play',
-		mechanic: 'Wager',
 		format: 'All teams, simultaneous',
 		howToPlay:
 			'Every team starts with a fixed bank of points. Host reveals a problem along with a difficulty rating; teams secretly write down both their answer and a wager (1–5 points) on their whiteboard based on how confident they are. "Reveal Answer" shows the solution, and the host checks each team\'s answer against their hidden wager before adjusting banks. Plan for roughly 8–10 rounds per session.',
@@ -133,10 +121,9 @@ const gameInfo = {
 	},
 	curse: {
 		title: 'Curse Card: How to Play',
-		mechanic: 'Prank Assignment',
 		format: 'Whole-group, first-to-answer',
 		howToPlay:
-			"After answering correctly, a team draws a random curse card and secretly assigns it to any other team (never themselves) to take effect on that team's very next round: Silence (no talking to teammates while solving), One-Handed (only one player may write), Blindfold (can't look at the screen, must be read the problem aloud), Non-Dominant Hand (team must use their non-dominant hand to write), or 25% off (time limit is decreased by 25%). The curse is revealed to the room only once it's activated.",
+			"After answering correctly, a team draws a random curse card and assigns it to any other team to take effect on that team's very next round: Silence (no talking to teammates while solving), One-Handed (only one player may write), Blindfold (can't look at the screen, must be read the problem aloud), Non-Dominant Hand (team must use their non-dominant hand to write), or 25% off (time limit is decreased by 25%).",
 		scoring:
 			'1 pt for a correct answer as normal. Successfully surviving a round while cursed (still answering correctly) earns the cursed team a 1 pt bonus for pulling it off.',
 		customization:
@@ -144,7 +131,6 @@ const gameInfo = {
 	},
 	scapegoat: {
 		title: 'Scapegoat: How to Play',
-		mechanic: 'Secret Nomination',
 		format: 'All teams, simultaneous',
 		howToPlay:
 			'Before each round, every team secretly nominates one other team as their "scapegoat" for that round, hidden from everyone including the scapegoat itself. The problem is then revealed and answered as normal. If a team\'s scapegoat gets the problem wrong, they steal half of that team\'s current points; if the scapegoat gets it right, nothing happens.',
@@ -155,7 +141,6 @@ const gameInfo = {
 	},
 	pointheist: {
 		title: 'Point Heist: How to Play',
-		mechanic: 'Vault Or Raid',
 		format: 'All teams, simultaneous',
 		howToPlay:
 			"A shared point vault sits on screen instead of points coming from problems directly. On a correct answer, a team chooses to either pull a chunk from the shared vault or raid another team's existing score outright, host toggles which options are available each round. Teams have to weigh building up the communal pot versus directly robbing whoever's currently winning.",
@@ -166,7 +151,6 @@ const gameInfo = {
 	},
 	hotpotato: {
 		title: 'Hot Potato: How to Play',
-		mechanic: 'Shared Danger',
 		format: 'Whole-group, first-to-answer',
 		howToPlay:
 			'A single "potato" holding a growing point value is passed between teams on top of normal scoring. Correctly answering a problem earns the team a point and lets them pass the potato to any other team of their choice, it never stays with the solver. A hidden random cutoff always ends the round at some point within a host-set window; whichever team is holding the potato when it stops loses everything banked on it.',
@@ -177,7 +161,6 @@ const gameInfo = {
 	},
 	bounty: {
 		title: 'Bounty: How to Play',
-		mechanic: 'Marked Target',
 		format: 'Whole-group, first-to-answer',
 		howToPlay:
 			'At the start of each round, the team with the highest current point total is automatically marked as the "Bounty" — visible to everyone on screen (if multiple teams are tied for the lead, one is chosen at random). Any other team that answers a problem correctly can choose to either bank the points themselves or collect the bounty, pulling a cut directly from the marked team. The Bounty team can still answer normally to defend its own points, but cannot collect on itself. The Bounty target re-evaluates and re-marks at the start of every round based on the current leaderboard.',
@@ -188,7 +171,6 @@ const gameInfo = {
 	},
 	sequencedetective: {
 		title: 'Sequence Detective: How to Play',
-		mechanic: 'Pattern ID',
 		format: 'All teams, simultaneous',
 		howToPlay:
 			'Teams see a sequence of numbers with the last one or two terms hidden as "?" (e.g. 2, 6, 18, 54, ?). On their whiteboards, they have to work out both the underlying rule — geometric, Fibonacci-style, alternating, etc. — and what the hidden term(s) should be, within the timer. "Reveal Answer" shows the named pattern and the correct missing term(s).',
@@ -199,7 +181,6 @@ const gameInfo = {
 	},
 	siege: {
 		title: 'Siege: How to Play',
-		mechanic: 'Attack/Defend',
 		format: 'All teams, simultaneous',
 		howToPlay:
 			"Every team tracks two numbers: a Fortress (their real score, shown on the leaderboard) and an Army (a spendable resource earned from correct answers, kept separate). After each correct answer, a team privately chooses one of three moves for that round's payout: Fortify converts it straight into permanent Fortress points; Reinforce holds it as Army but reduces damage taken from the next incoming attack; Attack spends banked Army to assault another team's Fortress, succeeding on a correct answer to that round's problem and failing (losing the spent Army for nothing) on a miss. The host reveals everyone's choice and resolves attacks after each round, so early turtling is safe but exposes a team to bigger raids later, and early aggression scores fast but leaves a thin Fortress to defend.",
@@ -210,7 +191,6 @@ const gameInfo = {
 	},
 	pool: {
 		title: 'The Pool: How to Play',
-		mechanic: 'Forecasting',
 		format: 'All teams, simultaneous',
 		howToPlay:
 			"At the very start of the session, every team privately writes down their prediction for the final standings, ranking all teams from 1st to last (sealed however the room can manage — turn away, cover the screen, etc.). From there Pool plays like any other quickfire game: the host reveals a math problem, the whole room answers on whiteboards, and correct teams earn the usual point. Every so often, the host pauses for a Checkpoint: current standings are compared against each team's sealed prediction, and any team whose call matches a team's current position (partially or fully) earns a bonus, even for teams whose prediction isn't about themselves.",
@@ -228,7 +208,6 @@ function openGameInfoModal(id) {
 		game.title,
 		`
 			<div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;">
-				<span class="tag">${escapeHtml(game.mechanic)} mechanic</span>
 				<span class="tag time">${escapeHtml(game.format)}</span>
 			</div>
 			<div class="sb-title" style="margin-top: 0;">How it plays</div>
