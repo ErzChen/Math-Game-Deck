@@ -11,6 +11,12 @@ let hotPotatoEndedHolderId = null;
 let hotPotatoEndedValue = 0;
 let hotPotatoEndedAuto = false;
 
+const hotPotatoTimer = createCountdownTimer({
+	seconds: 60,
+	displayId: 'hotPotatoTimerDisplay',
+	toggleBtnId: 'hotPotatoTimerToggle',
+});
+
 const hotPotatoImageFields = createQAImageState({
 	qWrap: 'newHotPotatoQImgWrap',
 	qFile: 'newHotPotatoQImgFile',
@@ -51,18 +57,21 @@ function clearHotPotatoAutoTimeout() {
 		clearTimeout(hotPotatoAutoTimeoutId);
 		hotPotatoAutoTimeoutId = null;
 	}
+	hotPotatoTimer.stop();
 }
 
 function scheduleHotPotatoAutoCutoff() {
 	clearHotPotatoAutoTimeout();
 	const min = Math.max(5, hotPotatoAutoMin || 30);
 	const max = Math.max(min, hotPotatoAutoMax || 90);
-	const delayMs = (min + Math.random() * (max - min)) * 1000;
+	const delaySec = Math.round(min + Math.random() * (max - min));
+	hotPotatoTimer.setDuration(delaySec);
+	hotPotatoTimer.toggle();
 	hotPotatoAutoTimeoutId = setTimeout(() => {
 		if (hotPotatoState === 'question' || hotPotatoState === 'pass') {
 			cutOffHotPotato(true);
 		}
-	}, delayMs);
+	}, delaySec * 1000);
 }
 
 function startHotPotatoRound() {
@@ -147,6 +156,7 @@ function renderHotPotatoQuestion() {
 	const holderBadge = document.getElementById('hotPotatoHolderBadge');
 	const valueEl = document.getElementById('hotPotatoValueDisplay');
 	if (valueEl) valueEl.textContent = hotPotatoValue;
+	hotPotatoTimer.render();
 
 	const holder = teams.find((team) => team.id === hotPotatoHolderId);
 	if (holderBadge) {
