@@ -1,6 +1,7 @@
 let customHotPotato = [];
 let hotPotatoPool = [];
 let hotPotatoIndex = 0;
+let hotPotatoUsed = [];
 let hotPotatoState = 'idle';
 let hotPotatoHolderId = null;
 let hotPotatoValue = 1;
@@ -35,6 +36,7 @@ function newHotPotato() {
 	hotPotatoHolderId = null;
 	hotPotatoValue = 1;
 	hotPotatoIndex = 0;
+	hotPotatoUsed = [];
 	hotPotatoEndedHolderId = null;
 	hotPotatoEndedValue = 0;
 	hotPotatoEndedAuto = false;
@@ -50,6 +52,25 @@ function populateHotPotatoTeamSelector() {
 		.join('');
 	if (teams.find((team) => team.id === prev)) select.value = prev;
 	select.disabled = hotPotatoState !== 'idle';
+}
+
+function pickRandomHotPotatoIndex() {
+	const n = hotPotatoPool.length;
+	if (n === 0) return 0;
+	hotPotatoUsed = hotPotatoUsed.filter((i) => i < n);
+	let available = [];
+	for (let i = 0; i < n; i++) {
+		if (!hotPotatoUsed.includes(i)) available.push(i);
+	}
+	if (available.length === 0) {
+		hotPotatoUsed = [];
+		for (let i = 0; i < n; i++) {
+			if (n === 1 || i !== hotPotatoIndex) available.push(i);
+		}
+	}
+	const pick = available[Math.floor(Math.random() * available.length)];
+	hotPotatoUsed.push(pick);
+	return pick;
 }
 
 function clearHotPotatoAutoTimeout() {
@@ -87,7 +108,8 @@ function startHotPotatoRound() {
 	}
 	hotPotatoHolderId = select.value;
 	hotPotatoValue = 1;
-	hotPotatoIndex = 0;
+	hotPotatoUsed = [];
+	hotPotatoIndex = pickRandomHotPotatoIndex();
 	hotPotatoState = 'question';
 	scheduleHotPotatoAutoCutoff();
 	renderHotPotatoScreen();
@@ -113,7 +135,7 @@ function confirmHotPotatoPass(targetId) {
 		return;
 	hotPotatoHolderId = targetId;
 	hotPotatoValue += 1;
-	hotPotatoIndex++;
+	hotPotatoIndex = pickRandomHotPotatoIndex();
 	hotPotatoState = 'question';
 	autosave();
 	renderHotPotatoScreen();
@@ -264,7 +286,7 @@ function renderHotPotatoScreen() {
 
 	if (activeWrap) activeWrap.style.display = '';
 	if (progress) {
-		progress.textContent = `Question ${(hotPotatoIndex % hotPotatoPool.length) + 1} of ${hotPotatoPool.length}`;
+		progress.textContent = `Question ${hotPotatoValue} · ${hotPotatoPool.length} in pool`;
 	}
 	renderHotPotatoQuestion();
 	renderHotPotatoPassPanel();
